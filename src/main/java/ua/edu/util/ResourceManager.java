@@ -8,6 +8,9 @@ public class ResourceManager {
 
     private ResourceBundle resourceBundle;
     private static final String RESOURCE_NAME = "config";
+    
+    public static final String CONNECTIONPOOL_JNDINAME = "ConnectionPool.JNDIName";
+    public static final String CONNECTIONPOOL_DATASOURCE = "ConnectionPool.DataSource";
 
     private ResourceManager() {
     	resourceBundle = ResourceBundle.getBundle(RESOURCE_NAME);
