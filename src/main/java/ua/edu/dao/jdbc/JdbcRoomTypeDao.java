@@ -1,7 +1,10 @@
 package ua.edu.dao.jdbc;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import ua.edu.dao.RoomTypeDao;
 import ua.edu.entity.RoomType;
@@ -13,7 +16,6 @@ public class JdbcRoomTypeDao implements RoomTypeDao{
 	private static final String UPDATE = "UPDATE room_type SET name = ?, capacity = ?, price = ?, "
 			+ "description = ? WHERE room_type_id = ?;";
 	private static final String DELETE = "DELETE FROM room_type WHERE room_type_id=?";
-	private static final String GET_BY_ID = "SELECT * FROM room_type WHERE room_type_id=?;";
 	
 	private Connection connection;
 	
@@ -21,20 +23,41 @@ public class JdbcRoomTypeDao implements RoomTypeDao{
 		this.connection = connection;
 	}
 
-	public void create(RoomType t) throws SQLException {
+	public void create(RoomType roomType) throws SQLException {
+		PreparedStatement createStatement = connection.prepareStatement(INSERT);
+		createStatement.setString(1, roomType.getName());
+		createStatement.setInt(2, roomType.getCapacity());
+		createStatement.setInt(3, roomType.getPrice());
+		if (roomType.getDescription() != null){
+			createStatement.setString(4, roomType.getDescription());
+		} else {
+			createStatement.setNull(4, Types.VARCHAR);
+		}
+		createStatement.executeUpdate();
 		
+		ResultSet rs = createStatement.getGeneratedKeys();
+		if (rs.next()) {
+			roomType.setId(rs.getInt(1));
+		}
 	}
 
-	public void update(RoomType t) throws SQLException {
-		
+	public void update(RoomType roomType) throws SQLException {
+		PreparedStatement updateStatement = connection.prepareStatement(UPDATE);
+		updateStatement.setString(1, roomType.getName());
+		updateStatement.setInt(2, roomType.getCapacity());
+		updateStatement.setInt(3, roomType.getPrice());
+		if (roomType.getDescription() != null){
+			updateStatement.setString(4, roomType.getDescription());
+		} else {
+			updateStatement.setNull(4, Types.VARCHAR);
+		}
+		updateStatement.executeUpdate();
 	}
 
 	public void delete(int id) throws SQLException {
-		
-	}
-
-	public RoomType getById(int id) throws SQLException {
-		return null;
+		PreparedStatement deleteStatement = connection.prepareStatement(DELETE);
+		deleteStatement.setInt(1, id);
+		deleteStatement.executeUpdate();
 	}
 
 }

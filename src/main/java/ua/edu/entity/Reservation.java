@@ -13,7 +13,7 @@ public class Reservation {
 	
 	private ReservationStatus status;
 	private User client;
-	private RoomType roomtype;
+	private RoomType roomType;
 	private Room room;
 	
 	public Reservation() {
@@ -84,12 +84,12 @@ public class Reservation {
 		this.client = client;
 	}
 
-	public RoomType getRoomtype() {
-		return roomtype;
+	public RoomType getRoomType() {
+		return roomType;
 	}
 
-	public void setRoomtype(RoomType roomtype) {
-		this.roomtype = roomtype;
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
 	}
 
 	public Room getRoom() {
@@ -132,7 +132,7 @@ public class Reservation {
 				.append(", administratorComment=").append(administratorComment)
 				.append(", status=").append(status)
 				.append(", client=").append(client)
-				.append(", roomtype=").append(roomtype)
+				.append(", roomType=").append(roomType)
 				.append(", room=").append(room).append("]").toString();
 	}
 

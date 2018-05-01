@@ -1,10 +1,10 @@
 package ua.edu.dao.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import ua.edu.dao.PaymentDao;
 import ua.edu.entity.Payment;
@@ -16,7 +16,6 @@ public class JdbcPaymentDao implements PaymentDao{
 	private static final String UPDATE = "UPDATE payment SET total = ?, date = ? payment_method = ?, "
 			+ "reservation_id = ? WHERE payment_id = ?;";
 	private static final String DELETE = "DELETE FROM payment WHERE payment_id = ?";
-	private static final String GET_BY_ID = "SELECT * FROM payment WHERE payment_id = ?;";
 	
 	private Connection connection;
 	
@@ -25,19 +24,33 @@ public class JdbcPaymentDao implements PaymentDao{
 	}
 
 	public void create(Payment payment) throws SQLException {
+		PreparedStatement createStatement = connection.prepareStatement(INSERT);
+		createStatement.setInt(1, payment.getTotal());
+		createStatement.setDate(2, new java.sql.Date(payment.getDate().getTime()));
+		createStatement.setString(3, payment.getPaymentMethod().name().toLowerCase());
+		createStatement.setInt(4, payment.getReservation().getId());
+		createStatement.executeUpdate();
 		
+		ResultSet rs = createStatement.getGeneratedKeys();
+		if (rs.next()) {
+			payment.setId(rs.getInt(1));
+		}
 	}
 
-	public void update(Payment t) {
-
+	public void update(Payment payment) throws SQLException {
+		PreparedStatement updateStatement = connection.prepareStatement(UPDATE);
+		updateStatement.setInt(1, payment.getTotal());
+		updateStatement.setDate(2, new Date(payment.getDate().getTime()));
+		updateStatement.setString(3, payment.getPaymentMethod().name().toLowerCase());
+		updateStatement.setInt(4, payment.getReservation().getId());
+		updateStatement.setInt(5, payment.getId());
+		updateStatement.executeUpdate();
 	}
 
-	public void delete(int id) {
-
-	}
-
-	public Payment getById(int id) {
-		return null;
+	public void delete(int id) throws SQLException {
+		PreparedStatement deleteStatement = connection.prepareStatement(DELETE);
+		deleteStatement.setInt(1, id);
+		deleteStatement.executeUpdate();
 	}
 
 }
