@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 
 public class ResourceManager {
 	
-    private static ResourceManager instance;
+    private static volatile ResourceManager instance;
 
     private ResourceBundle resourceBundle;
     private static final String RESOURCE_NAME = "config";
