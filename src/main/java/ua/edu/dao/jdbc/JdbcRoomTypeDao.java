@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 
 import ua.edu.dao.RoomTypeDao;
@@ -24,7 +25,7 @@ public class JdbcRoomTypeDao implements RoomTypeDao{
 	}
 
 	public void create(RoomType roomType) throws SQLException {
-		PreparedStatement createStatement = connection.prepareStatement(INSERT);
+		PreparedStatement createStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 		createStatement.setString(1, roomType.getName());
 		createStatement.setInt(2, roomType.getCapacity());
 		createStatement.setInt(3, roomType.getPrice());
@@ -39,6 +40,8 @@ public class JdbcRoomTypeDao implements RoomTypeDao{
 		if (rs.next()) {
 			roomType.setId(rs.getInt(1));
 		}
+		
+		createStatement.close();
 	}
 
 	public void update(RoomType roomType) throws SQLException {
@@ -51,13 +54,16 @@ public class JdbcRoomTypeDao implements RoomTypeDao{
 		} else {
 			updateStatement.setNull(4, Types.VARCHAR);
 		}
+		updateStatement.setInt(5, roomType.getId());
 		updateStatement.executeUpdate();
+		updateStatement.close();
 	}
 
 	public void delete(int id) throws SQLException {
 		PreparedStatement deleteStatement = connection.prepareStatement(DELETE);
 		deleteStatement.setInt(1, id);
 		deleteStatement.executeUpdate();
+		deleteStatement.close();
 	}
 
 }

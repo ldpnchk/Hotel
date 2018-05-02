@@ -3,7 +3,7 @@ package ua.edu.entity;
 public class Room {
 
 	private int id;
-	private String number;
+	private String roomNumber;
 	
 	private RoomType roomType;
 	
@@ -19,12 +19,12 @@ public class Room {
 		this.id = id;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getRoomNumber() {
+		return roomNumber;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setRoomNumber(String roomNumber) {
+		this.roomNumber = roomNumber;
 	}
 
 	public RoomType getRoomType() {
@@ -60,7 +60,7 @@ public class Room {
 	@Override
 	public String toString() {
 		return new StringBuilder().append("Room [id=").append(id)
-				.append(", number=").append(number)
+				.append(", roomNumber=").append(roomNumber)
 				.append(", roomType=").append(roomType).append("]").toString();
 	}
 

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 
 import ua.edu.dao.ReservationDao;
@@ -27,7 +28,7 @@ public class JdbcReservationDao implements ReservationDao{
 	}
 
 	public void create(Reservation reservation) throws SQLException {
-		PreparedStatement createStatement = connection.prepareStatement(INSERT);
+		PreparedStatement createStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 		createStatement.setDate(1, new Date(reservation.getReservationDate().getTime()));
 		createStatement.setDate(2, new Date(reservation.getStartDate().getTime()));
 		createStatement.setDate(3, new Date(reservation.getEndDate().getTime()));
@@ -41,7 +42,7 @@ public class JdbcReservationDao implements ReservationDao{
 		} else {
 			createStatement.setNull(5, Types.VARCHAR);
 		}
-		createStatement.setString(6, reservation.getStatus().name().toLowerCase());
+		createStatement.setString(6, reservation.getReservationStatus().name().toLowerCase());
 		createStatement.setInt(7, reservation.getClient().getId());
 		createStatement.setInt(8, reservation.getRoomType().getId());
 		if (reservation.getRoom() != null){
@@ -55,6 +56,8 @@ public class JdbcReservationDao implements ReservationDao{
 		if (rs.next()) {
 			reservation.setId(rs.getInt(1));
 		}
+		
+		createStatement.close();
 	}
 
 	public void update(Reservation reservation) throws SQLException {
@@ -72,7 +75,7 @@ public class JdbcReservationDao implements ReservationDao{
 		} else {
 			updateStatement.setNull(5, Types.VARCHAR);
 		}
-		updateStatement.setString(6, reservation.getStatus().name().toLowerCase());
+		updateStatement.setString(6, reservation.getReservationStatus().name().toLowerCase());
 		updateStatement.setInt(7, reservation.getClient().getId());
 		updateStatement.setInt(8, reservation.getRoomType().getId());
 		if (reservation.getRoom() != null){
@@ -82,12 +85,14 @@ public class JdbcReservationDao implements ReservationDao{
 		}
 		updateStatement.setInt(10, reservation.getId());
 		updateStatement.executeUpdate();
+		updateStatement.close();
 	}
 
 	public void delete(int id) throws SQLException {
 		PreparedStatement deleteStatement = connection.prepareStatement(DELETE);
 		deleteStatement.setInt(1, id);
 		deleteStatement.executeUpdate();
+		deleteStatement.close();
 	}
 
 }

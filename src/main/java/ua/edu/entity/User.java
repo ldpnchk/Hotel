@@ -11,7 +11,7 @@ public class User {
 	private String lastName;
 	private String patronymic;
 
-	private UserRole role;
+	private UserRole userRole;
 
 	public User() {
 
@@ -81,12 +81,12 @@ public class User {
 		this.patronymic = patronymic;
 	}
 
-	public UserRole getRole() {
-		return role;
+	public UserRole getUserRole() {
+		return userRole;
 	}
 
-	public void setRole(UserRole role) {
-		this.role = role;
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class User {
 				.append(", firstName=").append(firstName)
 				.append(", lastName=").append(lastName)
 				.append(", patronymic=").append(patronymic)
-				.append(", role=").append(role).append("]").toString();
+				.append(", userRole=").append(userRole).append("]").toString();
 	}	
 
 }

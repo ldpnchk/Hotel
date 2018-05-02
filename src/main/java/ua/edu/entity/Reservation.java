@@ -11,7 +11,7 @@ public class Reservation {
 	private String clientComment;
 	private String administratorComment;
 	
-	private ReservationStatus status;
+	private ReservationStatus reservationStatus;
 	private User client;
 	private RoomType roomType;
 	private Room room;
@@ -68,12 +68,12 @@ public class Reservation {
 		this.administratorComment = administratorComment;
 	}
 
-	public ReservationStatus getStatus() {
-		return status;
+	public ReservationStatus getReservationStatus() {
+		return reservationStatus;
 	}
 
-	public void setStatus(ReservationStatus status) {
-		this.status = status;
+	public void setReservationStatus(ReservationStatus reservationStatus) {
+		this.reservationStatus = reservationStatus;
 	}
 
 	public User getClient() {
@@ -130,7 +130,7 @@ public class Reservation {
 				.append(", endDate=").append(endDate)
 				.append(", clientComment=").append(clientComment)
 				.append(", administratorComment=").append(administratorComment)
-				.append(", status=").append(status)
+				.append(", reservationStatus=").append(reservationStatus)
 				.append(", client=").append(client)
 				.append(", roomType=").append(roomType)
 				.append(", room=").append(room).append("]").toString();
