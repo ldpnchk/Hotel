@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import ua.edu.dao.DaoFactory;
 import ua.edu.dao.JdbcDaoFactory;
 import ua.edu.dao.UserDao;
-import ua.edu.dao.connection.ConnectionPool;
+import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.User;
 
 public class UserService {
@@ -14,7 +14,7 @@ public class UserService {
 	DaoFactory daoFactory = new JdbcDaoFactory();
 	
 	public void createUser(User user){
-        try (Connection connection = ConnectionPool.getConnection()){
+        try (Connection connection = DataSource.getInstance().getConnection()){
         	UserDao userDao = daoFactory.createUserDao(connection);
     		userDao.create(user);
         } catch (SQLException e) {
@@ -23,7 +23,7 @@ public class UserService {
 	}
 	
 	public void updateUser(User user){
-        try (Connection connection = ConnectionPool.getConnection()){
+        try (Connection connection = DataSource.getInstance().getConnection()){
         	UserDao userDao = daoFactory.createUserDao(connection);
     		userDao.update(user);
         } catch (SQLException e) {
@@ -32,7 +32,7 @@ public class UserService {
 	}
 	
 	public void deleteUser(int id){
-        try (Connection connection = ConnectionPool.getConnection()){
+        try (Connection connection = DataSource.getInstance().getConnection()){
         	UserDao userDao = daoFactory.createUserDao(connection);
     		userDao.delete(id);
         } catch (SQLException e) {

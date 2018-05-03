@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import ua.edu.dao.DaoFactory;
 import ua.edu.dao.JdbcDaoFactory;
 import ua.edu.dao.ReservationDao;
-import ua.edu.dao.connection.ConnectionPool;
+import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.Reservation;
 
 public class ReservationService {
@@ -14,7 +14,7 @@ public class ReservationService {
 	DaoFactory daoFactory = new JdbcDaoFactory();
 	
 	public void createReservation(Reservation reservation){
-        try (Connection connection = ConnectionPool.getConnection()){
+        try (Connection connection = DataSource.getInstance().getConnection()){
         	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		reservationDao.create(reservation);
         } catch (SQLException e) {
@@ -23,7 +23,7 @@ public class ReservationService {
 	}
 	
 	public void updateReservation(Reservation reservation){
-        try (Connection connection = ConnectionPool.getConnection()){
+        try (Connection connection = DataSource.getInstance().getConnection()){
         	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		reservationDao.update(reservation);
         } catch (SQLException e) {
@@ -32,7 +32,7 @@ public class ReservationService {
 	}
 	
 	public void deleteReservation(int id){
-        try (Connection connection = ConnectionPool.getConnection()){
+        try (Connection connection = DataSource.getInstance().getConnection()){
         	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		reservationDao.delete(id);
         } catch (SQLException e) {
