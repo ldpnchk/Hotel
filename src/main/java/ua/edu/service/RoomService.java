@@ -4,18 +4,28 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import ua.edu.dao.DaoFactory;
-import ua.edu.dao.JdbcDaoFactory;
 import ua.edu.dao.RoomDao;
 import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.Room;
 
 public class RoomService {
 	
-	DaoFactory daoFactory = new JdbcDaoFactory();
+	private static RoomService instance;
+	
+	public static RoomService getInstance(){
+        if(instance == null){
+            synchronized (RoomService.class){
+                if(instance == null){
+                	instance = new RoomService();
+                }
+            }
+        }
+        return instance;
+    }
 	
 	public void createRoom(Room room){
         try (Connection connection = DataSource.getInstance().getConnection()){
-        	RoomDao roomDao = daoFactory.createRoomDao(connection);
+        	RoomDao roomDao = DaoFactory.getDaoFactory().createRoomDao(connection);
     		roomDao.create(room);
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -24,7 +34,7 @@ public class RoomService {
 	
 	public void updateRoom(Room room){
         try (Connection connection = DataSource.getInstance().getConnection()){
-        	RoomDao roomDao = daoFactory.createRoomDao(connection);
+        	RoomDao roomDao = DaoFactory.getDaoFactory().createRoomDao(connection);
     		roomDao.update(room);
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -33,7 +43,7 @@ public class RoomService {
 	
 	public void deleteRoom(int id){
         try (Connection connection = DataSource.getInstance().getConnection()){
-        	RoomDao roomDao = daoFactory.createRoomDao(connection);
+        	RoomDao roomDao = DaoFactory.getDaoFactory().createRoomDao(connection);
     		roomDao.delete(id);
         } catch (SQLException e) {
 			e.printStackTrace();
