@@ -1,4 +1,4 @@
-package ua.edu.dao.jdbc;
+package ua.edu.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.Types;
 import ua.edu.dao.UserDao;
 import ua.edu.entity.User;
 
-public class JdbcUserDao implements UserDao{
+public class MySQLUserDAO implements UserDao{
 	
 	private static final String INSERT = "INSERT INTO users (login, password, email, phone_number, "
 			+ "first_name, last_name, patronymic, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -20,7 +20,7 @@ public class JdbcUserDao implements UserDao{
 
 	private Connection connection;
 	
-	public JdbcUserDao(Connection connection){
+	public MySQLUserDAO(Connection connection){
 		this.connection = connection;
 	}
 

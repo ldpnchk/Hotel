@@ -3,14 +3,17 @@ package ua.edu.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import ua.edu.dao.DaoFactory;
 import ua.edu.dao.RoomTypeDao;
 import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.RoomType;
 
-public class RoomTypeService {
+public class RoomTypeService extends Service{
 	
 	private static RoomTypeService instance;
+	
+	private RoomTypeService(){
+		
+	}
 	
 	public static RoomTypeService getInstance(){
         if(instance == null){
@@ -24,8 +27,8 @@ public class RoomTypeService {
     }
 	
 	public void createRoomType(RoomType roomType){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	RoomTypeDao roomTypeDao = DaoFactory.getDaoFactory().createRoomTypeDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	RoomTypeDao roomTypeDao = daoFactory.createRoomTypeDao(connection);
     		roomTypeDao.create(roomType);
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -33,8 +36,8 @@ public class RoomTypeService {
 	}
 	
 	public void updateRoomType(RoomType roomType){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	RoomTypeDao roomTypeDao = DaoFactory.getDaoFactory().createRoomTypeDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	RoomTypeDao roomTypeDao = daoFactory.createRoomTypeDao(connection);
     		roomTypeDao.update(roomType);
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -42,8 +45,8 @@ public class RoomTypeService {
 	}
 	
 	public void deleteRoomType(int id){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	RoomTypeDao roomTypeDao = DaoFactory.getDaoFactory().createRoomTypeDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	RoomTypeDao roomTypeDao = daoFactory.createRoomTypeDao(connection);
     		roomTypeDao.delete(id);
         } catch (SQLException e) {
 			e.printStackTrace();

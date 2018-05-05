@@ -1,4 +1,4 @@
-package ua.edu.dao.jdbc;
+package ua.edu.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,7 +11,7 @@ import java.sql.Types;
 import ua.edu.dao.ReservationDao;
 import ua.edu.entity.Reservation;
 
-public class JdbcReservationDao implements ReservationDao{
+public class MySQLReservationDAO implements ReservationDao{
 	
 	private static final String INSERT = "INSERT INTO reservation (reservation_date, start_date, "
 			+ "end_date, user_comment, administrator_comment, status, users_id, room_type_id, room_id) "
@@ -23,7 +23,7 @@ public class JdbcReservationDao implements ReservationDao{
 	
 	private Connection connection;
 	
-	public JdbcReservationDao(Connection connection){
+	public MySQLReservationDAO(Connection connection){
 		this.connection = connection;
 	}
 

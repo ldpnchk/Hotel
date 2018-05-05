@@ -3,14 +3,17 @@ package ua.edu.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import ua.edu.dao.DaoFactory;
 import ua.edu.dao.ReservationDao;
 import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.Reservation;
 
-public class ReservationService {
+public class ReservationService extends Service{
 	
 	private static ReservationService instance;
+	
+	private ReservationService(){
+		
+	}
 	
 	public static ReservationService getInstance(){
         if(instance == null){
@@ -24,8 +27,8 @@ public class ReservationService {
     }
 	
 	public void createReservation(Reservation reservation){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	ReservationDao reservationDao = DaoFactory.getDaoFactory().createReservationDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		reservationDao.create(reservation);
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -33,8 +36,8 @@ public class ReservationService {
 	}
 	
 	public void updateReservation(Reservation reservation){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	ReservationDao reservationDao = DaoFactory.getDaoFactory().createReservationDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		reservationDao.update(reservation);
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -42,8 +45,8 @@ public class ReservationService {
 	}
 	
 	public void deleteReservation(int id){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	ReservationDao reservationDao = DaoFactory.getDaoFactory().createReservationDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		reservationDao.delete(id);
         } catch (SQLException e) {
 			e.printStackTrace();

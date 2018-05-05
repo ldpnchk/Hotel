@@ -3,14 +3,17 @@ package ua.edu.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import ua.edu.dao.DaoFactory;
 import ua.edu.dao.UserDao;
 import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.User;
 
-public class UserService {
+public class UserService extends Service{
 	
 	private static UserService instance;
+	
+	private UserService(){
+		
+	}
 	
 	public static UserService getInstance(){
         if(instance == null){
@@ -24,8 +27,8 @@ public class UserService {
     }
 	
 	public void createUser(User user){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	UserDao userDao = DaoFactory.getDaoFactory().createUserDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	UserDao userDao = daoFactory.createUserDao(connection);
     		userDao.create(user);
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -33,8 +36,8 @@ public class UserService {
 	}
 	
 	public void updateUser(User user){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	UserDao userDao = DaoFactory.getDaoFactory().createUserDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	UserDao userDao = daoFactory.createUserDao(connection);
     		userDao.update(user);
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -42,8 +45,8 @@ public class UserService {
 	}
 	
 	public void deleteUser(int id){
-        try (Connection connection = DataSource.getInstance().getConnection()){
-        	UserDao userDao = DaoFactory.getDaoFactory().createUserDao(connection);
+        try (Connection connection = dataSource.getConnection()){
+        	UserDao userDao = daoFactory.createUserDao(connection);
     		userDao.delete(id);
         } catch (SQLException e) {
 			e.printStackTrace();

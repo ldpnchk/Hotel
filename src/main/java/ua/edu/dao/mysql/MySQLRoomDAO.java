@@ -1,4 +1,4 @@
-package ua.edu.dao.jdbc;
+package ua.edu.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.sql.Statement;
 import ua.edu.dao.RoomDao;
 import ua.edu.entity.Room;
 
-public class JdbcRoomDao implements RoomDao{
+public class MySQLRoomDAO implements RoomDao{
 	
 	private static final String INSERT = "INSERT INTO room (room_number, room_type_id) VALUES (?, ?);";
 	private static final String UPDATE = "UPDATE room SET room_number = ?, room_type_id = ? WHERE room_id = ?;";
@@ -17,7 +17,7 @@ public class JdbcRoomDao implements RoomDao{
 	
 	private Connection connection;
 	
-	public JdbcRoomDao(Connection connection){
+	public MySQLRoomDAO(Connection connection){
 		this.connection = connection;
 	}
 

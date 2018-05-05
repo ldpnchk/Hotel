@@ -1,23 +1,27 @@
-package ua.edu.dao.jdbc;
+package ua.edu.dao.mysql;
 
 import java.sql.Connection;
 
-import ua.edu.dao.DaoFactory;
+import ua.edu.dao.AbstractDaoFactory;
 import ua.edu.dao.PaymentDao;
 import ua.edu.dao.ReservationDao;
 import ua.edu.dao.RoomDao;
 import ua.edu.dao.RoomTypeDao;
 import ua.edu.dao.UserDao;
 
-public class JdbcDaoFactory extends DaoFactory{
+public class MySQLDAOFactory extends AbstractDaoFactory{
 	
-	private static JdbcDaoFactory instance;
+	private static MySQLDAOFactory instance;
 	
-	public static JdbcDaoFactory getInstance(){
+	private MySQLDAOFactory() {
+		
+	}
+	
+	public static MySQLDAOFactory getInstance(){
         if(instance == null){
-            synchronized (JdbcDaoFactory.class){
+            synchronized (MySQLDAOFactory.class){
                 if(instance == null){
-                	instance = new JdbcDaoFactory();
+                	instance = new MySQLDAOFactory();
                 }
             }
         }
@@ -25,23 +29,23 @@ public class JdbcDaoFactory extends DaoFactory{
     }
 	
 	public PaymentDao createPaymentDao(Connection connection) {
-		return new JdbcPaymentDao(connection);
+		return new MySQLPaymentDAO(connection);
 	}
 
 	public ReservationDao createReservationDao(Connection connection) {
-		return new JdbcReservationDao(connection);
+		return new MySQLReservationDAO(connection);
 	}
 
 	public RoomDao createRoomDao(Connection connection) {
-		return new JdbcRoomDao(connection);
+		return new MySQLRoomDAO(connection);
 	}
 
 	public RoomTypeDao createRoomTypeDao(Connection connection) {
-		return new JdbcRoomTypeDao(connection);
+		return new MySQLRoomTypeDAO(connection);
 	}
 
 	public UserDao createUserDao(Connection connection) {
-		return new JdbcUserDao(connection);
+		return new MySQLUserDAO(connection);
 	}
 
 }

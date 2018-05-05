@@ -1,4 +1,4 @@
-package ua.edu.dao.jdbc;
+package ua.edu.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,7 +10,7 @@ import java.sql.Statement;
 import ua.edu.dao.PaymentDao;
 import ua.edu.entity.Payment;
 
-public class JdbcPaymentDao implements PaymentDao{
+public class MySQLPaymentDAO implements PaymentDao{
 	
 	private static final String INSERT = "INSERT INTO payment (total, date, payment_method, reservation_id) "
 			+ "VALUES (?, ?, ?, ?);";
@@ -20,7 +20,7 @@ public class JdbcPaymentDao implements PaymentDao{
 	
 	private Connection connection;
 	
-	public JdbcPaymentDao(Connection connection){
+	public MySQLPaymentDAO(Connection connection){
 		this.connection = connection;
 	}
 

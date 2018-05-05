@@ -1,4 +1,4 @@
-package ua.edu.dao.jdbc;
+package ua.edu.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.Types;
 import ua.edu.dao.RoomTypeDao;
 import ua.edu.entity.RoomType;
 
-public class JdbcRoomTypeDao implements RoomTypeDao{
+public class MySQLRoomTypeDAO implements RoomTypeDao{
 	
 	private static final String INSERT = "INSERT INTO room_type (name, capacity, price, description) "
 			+ "VALUES (?, ?, ?, ?);";
@@ -20,7 +20,7 @@ public class JdbcRoomTypeDao implements RoomTypeDao{
 	
 	private Connection connection;
 	
-	public JdbcRoomTypeDao(Connection connection){
+	public MySQLRoomTypeDAO(Connection connection){
 		this.connection = connection;
 	}
 

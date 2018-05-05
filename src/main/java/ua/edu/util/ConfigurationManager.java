@@ -9,6 +9,10 @@ public class ConfigurationManager {
     private ResourceBundle resourceBundle;
     private static final String RESOURCE_NAME = "config";
     
+    public static final String DAO_FACTORY = "dao.factory";
+    
+    public static final String DAO_FACTORY_MYSQL_KEY = "dao.factory.mysql.key";
+    
     public static final String DB_DRIVER = "db.driver";
     public static final String DB_URL = "db.url";
     public static final String DB_USER = "db.user";
