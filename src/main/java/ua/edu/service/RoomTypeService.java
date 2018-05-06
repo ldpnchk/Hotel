@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import ua.edu.dao.RoomTypeDao;
-import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.RoomType;
 
 public class RoomTypeService extends Service{

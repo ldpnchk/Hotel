@@ -3,7 +3,7 @@ package ua.edu.entity;
 public class User {
 	
 	private int id;
-	private String login;
+	private String username;
 	private String password;
 	private String email;
 	private String phoneNumber;
@@ -25,12 +25,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -114,7 +114,7 @@ public class User {
 	@Override
 	public String toString() {
 		return new StringBuilder().append("User [id=").append(id)
-				.append(", login=").append(login)
+				.append(", username=").append(username)
 				.append(", password=").append(password)
 				.append(", email=").append(email)
 				.append(", phoneNumber=").append(phoneNumber)

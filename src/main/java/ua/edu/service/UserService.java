@@ -2,9 +2,9 @@ package ua.edu.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import ua.edu.dao.UserDao;
-import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.User;
 
 public class UserService extends Service{
@@ -52,5 +52,15 @@ public class UserService extends Service{
 			e.printStackTrace();
 		}
 	}
-
+	
+	public Optional<User> getUserByUsername(String username){
+        try (Connection connection = dataSource.getConnection()){
+        	UserDao userDao = daoFactory.createUserDao(connection);
+    		return userDao.getUserByUsername(username);
+        } catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
+	
 }

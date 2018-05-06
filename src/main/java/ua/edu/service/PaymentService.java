@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import ua.edu.dao.PaymentDao;
-import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.Payment;
 
 public class PaymentService extends Service{

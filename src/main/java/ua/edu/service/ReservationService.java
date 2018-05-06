@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import ua.edu.dao.ReservationDao;
-import ua.edu.dao.connection.DataSource;
 import ua.edu.entity.Reservation;
 
 public class ReservationService extends Service{
