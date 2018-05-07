@@ -9,7 +9,7 @@
 					<h1 class="panel-title"><strong>Sign In </strong></h1>
 				</div>
 				<div class="panel-body">
-					<form action="./loginpost" method="post" >
+					<form action="${pageContext.request.contextPath}/hotel/loginpost" method="post" >
 						<div class="form-group">
 							<label for="email">Username</label>
 							<input type="text" name="username" class="form-control" id="email" placeholder="Username" required="required"/>
@@ -22,7 +22,7 @@
 							<button type="submit" class="btn btn-sm btn-default">Sign in</button>
 						</div>
 						<div style="text-align: center; margin-top: 10px">
-							<p>Not registered yet? <a href='./registration'>Register Here</a></p>
+							<p>Not registered yet? <a href='${pageContext.request.contextPath}/hotel/registration'>Register Here</a></p>
 						</div>
 					</form>
 				</div>

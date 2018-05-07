@@ -21,7 +21,7 @@ public class RegisterCommand implements Command{
 		user.setUsername(request.getParameter("username"));
 		user.setUserRole(UserRole.CLIENT);
 		UserService.getInstance().createUser(user);
-		return "redirect:/index.jsp";
+		return "redirect:/hotel/index.jsp";
 	}
 
 }

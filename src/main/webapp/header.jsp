@@ -21,25 +21,25 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="./main">HOTEL</a>
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/hotel/main">HOTEL</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="./main">Main Page</a></li>
+					<li><a href="${pageContext.request.contextPath}/hotel/main">Main Page</a></li>
 					<c:if test="${user.getUserRole() eq 'CLIENT'}">
-						<li><a href="./client">Client page</a></li>
+						<li><a href="${pageContext.request.contextPath}/hotel/client">Client page</a></li>
 					</c:if>
 					<c:if test="${user.getUserRole() eq 'ADMINISTRATOR'}">
-						<li><a href="./admin">Admin page</a></li>
+						<li><a href="${pageContext.request.contextPath}/hotel/admin">Admin page</a></li>
 					</c:if>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<c:choose>
 						<c:when test="${empty user}">
-							<li><a href="./login">Login</a></li>
+							<li><a href="${pageContext.request.contextPath}/hotel/login">Login</a></li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="./logout">Logout</a></li>
+							<li><a href="${pageContext.request.contextPath}/hotel/logout">Logout</a></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>

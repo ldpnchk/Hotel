@@ -7,7 +7,7 @@
 				<h3 class="panel-title text-center">Please Register</h3>
 			</div>
 			<div class="panel-body">
-				<form name="registration" action="./register" method="post">
+				<form name="registration" action="${pageContext.request.contextPath}/hotel/register" method="post">
 					<div class="form-group">
 						<input type="text" name="username" id="username" class="form-control input-sm" placeholder="Username">
 					</div>

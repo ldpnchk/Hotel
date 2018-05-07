@@ -27,21 +27,22 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-
+    	System.out.println("Authentication");
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		
+		System.out.println(httpRequest.getRequestURI());
+		System.out.println(httpRequest.getRequestURI().replaceAll(".*/hotel/" , ""));
 		
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
 
 		User user = (User) session.getAttribute("user");
-
-		System.out.println(httpRequest.getRequestURI());
 		
-        if (AccessManager.getInstance().checkAccess(httpRequest.getRequestURI().replaceAll("/hotel/", ""), 
+        if (AccessManager.getInstance().checkAccess(httpRequest.getRequestURI().replaceAll(".*/hotel/" , ""), 
         		user == null ? UserRole.GUEST : user.getUserRole())) {
         	filterChain.doFilter(request, response);
         } else {
-            ((HttpServletResponse) response).sendRedirect("/hotel/main");
+            ((HttpServletResponse) response).sendRedirect("/hotel/hotel/main");
         }
 
     }

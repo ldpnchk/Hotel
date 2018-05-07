@@ -21,7 +21,7 @@ import ua.edu.controller.command.MainCommand;
 import ua.edu.controller.command.RegisterCommand;
 import ua.edu.controller.command.RegistrationPageCommand;
 
-@WebServlet(urlPatterns = { "/" })
+@WebServlet(urlPatterns = {"/hotel/*"})
 public class Servlet extends HttpServlet {
 	
     private Map<String, Command> commands = new HashMap<String, Command>();
@@ -46,13 +46,19 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	System.out.println("Main servlet");
     	String path = request.getRequestURI();
+    	System.out.println("Path: " + path);
     	path = path.replaceAll(".*/hotel/" , "");
+    	System.out.println("Path: " + path);
     	Command command = commands.getOrDefault(path, (r)->"redirect:/index.jsp");
     	String page = command.execute(request);
+    	System.out.println("Page: " + page);
         if(page.contains("redirect")){
+        	System.out.println("redirect");
             response.sendRedirect(page.replace("redirect:", "/hotel"));
         } else {
+        	System.out.println("forward");
             request.getRequestDispatcher(page).forward(request, response);
         }
     }
