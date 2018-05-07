@@ -11,7 +11,7 @@ public enum ReservationStatus {
 		return this.name().toLowerCase();
 	}
 	
-	public static ReservationStatus getUserRole(String role){
+	public static ReservationStatus getReservationStatus(String role){
 		return ReservationStatus.valueOf(role.toUpperCase());
 	}
 

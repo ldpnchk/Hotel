@@ -2,6 +2,9 @@ package ua.edu.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import ua.edu.dao.RoomTypeDao;
 import ua.edu.entity.RoomType;
@@ -50,6 +53,17 @@ public class RoomTypeService extends Service{
         } catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<RoomType> getFreeRoomTypesByDatesAndCapacity(Date startDate, Date endDate, int capacity){
+		List<RoomType> roomTypes = new ArrayList<RoomType>();
+        try (Connection connection = dataSource.getConnection()){
+        	RoomTypeDao roomTypeDao = daoFactory.createRoomTypeDao(connection);
+        	roomTypes = roomTypeDao.getFreeRoomTypesByDatesAndCapacity(startDate, endDate, capacity);
+        } catch (SQLException e) {
+			e.printStackTrace();
+		}
+       	return roomTypes;
 	}
 
 }

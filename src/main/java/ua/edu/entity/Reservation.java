@@ -15,6 +15,7 @@ public class Reservation {
 	private User client;
 	private RoomType roomType;
 	private Room room;
+	private Payment payment;
 	
 	public Reservation() {
 		
@@ -99,7 +100,15 @@ public class Reservation {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
-	
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	public static final class ReservationBuilder {
 		
 		private Reservation reservation = new Reservation();
@@ -158,10 +167,14 @@ public class Reservation {
 			return this;
 		}
 		
+		public ReservationBuilder setPayment(Payment payment) {
+			reservation.payment = payment;
+			return this;
+		}
+
 		public Reservation build(){
 			return reservation;
 		}
-		
 	}
 
 	@Override
@@ -197,7 +210,8 @@ public class Reservation {
 				.append(", reservationStatus=").append(reservationStatus)
 				.append(", client=").append(client)
 				.append(", roomType=").append(roomType)
-				.append(", room=").append(room).append("]").toString();
+				.append(", room=").append(room)
+				.append(", payment=").append(payment).append("]").toString();
 	}
 
 }

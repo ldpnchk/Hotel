@@ -7,9 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.Optional;
 
 import ua.edu.dao.ReservationDao;
 import ua.edu.entity.Reservation;
+import ua.edu.entity.ReservationStatus;
 import ua.edu.util.ConfigurationManager;
 
 public class MySQLReservationDAO implements ReservationDao{
@@ -90,6 +92,53 @@ public class MySQLReservationDAO implements ReservationDao{
 		deleteStatement.setInt(1, id);
 		deleteStatement.executeUpdate();
 		deleteStatement.close();
+	}
+
+	@Override
+	public Optional<Reservation> getReservationByIdWithUserAndRoomTypeAndRoomAndPayment(int id) {
+		Optional<Reservation> reservation = Optional.empty();
+		try (PreparedStatement query = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_RESERVATION_GET_BY_ID_WITH_USER_AND_ROOM_TYPE_AND_ROOM_AND_PAYMENT))) {
+			query.setInt(1, id);
+			ResultSet resultSet = query.executeQuery();
+			if (resultSet.next()) {
+				reservation = Optional.of(extractReservationWithUserAndRoomTypeAndRoomAndPaymentFromResultSet(resultSet));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		return reservation;
+	}
+	
+	private Reservation extractReservationWithUserAndRoomTypeAndRoomAndPaymentFromResultSet(ResultSet resultSet) throws SQLException{
+		Reservation reservation = extractReservationFromResultSet(resultSet);
+		reservation.setClient(MySQLUserDAO.extractUserFromResultSet(resultSet));
+		reservation.setRoomType(MySQLRoomTypeDAO.extractRoomTypeFromResultSet(resultSet));
+		
+		resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.PAYMENT_PAYMENT_ID));
+		if (!resultSet.wasNull()){
+			reservation.setPayment(MySQLPaymentDAO.extractPaymentFromResultSet(resultSet));
+		}
+		
+		resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.ROOM_ROOM_ID));
+		if (!resultSet.wasNull()){
+			reservation.setRoom(MySQLRoomDAO.extractRoomFromResultSet(resultSet));
+		}
+		
+		return reservation;
+	}
+
+	static Reservation extractReservationFromResultSet(ResultSet resultSet) throws SQLException {
+		return new Reservation.ReservationBuilder()
+				.setId(resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.RESERVATION_RESERVATION_ID)))
+				.setReservationDate(resultSet.getDate(ConfigurationManager.getInstance().getString(ConfigurationManager.RESERVATION_RESERVATION_DATE)))
+				.setStartDate(resultSet.getDate(ConfigurationManager.getInstance().getString(ConfigurationManager.RESERVATION_START_DATE)))
+				.setEndDate(resultSet.getDate(ConfigurationManager.getInstance().getString(ConfigurationManager.RESERVATION_END_DATE)))
+				.setReservationStatus(ReservationStatus.getReservationStatus(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.RESERVATION_STATUS))))
+				.setClientComment(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.RESERVATION_CLIENT_COMMENT)))
+				.setAdministratorComment(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.RESERVATION_ADMINISTRATOR_COMMENT)))
+				.build();
 	}
 
 }

@@ -92,17 +92,17 @@ public class MySQLUserDAO implements UserDao{
 		return user;
 	}
 	
-	private User extractUserFromResultSet(ResultSet resultSet) throws SQLException {
-		User user = new User();
-		user.setId(resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_USERS_ID)));
-		user.setUsername(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_USERNAME)));
-		user.setPassword(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PASSWORD)));
-		user.setEmail(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_EMAIL)));
-		user.setPhoneNumber(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PHONE_NUMBER)));
-		user.setFirstName(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_FIRST_NAME)));
-		user.setLastName(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_LAST_NAME)));
-		user.setPatronymic(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PATRONYMIC)));
-		user.setUserRole(UserRole.getUserRole(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_ROLE))));
-		return user;
+	static User extractUserFromResultSet(ResultSet resultSet) throws SQLException {
+		return new User.UserBuilder()
+				.setId(resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_USERS_ID)))
+				.setUsername(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_USERNAME)))
+				.setPassword(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PASSWORD)))
+				.setEmail(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_EMAIL)))
+				.setPhoneNumber(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PHONE_NUMBER)))
+				.setFirstName(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_FIRST_NAME)))
+				.setLastName(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_LAST_NAME)))
+				.setPatronymic(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PATRONYMIC)))
+				.setUserRole(UserRole.getUserRole(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_USERS_ID))))
+				.build();
 	}
 }

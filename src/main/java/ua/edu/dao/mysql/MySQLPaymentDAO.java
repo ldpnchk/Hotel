@@ -9,6 +9,8 @@ import java.sql.Statement;
 
 import ua.edu.dao.PaymentDao;
 import ua.edu.entity.Payment;
+import ua.edu.entity.PaymentMethod;
+import ua.edu.entity.Reservation;
 import ua.edu.util.ConfigurationManager;
 
 public class MySQLPaymentDAO implements PaymentDao{
@@ -55,6 +57,15 @@ public class MySQLPaymentDAO implements PaymentDao{
 		deleteStatement.setInt(1, id);
 		deleteStatement.executeUpdate();
 		deleteStatement.close();
+	}
+	
+	static Payment extractPaymentFromResultSet(ResultSet resultSet) throws SQLException {
+		return new Payment.PaymentBuilder()
+				.setId(resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.PAYMENT_PAYMENT_ID)))
+				.setTotal(resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.PAYMENT_TOTAL)))
+				.setDate(resultSet.getDate(ConfigurationManager.getInstance().getString(ConfigurationManager.PAYMENT_DATE)))
+				.setPaymentMethod(PaymentMethod.getPaymentMethod(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.PAYMENT_PAYMENT_METHOD))))
+				.build();
 	}
 
 }

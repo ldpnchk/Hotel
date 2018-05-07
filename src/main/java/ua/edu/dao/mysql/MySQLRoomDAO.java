@@ -51,5 +51,12 @@ public class MySQLRoomDAO implements RoomDao{
 		deleteStatement.executeUpdate();
 		deleteStatement.close();
 	}
+	
+	static Room extractRoomFromResultSet(ResultSet resultSet) throws SQLException {
+		return new Room.RoomBuilder()
+				.setId(resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.ROOM_ROOM_ID)))
+				.setRoomNumber(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.ROOM_ROOM_NUMBER)))
+				.build();
+	}
 
 }

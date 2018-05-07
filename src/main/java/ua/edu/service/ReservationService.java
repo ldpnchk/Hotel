@@ -2,6 +2,7 @@ package ua.edu.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import ua.edu.dao.ReservationDao;
 import ua.edu.entity.Reservation;
@@ -49,6 +50,16 @@ public class ReservationService extends Service{
     		reservationDao.delete(id);
         } catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public Optional<Reservation> getReservationByIdWithUserAndRoomTypeAndRoomAndPayment(int id){
+        try (Connection connection = dataSource.getConnection()){
+        	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
+    		return reservationDao.getReservationByIdWithUserAndRoomTypeAndRoomAndPayment(id);
+        } catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 
