@@ -88,6 +88,65 @@ public class User {
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
+	
+	public static final class UserBuilder {
+		
+		private User user = new User();
+		
+		public UserBuilder(){
+			
+		}
+
+		public UserBuilder setId(int id) {
+			user.id = id;
+			return this;
+		}
+
+		public UserBuilder setUsername(String username) {
+			user.username = username;
+			return this;
+		}
+
+		public UserBuilder setPassword(String password) {
+			user.password = password;
+			return this;
+		}
+
+		public UserBuilder setEmail(String email) {
+			user.email = email;
+			return this;
+		}
+
+		public UserBuilder setPhoneNumber(String phoneNumber) {
+			user.phoneNumber = phoneNumber;
+			return this;
+		}
+
+		public UserBuilder setFirstName(String firstName) {
+			user.firstName = firstName;
+			return this;
+		}
+
+		public UserBuilder setLastName(String lastName) {
+			user.lastName = lastName;
+			return this;
+		}
+
+		public UserBuilder setPatronymic(String patronymic) {
+			user.patronymic = patronymic;
+			return this;
+		}
+
+		public UserBuilder setUserRole(UserRole userRole) {
+			user.userRole = userRole;
+			return this;
+		}
+		
+		public User build(){
+			return user;
+		}
+		
+	}
 
 	@Override
 	public int hashCode() {

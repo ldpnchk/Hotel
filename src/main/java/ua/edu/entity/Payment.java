@@ -54,6 +54,44 @@ public class Payment {
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
 	}
+	
+	public static final class PaymentBuilder {
+		
+		private Payment payment = new Payment();
+		
+		public PaymentBuilder() {
+
+		}
+
+		public PaymentBuilder setId(int id) {
+			payment.id = id;
+			return this;
+		}
+
+		public PaymentBuilder setTotal(int total) {
+			payment.total = total;
+			return this;
+		}
+
+		public PaymentBuilder setDate(Date date) {
+			payment.date = date;
+			return this;
+		}
+
+		public PaymentBuilder setPaymentMethod(PaymentMethod paymentMethod) {
+			payment.paymentMethod = paymentMethod;
+			return this;
+		}
+
+		public PaymentBuilder setReservation(Reservation reservation) {
+			payment.reservation = reservation;
+			return this;
+		}
+		
+		public Payment build(){
+			return payment;
+		}
+	}
 
 	@Override
 	public int hashCode() {

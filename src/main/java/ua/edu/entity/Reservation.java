@@ -99,6 +99,70 @@ public class Reservation {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
+	
+	public static final class ReservationBuilder {
+		
+		private Reservation reservation = new Reservation();
+		
+		public ReservationBuilder(){
+			
+		}
+
+		public ReservationBuilder setId(int id) {
+			reservation.id = id;
+			return this;
+		}
+
+		public ReservationBuilder setReservationDate(Date reservationDate) {
+			reservation.reservationDate = reservationDate;
+			return this;
+		}
+
+		public ReservationBuilder setStartDate(Date startDate) {
+			reservation.startDate = startDate;
+			return this;
+		}
+
+		public ReservationBuilder setEndDate(Date endDate) {
+			reservation.endDate = endDate;
+			return this;
+		}
+
+		public ReservationBuilder setClientComment(String clientComment) {
+			reservation.clientComment = clientComment;
+			return this;
+		}
+		
+		public ReservationBuilder setAdministratorComment(String administratorComment) {
+			reservation.administratorComment = administratorComment;
+			return this;
+		}
+
+		public ReservationBuilder setReservationStatus(ReservationStatus reservationStatus) {
+			reservation.reservationStatus = reservationStatus;
+			return this;
+		}
+
+		public ReservationBuilder setClient(User client) {
+			reservation.client = client;
+			return this;
+		}
+
+		public ReservationBuilder setRoomType(RoomType roomType) {
+			reservation.roomType = roomType;
+			return this;
+		}
+
+		public ReservationBuilder setRoom(Room room) {
+			reservation.room = room;
+			return this;
+		}
+		
+		public Reservation build(){
+			return reservation;
+		}
+		
+	}
 
 	@Override
 	public int hashCode() {

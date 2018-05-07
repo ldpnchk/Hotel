@@ -11,15 +11,16 @@ public class RegisterCommand implements Command{
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		User user = new User();
-		user.setUsername(request.getParameter("username"));
-		user.setPassword(PasswordGenerator.getInstance().generatePassword(request.getParameter("password")));
-		user.setEmail(request.getParameter("email"));
-		user.setPhoneNumber(request.getParameter("phonenumber"));
-		user.setFirstName(request.getParameter("firstname"));
-		user.setLastName(request.getParameter("lastname"));
-		user.setUsername(request.getParameter("username"));
-		user.setUserRole(UserRole.CLIENT);
+		User user = new User.UserBuilder()
+				.setUsername(request.getParameter("username"))
+				.setPassword(PasswordGenerator.getInstance().generatePassword(request.getParameter("password")))
+				.setEmail(request.getParameter("email"))
+				.setPhoneNumber(request.getParameter("phonenumber"))
+				.setFirstName(request.getParameter("firstname"))
+				.setLastName(request.getParameter("lastname"))
+				.setPatronymic(request.getParameter("patronymic"))
+				.setUserRole(UserRole.CLIENT)
+				.build();
 		UserService.getInstance().createUser(user);
 		return "redirect:/hotel/index.jsp";
 	}

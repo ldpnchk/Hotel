@@ -34,6 +34,35 @@ public class Room {
 	public void setRoomType(RoomType roomType) {
 		this.roomType = roomType;
 	}
+	
+	public static final class RoomBuilder {
+		
+		private Room room = new Room();
+		
+		public RoomBuilder(){
+			
+		}
+
+		public RoomBuilder setId(int id) {
+			room.id = id;
+			return this;
+		}
+		
+		public RoomBuilder setRoomNumber(String roomNumber) {
+			room.roomNumber = roomNumber;
+			return this;
+		}
+		
+		public RoomBuilder setRoomType(RoomType roomType) {
+			room.roomType = roomType;
+			return this;
+		}
+		
+		public Room build(){
+			return room;
+		}
+		
+	}
 
 	@Override
 	public int hashCode() {

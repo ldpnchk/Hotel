@@ -51,6 +51,45 @@ public class RoomType {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public static final class RoomTypeBuilder {
+		
+		private RoomType roomType = new RoomType();
+		
+		public RoomTypeBuilder(){
+			
+		}
+
+		public RoomTypeBuilder setId(int id) {
+			roomType.id = id;
+			return this;
+		}
+
+		public RoomTypeBuilder setName(String name) {
+			roomType.name = name;
+			return this;
+		}
+
+		public RoomTypeBuilder setCapacity(int capacity) {
+			roomType.capacity = capacity;
+			return this;
+		}
+
+		public RoomTypeBuilder setPrice(int price) {
+			roomType.price = price;
+			return this;
+		}
+
+		public RoomTypeBuilder setDescription(String description) {
+			roomType.description = description;
+			return this;
+		}
+		
+		public RoomType build(){
+			return roomType;
+		}
+		
+	}
 
 	@Override
 	public int hashCode() {
