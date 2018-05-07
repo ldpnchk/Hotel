@@ -1,10 +1,12 @@
 package ua.edu.controller;
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +21,7 @@ import ua.edu.controller.command.MainCommand;
 import ua.edu.controller.command.RegisterCommand;
 import ua.edu.controller.command.RegistrationPageCommand;
 
+@WebServlet(urlPatterns = { "/" })
 public class Servlet extends HttpServlet {
 	
     private Map<String, Command> commands = new HashMap<String, Command>();

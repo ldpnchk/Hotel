@@ -1,7 +1,8 @@
 <%@include file="header.jsp"%>
 
+<div class="col-md-4"></div>
 <div class="col-md-4">
-	<div class="container" style="margin-top: 120px">
+	<div class="container">
 		<div class="col-md-4">
 			<div class="panel panel-default">
 				<div class="panel-heading">

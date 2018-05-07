@@ -15,8 +15,8 @@ public class LoginPostCommand implements Command{
 		String username = request.getParameter("username");
 		String password = PasswordGenerator.getInstance().generatePassword(request.getParameter("password"));
 		Optional<User> user = UserService.getInstance().getUserByUsername(username);
-		if (user.isPresent() || user.get().getPassword().equals(password)){
-			request.getSession().setAttribute("user", user);
+		if (user.isPresent() && user.get().getPassword().equals(password)){
+			request.getSession().setAttribute("user", user.get());
             return "redirect:/main";
 		} else {
 			return "redirect:/login.jsp";

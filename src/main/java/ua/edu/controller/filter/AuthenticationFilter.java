@@ -1,6 +1,7 @@
 package ua.edu.controller.filter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -8,12 +9,14 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ua.edu.entity.User;
-
+import ua.edu.entity.UserRole;
+@WebFilter(urlPatterns = {"/*"})
 public class AuthenticationFilter implements Filter {
 	
     @Override
@@ -31,12 +34,16 @@ public class AuthenticationFilter implements Filter {
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
 
 		User user = (User) session.getAttribute("user");
+
+		System.out.println(httpRequest.getRequestURI());
 		
-        if (user == null || !AccessManager.getInstance().checkAccess(httpRequest.getRequestURI(), user.getUserRole())) {
-        	httpResponse.sendRedirect("/index.jsp");
+        if (AccessManager.getInstance().checkAccess(httpRequest.getRequestURI().replaceAll("/hotel/", ""), 
+        		user == null ? UserRole.GUEST : user.getUserRole())) {
+        	filterChain.doFilter(request, response);
+        } else {
+            ((HttpServletResponse) response).sendRedirect("/hotel/main");
         }
-        
-        filterChain.doFilter(request, response);
+
     }
 
     @Override

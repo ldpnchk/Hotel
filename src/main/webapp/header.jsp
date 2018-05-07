@@ -21,15 +21,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.php">HOTEL</a>
+				<a class="navbar-brand" href="./main">HOTEL</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="./main">Main Page</a></li>
-					<c:if test="${user.get().getUserRole() eq 'CLIENT'}">
+					<c:if test="${user.getUserRole() eq 'CLIENT'}">
 						<li><a href="./client">Client page</a></li>
 					</c:if>
-					<c:if test="${user.get().getUserRole() eq 'ADMINISTRATOR'}">
+					<c:if test="${user.getUserRole() eq 'ADMINISTRATOR'}">
 						<li><a href="./admin">Admin page</a></li>
 					</c:if>
 				</ul>
