@@ -11,15 +11,9 @@ import java.util.Optional;
 import ua.edu.dao.UserDao;
 import ua.edu.entity.User;
 import ua.edu.entity.UserRole;
+import ua.edu.util.ConfigurationManager;
 
 public class MySQLUserDAO implements UserDao{
-	
-	private static final String INSERT = "INSERT INTO users (username, password, email, phone_number, "
-			+ "first_name, last_name, patronymic, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-	private static final String UPDATE = "UPDATE users SET username = ?, password = ?, email = ?, phone_number = ?, "
-			+ "first_name = ?, last_name = ?, patronymic = ?, role = ? WHERE users_id = ?;";
-	private static final String DELETE = "DELETE FROM users WHERE users_id = ?;";
-	private static final String GET_BY_USERNAME = "SELECT * FROM users WHERE username = ?;";
 
 	private Connection connection;
 	
@@ -28,7 +22,9 @@ public class MySQLUserDAO implements UserDao{
 	}
 
 	public void create(User user) throws SQLException {
-		PreparedStatement createStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement createStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_USER_INSERT), 
+						Statement.RETURN_GENERATED_KEYS);
 		createStatement.setString(1, user.getUsername());
 		createStatement.setString(2, user.getPassword());
 		createStatement.setString(3, user.getEmail());
@@ -52,7 +48,8 @@ public class MySQLUserDAO implements UserDao{
 	}
 
 	public void update(User user) throws SQLException {
-		PreparedStatement updateStatement = connection.prepareStatement(UPDATE);
+		PreparedStatement updateStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_USER_UPDATE));
 		updateStatement.setString(1, user.getUsername());
 		updateStatement.setString(2, user.getPassword());
 		updateStatement.setString(3, user.getEmail());
@@ -71,7 +68,8 @@ public class MySQLUserDAO implements UserDao{
 	}
 
 	public void delete(int id) throws SQLException {
-		PreparedStatement deleteStatement = connection.prepareStatement(DELETE);
+		PreparedStatement deleteStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_USER_DELETE));
 		deleteStatement.setInt(1, id);
 		deleteStatement.executeUpdate();
 		deleteStatement.close();
@@ -80,7 +78,8 @@ public class MySQLUserDAO implements UserDao{
 	@Override
 	public Optional<User> getUserByUsername(String username) {
 		Optional<User> user = Optional.empty();
-		try (PreparedStatement query = connection.prepareStatement(GET_BY_USERNAME)) {
+		try (PreparedStatement query = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_USER_GET_BY_USERNAME))) {
 			query.setString(1, username);
 			ResultSet resultSet = query.executeQuery();
 			if (resultSet.next()) {
@@ -95,15 +94,15 @@ public class MySQLUserDAO implements UserDao{
 	
 	private User extractUserFromResultSet(ResultSet resultSet) throws SQLException {
 		User user = new User();
-		user.setId(resultSet.getInt("users_id"));
-		user.setUsername(resultSet.getString("username"));
-		user.setPassword(resultSet.getString("password"));
-		user.setEmail(resultSet.getString("email"));
-		user.setPhoneNumber(resultSet.getString("phone_number"));
-		user.setFirstName(resultSet.getString("first_name"));
-		user.setLastName(resultSet.getString("last_name"));
-		user.setPatronymic(resultSet.getString("patronymic"));
-		user.setUserRole(UserRole.valueOf(resultSet.getString("role").toUpperCase()));
+		user.setId(resultSet.getInt(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_USERS_ID)));
+		user.setUsername(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_USERNAME)));
+		user.setPassword(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PASSWORD)));
+		user.setEmail(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_EMAIL)));
+		user.setPhoneNumber(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PHONE_NUMBER)));
+		user.setFirstName(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_FIRST_NAME)));
+		user.setLastName(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_LAST_NAME)));
+		user.setPatronymic(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PATRONYMIC)));
+		user.setUserRole(UserRole.getUserRole(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_ROLE))));
 		return user;
 	}
 }

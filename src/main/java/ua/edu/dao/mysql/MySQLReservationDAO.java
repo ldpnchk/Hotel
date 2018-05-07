@@ -10,16 +10,9 @@ import java.sql.Types;
 
 import ua.edu.dao.ReservationDao;
 import ua.edu.entity.Reservation;
+import ua.edu.util.ConfigurationManager;
 
 public class MySQLReservationDAO implements ReservationDao{
-	
-	private static final String INSERT = "INSERT INTO reservation (reservation_date, start_date, "
-			+ "end_date, user_comment, administrator_comment, status, users_id, room_type_id, room_id) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	private static final String UPDATE = "UPDATE reservation SET reservation_date = ?, start_date = ?, "
-			+ "end_date = ?, user_comment = ?, administrator_comment = ?, status = ?, users_id = ?, "
-			+ "room_type_id = ?, room_id = ? WHERE reservation_id = ?;";
-	private static final String DELETE = "DELETE FROM reservation WHERE reservation_id=?";
 	
 	private Connection connection;
 	
@@ -28,7 +21,9 @@ public class MySQLReservationDAO implements ReservationDao{
 	}
 
 	public void create(Reservation reservation) throws SQLException {
-		PreparedStatement createStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement createStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_RESERVATION_INSERT), 
+						Statement.RETURN_GENERATED_KEYS);
 		createStatement.setDate(1, new Date(reservation.getReservationDate().getTime()));
 		createStatement.setDate(2, new Date(reservation.getStartDate().getTime()));
 		createStatement.setDate(3, new Date(reservation.getEndDate().getTime()));
@@ -61,7 +56,8 @@ public class MySQLReservationDAO implements ReservationDao{
 	}
 
 	public void update(Reservation reservation) throws SQLException {
-		PreparedStatement updateStatement = connection.prepareStatement(UPDATE);
+		PreparedStatement updateStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_RESERVATION_UPDATE));
 		updateStatement.setDate(1, new Date(reservation.getReservationDate().getTime()));
 		updateStatement.setDate(2, new Date(reservation.getStartDate().getTime()));
 		updateStatement.setDate(3, new Date(reservation.getEndDate().getTime()));
@@ -89,7 +85,8 @@ public class MySQLReservationDAO implements ReservationDao{
 	}
 
 	public void delete(int id) throws SQLException {
-		PreparedStatement deleteStatement = connection.prepareStatement(DELETE);
+		PreparedStatement deleteStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_RESERVATION_DELETE));
 		deleteStatement.setInt(1, id);
 		deleteStatement.executeUpdate();
 		deleteStatement.close();

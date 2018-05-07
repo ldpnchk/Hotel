@@ -9,14 +9,9 @@ import java.sql.Statement;
 
 import ua.edu.dao.PaymentDao;
 import ua.edu.entity.Payment;
+import ua.edu.util.ConfigurationManager;
 
 public class MySQLPaymentDAO implements PaymentDao{
-	
-	private static final String INSERT = "INSERT INTO payment (total, date, payment_method, reservation_id) "
-			+ "VALUES (?, ?, ?, ?);";
-	private static final String UPDATE = "UPDATE payment SET total = ?, date = ?, payment_method = ?, "
-			+ "reservation_id = ? WHERE payment_id = ?;";
-	private static final String DELETE = "DELETE FROM payment WHERE payment_id = ?";
 	
 	private Connection connection;
 	
@@ -25,7 +20,9 @@ public class MySQLPaymentDAO implements PaymentDao{
 	}
 
 	public void create(Payment payment) throws SQLException {
-		PreparedStatement createStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement createStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_PAYMENT_INSERT), 
+						Statement.RETURN_GENERATED_KEYS);
 		createStatement.setInt(1, payment.getTotal());
 		createStatement.setDate(2, new java.sql.Date(payment.getDate().getTime()));
 		createStatement.setString(3, payment.getPaymentMethod().name().toLowerCase());
@@ -41,7 +38,8 @@ public class MySQLPaymentDAO implements PaymentDao{
 	}
 
 	public void update(Payment payment) throws SQLException {
-		PreparedStatement updateStatement = connection.prepareStatement(UPDATE);
+		PreparedStatement updateStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_PAYMENT_UPDATE));
 		updateStatement.setInt(1, payment.getTotal());
 		updateStatement.setDate(2, new Date(payment.getDate().getTime()));
 		updateStatement.setString(3, payment.getPaymentMethod().name().toLowerCase());
@@ -52,7 +50,8 @@ public class MySQLPaymentDAO implements PaymentDao{
 	}
 
 	public void delete(int id) throws SQLException {
-		PreparedStatement deleteStatement = connection.prepareStatement(DELETE);
+		PreparedStatement deleteStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_PAYMENT_DELETE));
 		deleteStatement.setInt(1, id);
 		deleteStatement.executeUpdate();
 		deleteStatement.close();

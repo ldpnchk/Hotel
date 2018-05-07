@@ -9,14 +9,9 @@ import java.sql.Types;
 
 import ua.edu.dao.RoomTypeDao;
 import ua.edu.entity.RoomType;
+import ua.edu.util.ConfigurationManager;
 
 public class MySQLRoomTypeDAO implements RoomTypeDao{
-	
-	private static final String INSERT = "INSERT INTO room_type (name, capacity, price, description) "
-			+ "VALUES (?, ?, ?, ?);";
-	private static final String UPDATE = "UPDATE room_type SET name = ?, capacity = ?, price = ?, "
-			+ "description = ? WHERE room_type_id = ?;";
-	private static final String DELETE = "DELETE FROM room_type WHERE room_type_id=?";
 	
 	private Connection connection;
 	
@@ -25,7 +20,9 @@ public class MySQLRoomTypeDAO implements RoomTypeDao{
 	}
 
 	public void create(RoomType roomType) throws SQLException {
-		PreparedStatement createStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement createStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_ROOM_TYPE_INSERT), 
+						Statement.RETURN_GENERATED_KEYS);
 		createStatement.setString(1, roomType.getName());
 		createStatement.setInt(2, roomType.getCapacity());
 		createStatement.setInt(3, roomType.getPrice());
@@ -45,7 +42,8 @@ public class MySQLRoomTypeDAO implements RoomTypeDao{
 	}
 
 	public void update(RoomType roomType) throws SQLException {
-		PreparedStatement updateStatement = connection.prepareStatement(UPDATE);
+		PreparedStatement updateStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_ROOM_TYPE_UPDATE));
 		updateStatement.setString(1, roomType.getName());
 		updateStatement.setInt(2, roomType.getCapacity());
 		updateStatement.setInt(3, roomType.getPrice());
@@ -60,7 +58,8 @@ public class MySQLRoomTypeDAO implements RoomTypeDao{
 	}
 
 	public void delete(int id) throws SQLException {
-		PreparedStatement deleteStatement = connection.prepareStatement(DELETE);
+		PreparedStatement deleteStatement = connection.prepareStatement
+				(ConfigurationManager.getInstance().getString(ConfigurationManager.MYSQL_ROOM_TYPE_DELETE));
 		deleteStatement.setInt(1, id);
 		deleteStatement.executeUpdate();
 		deleteStatement.close();

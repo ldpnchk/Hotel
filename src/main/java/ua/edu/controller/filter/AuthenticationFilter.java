@@ -1,7 +1,6 @@
 package ua.edu.controller.filter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -27,12 +26,8 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-    	System.out.println("Authentication");
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		
-		System.out.println(httpRequest.getRequestURI());
-		System.out.println(httpRequest.getRequestURI().replaceAll(".*/hotel/" , ""));
 		
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
 
