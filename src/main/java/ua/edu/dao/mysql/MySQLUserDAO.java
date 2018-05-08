@@ -102,7 +102,7 @@ public class MySQLUserDAO implements UserDao{
 				.setFirstName(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_FIRST_NAME)))
 				.setLastName(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_LAST_NAME)))
 				.setPatronymic(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_PATRONYMIC)))
-				.setUserRole(UserRole.getUserRole(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_USERS_ID))))
+				.setUserRole(UserRole.getUserRole(resultSet.getString(ConfigurationManager.getInstance().getString(ConfigurationManager.USERS_ROLE))))
 				.build();
 	}
 }

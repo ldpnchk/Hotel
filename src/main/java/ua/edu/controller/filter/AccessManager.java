@@ -1,40 +1,20 @@
 package ua.edu.controller.filter;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
+import ua.edu.controller.command.CommandManager;
 import ua.edu.entity.UserRole;
 
 public class AccessManager {
 	
 	private static AccessManager instance;
 	
-	private HashMap<String, ArrayList<UserRole>> access = new HashMap<String, ArrayList<UserRole>>();
-	
 	private AccessManager(){
-		access.put("", new ArrayList<UserRole>());
-		access.get("").add(UserRole.ADMINISTRATOR);
-		access.get("").add(UserRole.CLIENT);
-		access.get("").add(UserRole.GUEST);
-		access.put("main", new ArrayList<UserRole>());
-		access.get("main").add(UserRole.ADMINISTRATOR);
-		access.get("main").add(UserRole.CLIENT);
-		access.get("main").add(UserRole.GUEST);
-		access.put("client", new ArrayList<UserRole>());
-		access.get("client").add(UserRole.CLIENT);
-		access.put("admin", new ArrayList<UserRole>());
-		access.get("admin").add(UserRole.ADMINISTRATOR);
-		access.put("login", new ArrayList<UserRole>());
-		access.get("login").add(UserRole.GUEST);
-		access.put("loginpost", new ArrayList<UserRole>());
-		access.get("loginpost").add(UserRole.GUEST);
-		access.put("logout", new ArrayList<UserRole>());
-		access.get("logout").add(UserRole.ADMINISTRATOR);
-		access.get("logout").add(UserRole.CLIENT);
-		access.put("register", new ArrayList<UserRole>());
-		access.get("register").add(UserRole.GUEST);
-		access.put("registration", new ArrayList<UserRole>());
-		access.get("registration").add(UserRole.GUEST);
+
 	}
 	
 	public static AccessManager getInstance(){
@@ -48,10 +28,23 @@ public class AccessManager {
         return instance;
     }
 	
-	public boolean checkAccess(String url, UserRole userRole){
-		return access.containsKey(url) && access.get(url).contains(userRole);
+	public boolean checkAccess(String url, UserRole inputUserRole){		
+		try {
+			Method method = CommandManager.getInstance().getCommand(url).getClass().getMethod("execute", HttpServletRequest.class);
+			RolesAllowed rolesAllowed = method.getAnnotation(RolesAllowed.class);
+			UserRole[] users = rolesAllowed.roles();
+			for (UserRole userRole : users) {
+		        if (userRole.equals(inputUserRole))
+		            return true;
+		    }
+		    return false;
+		} catch (NullPointerException e) {
+			return false;
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		} 
+		
 	}
 	
-	
-
 }
