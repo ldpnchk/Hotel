@@ -3,9 +3,14 @@
 
 <%@ page isELIgnored="false" %> 
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<html>
+<c:set var="language" scope="session" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"  />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="/i18n/messages" />
+
+<html lang="${language}">
 	<head>
 	
 		<title>Hotel</title>
@@ -34,6 +39,13 @@
 					</c:if>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					<form>
+						<select id="language" name="language" onchange="submit()">
+                			<option value="en_US" ${language == 'en_US' ? 'selected' : ''}>English</option>
+               				<option value="uk_UA" ${language == 'uk_UA' ? 'selected' : ''}>Ukrainian</option>
+           				</select>
+           			</form>
+           			<fmt:message key="hello" />
 					<c:choose>
 						<c:when test="${empty user}">
 							<li><a href="${pageContext.request.contextPath}/hotel/login">Login</a></li>
