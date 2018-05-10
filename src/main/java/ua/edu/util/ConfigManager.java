@@ -2,9 +2,9 @@ package ua.edu.util;
 
 import java.util.ResourceBundle;
 
-public class ConfigurationManager {
+public class ConfigManager {
 	
-    private static volatile ConfigurationManager instance;
+    private static volatile ConfigManager instance;
 
     private ResourceBundle resourceBundle;
     private static final String RESOURCE_NAME = "config";
@@ -75,15 +75,15 @@ public class ConfigurationManager {
     public static final String USERS_ROLE = "users.role";
     
     
-    private ConfigurationManager() {
+    private ConfigManager() {
     	resourceBundle = ResourceBundle.getBundle(RESOURCE_NAME);
     }
 
-    public static ConfigurationManager getInstance() {
+    public static ConfigManager getInstance() {
     	if (instance == null) {
-            synchronized (ConfigurationManager.class) {
+            synchronized (ConfigManager.class) {
                 if (instance == null) {
-                    instance = new ConfigurationManager();
+                    instance = new ConfigManager();
                 }
             }
         }

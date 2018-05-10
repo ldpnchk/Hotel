@@ -4,23 +4,27 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.log4j.Logger;
 
-import ua.edu.util.ConfigurationManager;
+import ua.edu.exception.DatabaseException;
+import ua.edu.util.ConfigManager;
 
 public class DataSource{
+	
+	final static Logger logger = Logger.getLogger(DataSource.class);
 
     private static volatile DataSource instance;
     private BasicDataSource dataSource;
 
     private DataSource(){
     	dataSource = new BasicDataSource();
-    	dataSource.setDriverClassName(ConfigurationManager.getInstance().getString(ConfigurationManager.DB_DRIVER));
-    	dataSource.setUrl(ConfigurationManager.getInstance().getString(ConfigurationManager.DB_URL));
-    	dataSource.setUsername(ConfigurationManager.getInstance().getString(ConfigurationManager.DB_USER));
-    	dataSource.setPassword(ConfigurationManager.getInstance().getString(ConfigurationManager.DB_PASSWORD));
-    	dataSource.setMinIdle(Integer.parseInt(ConfigurationManager.getInstance().getString(ConfigurationManager.DB_MIN_IDLE)));
-    	dataSource.setMaxIdle(Integer.parseInt(ConfigurationManager.getInstance().getString(ConfigurationManager.DB_MAX_IDLE)));
-    	dataSource.setMaxOpenPreparedStatements(Integer.parseInt(ConfigurationManager.getInstance().getString(ConfigurationManager.DB_MAX_OPEN_PS)));
+    	dataSource.setDriverClassName(ConfigManager.getInstance().getString(ConfigManager.DB_DRIVER));
+    	dataSource.setUrl(ConfigManager.getInstance().getString(ConfigManager.DB_URL));
+    	dataSource.setUsername(ConfigManager.getInstance().getString(ConfigManager.DB_USER));
+    	dataSource.setPassword(ConfigManager.getInstance().getString(ConfigManager.DB_PASSWORD));
+    	dataSource.setMinIdle(Integer.parseInt(ConfigManager.getInstance().getString(ConfigManager.DB_MIN_IDLE)));
+    	dataSource.setMaxIdle(Integer.parseInt(ConfigManager.getInstance().getString(ConfigManager.DB_MAX_IDLE)));
+    	dataSource.setMaxOpenPreparedStatements(Integer.parseInt(ConfigManager.getInstance().getString(ConfigManager.DB_MAX_OPEN_PS)));
     }
 
     public static DataSource getInstance(){
@@ -34,8 +38,13 @@ public class DataSource{
         return instance;
     }
 
-    public Connection getConnection() throws SQLException{
-        return this.dataSource.getConnection();
+    public Connection getConnection(){
+        try {
+			return this.dataSource.getConnection();
+		} catch (SQLException e) {
+			logger.error("DataSource getConnection error", e);
+			throw new DatabaseException();
+		}
     }
 
 }

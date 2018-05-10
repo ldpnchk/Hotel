@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import ua.edu.entity.User;
 import ua.edu.entity.UserRole;
-@WebFilter(urlPatterns = {"/*"})
+@WebFilter(urlPatterns = {"/hotel/*"})
 public class AuthenticationFilter implements Filter {
 	
     @Override
@@ -27,12 +27,11 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		
+		//HttpServletResponse httpResponse = (HttpServletResponse) response;
+
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
 
 		User user = (User) session.getAttribute("user");
-		
         if (AccessManager.getInstance().checkAccess(httpRequest.getRequestURI().replaceAll(".*/hotel/" , ""), 
         		user == null ? UserRole.GUEST : user.getUserRole())) {
         	filterChain.doFilter(request, response);

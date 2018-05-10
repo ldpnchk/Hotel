@@ -1,5 +1,7 @@
 package ua.edu.util;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 public class PasswordGenerator {
 	
 	private static volatile PasswordGenerator instance;
@@ -20,7 +22,7 @@ public class PasswordGenerator {
     }
     
     public String generatePassword(String password){
-    	return password;
+    	return DigestUtils.sha256Hex(password);
     }
 
 }

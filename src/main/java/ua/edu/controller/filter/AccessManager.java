@@ -1,15 +1,17 @@
 package ua.edu.controller.filter;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
 
 import ua.edu.controller.command.CommandManager;
 import ua.edu.entity.UserRole;
 
 public class AccessManager {
+	
+	final static Logger logger = Logger.getLogger(AccessManager.class);
 	
 	private static AccessManager instance;
 	
@@ -37,14 +39,10 @@ public class AccessManager {
 		        if (userRole.equals(inputUserRole))
 		            return true;
 		    }
-		    return false;
-		} catch (NullPointerException e) {
-			return false;
-		} catch (NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
+		} catch (NullPointerException | NoSuchMethodException | SecurityException e) {
+			logger.error("AccessManager error: " + url + " " + inputUserRole.getValue(), e);
 		} 
-		
+		return false;
 	}
 	
 }

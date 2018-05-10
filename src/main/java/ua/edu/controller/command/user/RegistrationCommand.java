@@ -1,14 +1,15 @@
-package ua.edu.controller.command;
+package ua.edu.controller.command.user;
 
 import javax.servlet.http.HttpServletRequest;
 
+import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
 import ua.edu.entity.User;
 import ua.edu.entity.UserRole;
 import ua.edu.service.UserService;
 import ua.edu.util.PasswordGenerator;
 
-public class RegisterCommand implements Command{
+public class RegistrationCommand implements Command{
 
 	@Override
 	@RolesAllowed(roles = {UserRole.GUEST})

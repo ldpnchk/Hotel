@@ -3,14 +3,14 @@ package ua.edu.dao;
 import java.sql.Connection;
 
 import ua.edu.dao.mysql.MySQLDAOFactory;
-import ua.edu.util.ConfigurationManager;
+import ua.edu.util.ConfigManager;
 
 public abstract class AbstractDaoFactory {
 	
 	public static AbstractDaoFactory getFactory(){
 		
-		if (ConfigurationManager.getInstance().getString(ConfigurationManager.DAO_FACTORY).equals
-				(ConfigurationManager.getInstance().getString(ConfigurationManager.DAO_FACTORY_MYSQL_KEY))){
+		if (ConfigManager.getInstance().getString(ConfigManager.DAO_FACTORY).equals
+				(ConfigManager.getInstance().getString(ConfigManager.DAO_FACTORY_MYSQL_KEY))){
 			return MySQLDAOFactory.getInstance();
 		} else {
 			throw new RuntimeException();
