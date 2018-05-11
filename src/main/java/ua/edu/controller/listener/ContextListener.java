@@ -7,12 +7,15 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 
+import ua.edu.util.ConfigManager;
+
 @WebListener
 public class ContextListener implements ServletContextListener {
 	
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-    	servletContextEvent.getServletContext().setAttribute("loggedUsers", new HashMap<String, HttpSession>());
+    	servletContextEvent.getServletContext().setAttribute(ConfigManager.getInstance()
+    			.getString(ConfigManager.ATTRIBUTE_LOGGED_USERS), new HashMap<String, HttpSession>());
     }
 
     @Override

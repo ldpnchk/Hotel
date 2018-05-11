@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import ua.edu.entity.User;
+import ua.edu.util.ConfigManager;
 
 @WebListener
 public class SessionListener implements HttpSessionListener {
@@ -22,10 +23,10 @@ public class SessionListener implements HttpSessionListener {
 	@Override
 	public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
 		Map<String, HttpSession> loggedUsers = (HashMap<String, HttpSession>) httpSessionEvent.getSession()
-				.getServletContext().getAttribute("loggedUsers");
-        User user = (User) httpSessionEvent.getSession().getAttribute("user");
+				.getServletContext().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_LOGGED_USERS));
+        User user = (User) httpSessionEvent.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
         loggedUsers.remove(user.getUsername());
-        httpSessionEvent.getSession().getServletContext().setAttribute("loggedUsers", loggedUsers);
+        httpSessionEvent.getSession().getServletContext().setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_LOGGED_USERS), loggedUsers);
 
 	}
 }

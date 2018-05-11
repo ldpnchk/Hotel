@@ -9,25 +9,25 @@
                         <div class="container-fluid">
                             <div class="input-group">
                                 <div class="form-group has-feedback has-feedback-left">
-                                    <label class="control-label">Select day of arrival and departure</label>
+                                    <label class="control-label"><fmt:message key="select.days"/></label>
                                     <input id="datefilter" type="text" class="form-control" name="datefilter" required>
                                     <i class="form-control-feedback glyphicon glyphicon-calendar"></i>
                                 </div>
                                 <c:if test="${dateFormatError}">
-                                    <p><font color="red">INCORRECT DATE FORMAT</font></p>
+                                    <p><font color="red"><fmt:message key="incorrect.date.format"/></font></p>
                                 </c:if>
                             </div><br/>
                             <div class="input-group">
-                                <label class="control-label">Select number of guests: </label>
+                                <label class="control-label"><fmt:message key="select.number.guests"/>:</label>
                                 <input id="capacity" type="number" min="1" class="form-control" name="capacity" required>
                             </div><br/>
                             <div class="top5">
-                                <button type="submit" class="btn btn-success col-md-6 col-md-offset-3">Search</button>
+                                <button type="submit" class="btn btn-success col-md-6 col-md-offset-3"><fmt:message key="search"/></button>
                             </div>
                         </div>
                     </form>
                     <c:if test="${empty user && !empty options}">
-                        <p><font color="blue">Please, log in to make order.</font></p>
+                        <p><font color="blue"><fmt:message key="please.login.to.make.order"/></font></p>
                     </c:if>
                     <hr/>
                 </div>
@@ -38,14 +38,14 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="container-fluid">
-                                    <p>Room type: ${option.name}, Capacity: ${option.capacity}</p>
-                                    <p>Description: ${option.description}</p>
-                                    <p>Price: ${option.price}</p>
+                                    <p><fmt:message key="room.type"/>: ${option.name}, <fmt:message key="capacity"/>: ${option.capacity}</p>
+                                    <p><fmt:message key="description"/>: ${option.description}</p>
+                                    <p><fmt:message key="price"/>: ${option.price}</p>
                                     <c:if test="${user.getUserRole() eq 'CLIENT'}">
                                         <a onclick="setReservationData(${option.id});">
                                             <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#makeOrder">
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                                Make order
+                                                <fmt:message key="make.order"/>
                                             </button>
                                         </a>
                                     </c:if>
@@ -67,70 +67,33 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Confirm your order</h4>
+                <h4 class="modal-title" id="myModalLabel"><fmt:message key="confirm.order"/></h4>
             </div>
             <form id="orderForm" action="<c:url value="${pageContext.request.contextPath}/hotel/createReservation" />" method='POST'>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="comment">Comment (optional):</label>
+                        <label for="comment"><fmt:message key="comment.optional"/>:</label>
                         <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="startDate">Start Date:</label>
+                        <label for="startDate"><fmt:message key="start.date"/>:</label>
                         <input type="text" class="form-control" rows="5" id="startDate" name="startDate" readonly="readonly">
                     </div>
                     <div class="form-group">
-                        <label for="endDate">End Date:</label>
+                        <label for="endDate"><fmt:message key="end.date"/>:</label>
                         <input type="text" class="form-control" rows="5" id="endDate" name="endDate" readonly="readonly">
                     </div>
                     <div class="form-group" style="display: none;"><input type="number" id="roomTypeId" name="roomTypeId" readonly="readonly"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-warning">Make order</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><fmt:message key="cancel"/></button>
+                    <button type="submit" class="btn btn-success"><fmt:message key="make.order"/></button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
-    var dates, capacity;
-    $( document ).ready(function() {
-        var url = window.location.href;
-        var captured1 = /datefilter=([^&]+)/.exec(url)[1];
-        dates = captured1 ? captured1 : null;
-        var captured2 = /capacity=([^&]+)/.exec(url)[1];
-        capacity = captured2 ? captured2 : null;
-        if(dates != null && capacity != null){
-            $("#datefilter").val(dates);
-            $("#capacity").val(capacity);
-        }
-    });
-
-    var today = new Date();
-
-    $(function() {
-        $('input[name="datefilter"]').daterangepicker({
-            minDate: today,
-            autoUpdateInput: false,
-            locale: {
-                cancelLabel: 'Clear'
-            }
-        });
-        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
-        });
-        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val();
-        });
-    });
-
-    function setReservationData(roomTypeId) {
-        $("#startDate").val(dates.split('-')[0]);
-        $("#endDate").val(dates.split('-')[1]);
-        $("#roomTypeId").val(roomTypeId);
-    }
-</script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scripts/reservation.js"></script>
 
 <%@include file="footer.jsp"%>

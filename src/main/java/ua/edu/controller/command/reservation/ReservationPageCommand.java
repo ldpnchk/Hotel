@@ -6,15 +6,13 @@ import ua.edu.entity.RoomType;
 import ua.edu.entity.UserRole;
 import ua.edu.exception.DateParserException;
 import ua.edu.service.RoomTypeService;
+import ua.edu.util.ConfigManager;
 import ua.edu.util.DateParser;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ReservationPageCommand implements Command {
 
@@ -22,8 +20,8 @@ public class ReservationPageCommand implements Command {
     @RolesAllowed(roles = {UserRole.GUEST, UserRole.CLIENT})
     public String execute(HttpServletRequest request) {
     	
-        String dates = request.getParameter("datefilter");
-        String capacity = request.getParameter("capacity");
+        String dates = request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_DATEFILTER));
+        String capacity = request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_CAPACITY));
         
         List<RoomType> result = new ArrayList<RoomType>();
         boolean dateFormatError = false;
@@ -40,8 +38,8 @@ public class ReservationPageCommand implements Command {
             }
         }
 
-        request.setAttribute("options", result);
-        request.setAttribute("dateFormatError", dateFormatError);
-        return "/reservation.jsp";
+        request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_OPTIONS), result);
+        request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_DATE_FORMAT_ERROR), dateFormatError);
+        return ConfigManager.getInstance().getString(ConfigManager.PAGE_RESERVATION);
     }
 }

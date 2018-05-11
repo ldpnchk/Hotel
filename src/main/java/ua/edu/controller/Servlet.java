@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.command.CommandManager;
+import ua.edu.util.ConfigManager;
 
 @WebServlet(urlPatterns = {"/hotel/*"})
 public class Servlet extends HttpServlet {
@@ -24,11 +25,11 @@ public class Servlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String path = request.getRequestURI();
-    	path = path.replaceAll(".*/hotel/" , "");
     	Command command = CommandManager.getInstance().getCommand(path);
     	String page = command.execute(request);
-    	if(page.contains("redirect")){
-            response.sendRedirect(page.replace("redirect:", "/hotel"));
+    	if(page.contains(ConfigManager.getInstance().getString(ConfigManager.REDIRECT))){
+            response.sendRedirect(page.replace(ConfigManager.getInstance().getString(ConfigManager.REDIRECT),
+            		ConfigManager.getInstance().getString(ConfigManager.MAIN_DEFAULT)));
         } else {
             request.getRequestDispatcher(page).forward(request, response);
         }

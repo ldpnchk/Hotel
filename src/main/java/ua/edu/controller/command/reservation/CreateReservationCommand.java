@@ -5,6 +5,7 @@ import ua.edu.controller.filter.RolesAllowed;
 import ua.edu.entity.*;
 import ua.edu.exception.DateParserException;
 import ua.edu.service.ReservationService;
+import ua.edu.util.ConfigManager;
 import ua.edu.util.DateParser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,16 +21,20 @@ public class CreateReservationCommand implements Command {
     		Reservation reservation = new Reservation.ReservationBuilder()
                     .setReservationDate(new Date())
                     .setReservationStatus(ReservationStatus.NEW)
-                    .setClientComment(request.getParameter("comment"))
-                    .setClient((User) request.getSession().getAttribute("user"))
-                    .setStartDate(DateParser.getInstance().parseDate(request.getParameter("startDate")))
-                    .setEndDate(DateParser.getInstance().parseDate(request.getParameter("endDate")))
-                    .setRoomType(new RoomType.RoomTypeBuilder().setId(Integer.parseInt(request.getParameter("roomTypeId"))).build())
+                    .setClientComment(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_COMMENT)))
+                    .setClient((User) request.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER)))
+                    .setStartDate(DateParser.getInstance().parseDate
+                    		(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_START_DATE))))
+                    .setEndDate(DateParser.getInstance().parseDate
+                    		(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_END_DATE))))
+                    .setRoomType(new RoomType.RoomTypeBuilder().setId(Integer.parseInt
+                    		(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_ROOM_TYPE_ID)))).build())
                     .build();
             ReservationService.getInstance().createReservation(reservation);
-            return "redirect:/hotel/reservationDetails?reservationId=" + reservation.getId();
+            return ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION_DETAILS) + 
+            		"?reservationId=" + reservation.getId();
     	} catch (DateParserException e){
-    		return "/404.jsp";
+    		return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);
     	}
         
     }

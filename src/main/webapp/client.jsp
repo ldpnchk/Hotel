@@ -1,5 +1,5 @@
 <%@include file="header.jsp"%>
 
-client
+<fmt:message key="client"/>
 
 <%@include file="footer.jsp"%>

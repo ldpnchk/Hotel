@@ -7,6 +7,7 @@ import ua.edu.controller.filter.RolesAllowed;
 import ua.edu.entity.User;
 import ua.edu.entity.UserRole;
 import ua.edu.service.UserService;
+import ua.edu.util.ConfigManager;
 import ua.edu.util.PasswordGenerator;
 
 public class RegistrationCommand implements Command{
@@ -15,17 +16,18 @@ public class RegistrationCommand implements Command{
 	@RolesAllowed(roles = {UserRole.GUEST})
 	public String execute(HttpServletRequest request) {
 		User user = new User.UserBuilder()
-				.setUsername(request.getParameter("username"))
-				.setPassword(PasswordGenerator.getInstance().generatePassword(request.getParameter("password")))
-				.setEmail(request.getParameter("email"))
-				.setPhoneNumber(request.getParameter("phonenumber"))
-				.setFirstName(request.getParameter("firstname"))
-				.setLastName(request.getParameter("lastname"))
-				.setPatronymic(request.getParameter("patronymic"))
+				.setUsername(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_USERNAME)))
+				.setPassword(PasswordGenerator.getInstance().generatePassword
+						(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_PASSWORD))))
+				.setEmail(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_EMAIL)))
+				.setPhoneNumber(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_PHONENUMBER)))
+				.setFirstName(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_FIRSTNAME)))
+				.setLastName(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_LASTNAME)))
+				.setPatronymic(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_PATRONYMIC)))
 				.setUserRole(UserRole.CLIENT)
 				.build();
 		UserService.getInstance().createUser(user);
-		return "redirect:/hotel/index.jsp";
+		return ConfigManager.getInstance().getString(ConfigManager.URL_MAIN);
 	}
 
 }

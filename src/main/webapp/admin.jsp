@@ -1,5 +1,5 @@
 <%@include file="header.jsp"%>
 
-admin
+<fmt:message key="admin"/>
 
 <%@include file="footer.jsp"%>

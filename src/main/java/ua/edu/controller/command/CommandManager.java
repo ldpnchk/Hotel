@@ -48,6 +48,7 @@ public class CommandManager {
     }
     
     public Command getCommand(String path) {
+    	path = path.replaceAll(".*/hotel/" , "");
     	return commands.getOrDefault(path, (r)->"/hotel/main");
     }
 

@@ -7,6 +7,7 @@ import ua.edu.entity.ReservationStatus;
 import ua.edu.entity.User;
 import ua.edu.entity.UserRole;
 import ua.edu.service.ReservationService;
+import ua.edu.util.ConfigManager;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -16,23 +17,24 @@ public class ReservationDetailsPageCommand implements Command {
     @Override
     @RolesAllowed(roles = {UserRole.CLIENT, UserRole.ADMINISTRATOR})
     public String execute(HttpServletRequest request) {
-        int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+        int reservationId = Integer.parseInt
+        		(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_RESERVATION_ID)));
 
         Optional<Reservation> reservation =
                 ReservationService.getInstance().getReservationByIdWithUserAndRoomTypeAndRoomAndPayment(reservationId);
 
         if (!reservation.isPresent()){
-        	return "/404.jsp";
+        	return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);
         }
             
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
         if(user.getUserRole().getValue().equalsIgnoreCase(UserRole.ADMINISTRATOR.toString()) ||
                 reservation.get().getClient().getId() == user.getId()){
-            request.setAttribute("statuses", ReservationStatus.values());
-            request.setAttribute("reservation", reservation.get());
-            return "/reservationDetails.jsp";
+            request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_STATUSES), ReservationStatus.values());
+            request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATION), reservation.get());
+            return ConfigManager.getInstance().getString(ConfigManager.PAGE_RESERVATION_DETAILS);
         }else{
-            return "/403.jsp";
+            return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);
         }
     }
 }

@@ -74,6 +74,45 @@ public class ConfigManager {
     public static final String USERS_PATRONYMIC = "users.patronymic";
     public static final String USERS_ROLE = "users.role";
     
+    public static final String REDIRECT = "redirect";
+    public static final String MAIN_DEFAULT = "main.default";
+    public static final String PAGE_ADMIN = "page.admin";
+    public static final String PAGE_CLIENT = "page.client";
+    public static final String PAGE_MAIN = "page.main";
+    public static final String PAGE_LOGIN = "page.login";
+    public static final String PAGE_REGISTRATION = "page.registration";
+    public static final String PAGE_404 = "page.404";
+    public static final String PAGE_RESERVATION_DETAILS = "page.reservation.details";
+    public static final String PAGE_RESERVATION = "page.reservation";
+    
+    public static final String URL_MAIN = "url.main";
+    public static final String URL_LOGIN = "url.login";
+    public static final String URL_RESERVATION_DETAILS = "url.reservation.details";
+    public static final String URL_RESERVATION = "url.reservation";
+    
+    public static final String PARAMETER_USERNAME = "parameter.username";
+    public static final String PARAMETER_PASSWORD = "parameter.password";
+    public static final String PARAMETER_EMAIL = "parameter.email";
+    public static final String PARAMETER_PHONENUMBER = "parameter.phonenumber";
+    public static final String PARAMETER_FIRSTNAME = "parameter.firstname";
+    public static final String PARAMETER_LASTNAME = "parameter.lastname";
+    public static final String PARAMETER_PATRONYMIC = "parameter.patronymic";
+    public static final String PARAMETER_COMMENT = "parameter.comment";
+    public static final String PARAMETER_START_DATE = "parameter.start.date";
+    public static final String PARAMETER_END_DATE = "parameter.end.date";
+    public static final String PARAMETER_ROOM_TYPE_ID = "parameter.room.type.id";
+    public static final String PARAMETER_RESERVATION_ID = "parameter.reservation.id";
+    public static final String PARAMETER_DATEFILTER = "parameter.datefilter";
+    public static final String PARAMETER_CAPACITY = "parameter.capacity";
+    public static final String PARAMETER_ADMIN_COMMENT = "parameter.admin.comment";
+    public static final String PARAMETER_STATUS = "parameter.status";
+    
+    public static final String ATTRIBUTE_USER = "attribute.user";
+    public static final String ATTRIBUTE_LOGGED_USERS = "attribute.logged.users";
+    public static final String ATTRIBUTE_STATUSES = "attribute.statuses";
+    public static final String ATTRIBUTE_RESERVATION = "attribute.reservation";
+    public static final String ATTRIBUTE_OPTIONS = "attribute.options";
+    public static final String ATTRIBUTE_DATE_FORMAT_ERROR = "attribute.date.format.error";
     
     private ConfigManager() {
     	resourceBundle = ResourceBundle.getBundle(RESOURCE_NAME);
