@@ -2,12 +2,12 @@ package ua.edu.controller.command.reservation;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
-import ua.edu.entity.RoomType;
-import ua.edu.entity.UserRole;
-import ua.edu.exception.DateParserException;
-import ua.edu.service.RoomTypeService;
-import ua.edu.util.ConfigManager;
-import ua.edu.util.DateParser;
+import ua.edu.model.entity.RoomType;
+import ua.edu.model.entity.UserRole;
+import ua.edu.model.exception.DateParserException;
+import ua.edu.model.service.RoomTypeService;
+import ua.edu.model.util.ConfigManager;
+import ua.edu.model.util.DateParser;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

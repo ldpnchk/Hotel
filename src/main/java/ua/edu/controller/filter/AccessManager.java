@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import ua.edu.controller.command.CommandManager;
-import ua.edu.entity.UserRole;
+import ua.edu.model.entity.UserRole;
 
 public class AccessManager {
 	

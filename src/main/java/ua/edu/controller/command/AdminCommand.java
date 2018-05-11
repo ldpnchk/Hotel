@@ -3,10 +3,10 @@ package ua.edu.controller.command;
 import javax.servlet.http.HttpServletRequest;
 
 import ua.edu.controller.filter.RolesAllowed;
-import ua.edu.entity.Reservation;
-import ua.edu.entity.UserRole;
-import ua.edu.service.ReservationService;
-import ua.edu.util.ConfigManager;
+import ua.edu.model.entity.Reservation;
+import ua.edu.model.entity.UserRole;
+import ua.edu.model.service.ReservationService;
+import ua.edu.model.util.ConfigManager;
 
 import java.util.List;
 

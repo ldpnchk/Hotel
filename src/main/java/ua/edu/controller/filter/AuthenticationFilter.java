@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ua.edu.entity.User;
-import ua.edu.entity.UserRole;
+import ua.edu.model.entity.User;
+import ua.edu.model.entity.UserRole;
 @WebFilter(urlPatterns = {"/hotel/*"})
 public class AuthenticationFilter implements Filter {
 	

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import ua.edu.entity.User;
-import ua.edu.util.ConfigManager;
+import ua.edu.model.entity.User;
+import ua.edu.model.util.ConfigManager;
 
 @WebListener
 public class SessionListener implements HttpSessionListener {
@@ -27,6 +27,5 @@ public class SessionListener implements HttpSessionListener {
         User user = (User) httpSessionEvent.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
         loggedUsers.remove(user.getUsername());
         httpSessionEvent.getSession().getServletContext().setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_LOGGED_USERS), loggedUsers);
-
 	}
 }

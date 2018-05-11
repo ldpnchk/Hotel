@@ -9,11 +9,11 @@ import javax.servlet.http.HttpSession;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
-import ua.edu.entity.User;
-import ua.edu.entity.UserRole;
-import ua.edu.service.UserService;
-import ua.edu.util.ConfigManager;
-import ua.edu.util.PasswordGenerator;
+import ua.edu.model.entity.User;
+import ua.edu.model.entity.UserRole;
+import ua.edu.model.service.UserService;
+import ua.edu.model.util.ConfigManager;
+import ua.edu.model.util.PasswordGenerator;
 
 public class LoginCommand implements Command{
 

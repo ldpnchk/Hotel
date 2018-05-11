@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import ua.edu.entity.UserRole;
+import ua.edu.model.entity.UserRole;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

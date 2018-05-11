@@ -2,12 +2,12 @@ package ua.edu.controller.command.reservation;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
-import ua.edu.entity.Reservation;
-import ua.edu.entity.ReservationStatus;
-import ua.edu.entity.User;
-import ua.edu.entity.UserRole;
-import ua.edu.service.ReservationService;
-import ua.edu.util.ConfigManager;
+import ua.edu.model.entity.Reservation;
+import ua.edu.model.entity.ReservationStatus;
+import ua.edu.model.entity.User;
+import ua.edu.model.entity.UserRole;
+import ua.edu.model.service.ReservationService;
+import ua.edu.model.util.ConfigManager;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -26,10 +26,10 @@ public class UpdateReservationCommand implements Command{
     	}
     	
     	User user = (User) request.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
-        if(user.getUserRole().equals(UserRole.CLIENT)) {
+        if (user.getUserRole().equals(UserRole.CLIENT)) {
             String newClientComment = request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_COMMENT));
             reservation.get().setClientComment(newClientComment);
-        } else {
+        } else if (user.getUserRole().equals(UserRole.ADMINISTRATOR)){
             String newAdministratorComment = request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_ADMIN_COMMENT));
             reservation.get().setAdministratorComment(newAdministratorComment);
             

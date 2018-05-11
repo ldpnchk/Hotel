@@ -7,7 +7,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 
-import ua.edu.util.ConfigManager;
+import ua.edu.model.util.ConfigManager;
 
 @WebListener
 public class ContextListener implements ServletContextListener {

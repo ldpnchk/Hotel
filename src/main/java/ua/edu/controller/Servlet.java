@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.command.CommandManager;
-import ua.edu.util.ConfigManager;
+import ua.edu.model.util.ConfigManager;
 
 @WebServlet(urlPatterns = {"/hotel/*"})
 public class Servlet extends HttpServlet {
