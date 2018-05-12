@@ -1,13 +1,14 @@
 package ua.edu.model.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Reservation {
 	
 	private int id;
-	private Date reservationDate;
-	private Date startDate;
-	private Date endDate;
+	private LocalDateTime reservationDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private String clientComment;
 	private String administratorComment;
 	
@@ -29,27 +30,27 @@ public class Reservation {
 		this.id = id;
 	}
 
-	public Date getReservationDate() {
+	public LocalDateTime getReservationDate() {
 		return reservationDate;
 	}
 
-	public void setReservationDate(Date reservationDate) {
+	public void setReservationDate(LocalDateTime reservationDate) {
 		this.reservationDate = reservationDate;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
@@ -122,17 +123,17 @@ public class Reservation {
 			return this;
 		}
 
-		public ReservationBuilder setReservationDate(Date reservationDate) {
+		public ReservationBuilder setReservationDate(LocalDateTime reservationDate) {
 			reservation.reservationDate = reservationDate;
 			return this;
 		}
 
-		public ReservationBuilder setStartDate(Date startDate) {
+		public ReservationBuilder setStartDate(LocalDate startDate) {
 			reservation.startDate = startDate;
 			return this;
 		}
 
-		public ReservationBuilder setEndDate(Date endDate) {
+		public ReservationBuilder setEndDate(LocalDate endDate) {
 			reservation.endDate = endDate;
 			return this;
 		}

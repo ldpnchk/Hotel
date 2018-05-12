@@ -1,14 +1,12 @@
 package ua.edu.controller.command.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
+import ua.edu.controller.util.ContextManager;
 import ua.edu.model.entity.User;
 import ua.edu.model.entity.UserRole;
 import ua.edu.model.service.UserService;
@@ -26,7 +24,7 @@ public class LoginCommand implements Command{
 		
 		Optional<User> user = UserService.getInstance().getUserByUsername(username);
 		if (user.isPresent() && user.get().getPassword().equals(password)){
-			checkMultiLogin(request, username);
+			ContextManager.getInstance().addUser(request, username);
 	        request.getSession().setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER), user.get());
             return ConfigManager.getInstance().getString(ConfigManager.URL_MAIN);
 		} else {
@@ -34,16 +32,5 @@ public class LoginCommand implements Command{
 		}
 	}
 	
-	private void checkMultiLogin(HttpServletRequest request, String username){
-		Map<String, HttpSession> loggedUsers = (HashMap<String, HttpSession>) request.getSession()
-				.getServletContext().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_LOGGED_USERS));
-        if (loggedUsers.containsKey(username)){
-        	//loggedUsers.get(username).invalidate(); ???
-        	loggedUsers.get(username).removeAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
-        }
-        loggedUsers.put(username, request.getSession());
-        request.getSession().getServletContext().setAttribute(ConfigManager.getInstance()
-        		.getString(ConfigManager.ATTRIBUTE_LOGGED_USERS), loggedUsers);
-	}
 
 }

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Optional;
 
@@ -31,9 +32,9 @@ public class MySQLReservationDAO implements ReservationDao{
 		try (PreparedStatement createStatement = connection.prepareStatement
 				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_INSERT), 
 						Statement.RETURN_GENERATED_KEYS)){
-			createStatement.setTimestamp(1, new java.sql.Timestamp(reservation.getReservationDate().getTime()));
-			createStatement.setDate(2, new Date(reservation.getStartDate().getTime()));
-			createStatement.setDate(3, new Date(reservation.getEndDate().getTime()));
+			createStatement.setTimestamp(1, Timestamp.valueOf(reservation.getReservationDate()));
+			createStatement.setDate(2, Date.valueOf(reservation.getStartDate()));
+			createStatement.setDate(3, Date.valueOf(reservation.getEndDate()));
 			if (reservation.getClientComment() != null){
 				createStatement.setString(4, reservation.getClientComment());
 			} else {
@@ -67,9 +68,9 @@ public class MySQLReservationDAO implements ReservationDao{
 	public void update(Reservation reservation){
 		try (PreparedStatement updateStatement = connection.prepareStatement
 				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_UPDATE))){
-			updateStatement.setDate(1, new Date(reservation.getReservationDate().getTime()));
-			updateStatement.setDate(2, new Date(reservation.getStartDate().getTime()));
-			updateStatement.setDate(3, new Date(reservation.getEndDate().getTime()));
+			updateStatement.setTimestamp(1, Timestamp.valueOf(reservation.getReservationDate()));
+			updateStatement.setDate(2, Date.valueOf(reservation.getStartDate()));
+			updateStatement.setDate(3, Date.valueOf(reservation.getEndDate()));
 			if (reservation.getClientComment() != null){
 				updateStatement.setString(4, reservation.getClientComment());
 			} else {
@@ -145,9 +146,9 @@ public class MySQLReservationDAO implements ReservationDao{
 	static Reservation extractReservationFromResultSet(ResultSet resultSet) throws SQLException {
 		return new Reservation.ReservationBuilder()
 				.setId(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_RESERVATION_ID)))
-				.setReservationDate(resultSet.getDate(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_RESERVATION_DATE)))
-				.setStartDate(resultSet.getDate(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_START_DATE)))
-				.setEndDate(resultSet.getDate(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_END_DATE)))
+				.setReservationDate(resultSet.getTimestamp(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_RESERVATION_DATE)).toLocalDateTime())
+				.setStartDate(resultSet.getTimestamp(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_START_DATE)).toLocalDateTime().toLocalDate())
+				.setEndDate(resultSet.getTimestamp(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_END_DATE)).toLocalDateTime().toLocalDate())
 				.setReservationStatus(ReservationStatus.getReservationStatus(resultSet.getString(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_STATUS))))
 				.setClientComment(resultSet.getString(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_CLIENT_COMMENT)))
 				.setAdministratorComment(resultSet.getString(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_ADMINISTRATOR_COMMENT)))

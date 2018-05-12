@@ -1,12 +1,15 @@
 package ua.edu.model.service;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ua.edu.model.dao.RoomTypeDao;
+import ua.edu.model.dto.RoomTypeDto;
 import ua.edu.model.entity.RoomType;
 
 public class RoomTypeService extends Service{
@@ -55,15 +58,34 @@ public class RoomTypeService extends Service{
 		}
 	}
 	
-	public List<RoomType> getFreeRoomTypesByDatesAndCapacity(Date startDate, Date endDate, int capacity){
-		List<RoomType> roomTypes = new ArrayList<RoomType>();
+	public List<RoomTypeDto> getFreeRoomTypesByDatesAndCapacity(LocalDate startDate, LocalDate endDate, int capacity){
+		List<RoomTypeDto> roomTypesDto = new ArrayList<RoomTypeDto>();
         try (Connection connection = dataSource.getConnection()){
         	RoomTypeDao roomTypeDao = daoFactory.createRoomTypeDao(connection);
-        	roomTypes = roomTypeDao.getFreeRoomTypesByDatesAndCapacity(startDate, endDate, capacity);
+        	List<RoomType> roomTypes = roomTypeDao.getFreeRoomTypesByDatesAndCapacity(startDate, endDate, capacity);
+        	roomTypesDto = getRoomTypesDto(roomTypes, (int) ChronoUnit.DAYS.between(startDate, endDate));
         } catch (SQLException e) {
 			e.printStackTrace();
 		}
-       	return roomTypes;
+       	return roomTypesDto;
+	}
+	
+	private List<RoomTypeDto> getRoomTypesDto(List<RoomType> roomTypes, int daysNumber){
+		List<RoomTypeDto> result = new ArrayList<RoomTypeDto>();
+		for (RoomType roomType : roomTypes){
+			BigDecimal pricePerNight = new BigDecimal(roomType.getPrice() / 100);
+			BigDecimal totalPrice = pricePerNight.multiply(new BigDecimal(daysNumber));
+			
+			result.add(new RoomTypeDto.RoomTypeDtoBuilder()
+					.setId(roomType.getId())
+					.setName(roomType.getName())
+					.setCapacity(roomType.getCapacity())
+					.setDescription(roomType.getDescription())
+					.setPricePerNight(pricePerNight)
+					.setTotalPrice(totalPrice)
+					.build());
+		}
+		return result;
 	}
 
 }

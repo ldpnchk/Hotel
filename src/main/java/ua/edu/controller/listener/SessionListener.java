@@ -1,7 +1,6 @@
 package ua.edu.controller.listener;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import javax.servlet.annotation.WebListener;
@@ -20,6 +19,7 @@ public class SessionListener implements HttpSessionListener {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
 		Map<String, HttpSession> loggedUsers = (HashMap<String, HttpSession>) httpSessionEvent.getSession()

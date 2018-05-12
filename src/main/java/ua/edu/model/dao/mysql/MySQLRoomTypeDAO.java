@@ -1,13 +1,14 @@
 package ua.edu.model.dao.mysql;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -82,13 +83,13 @@ public class MySQLRoomTypeDAO implements RoomTypeDao{
 	}
 
 	@Override
-	public List<RoomType> getFreeRoomTypesByDatesAndCapacity(Date startDate, Date endDate, int capacity) {
+	public List<RoomType> getFreeRoomTypesByDatesAndCapacity(LocalDate startDate, LocalDate endDate, int capacity) {
 		List<RoomType> roomTypes = new ArrayList<RoomType>();
 		try (PreparedStatement query = connection.prepareStatement
 				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_ROOM_TYPE_GET_FREE_ROOM_TYPES_BY_DATES_AND_CAPACITY))){
 			query.setInt(1, capacity);
-			query.setDate(2, new java.sql.Date(startDate.getTime()));
-			query.setDate(3, new java.sql.Date(endDate.getTime()));
+			query.setDate(2, Date.valueOf(startDate));
+			query.setDate(3, Date.valueOf(endDate));
 			
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
@@ -106,7 +107,7 @@ public class MySQLRoomTypeDAO implements RoomTypeDao{
 				.setId(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.ROOM_TYPE_ROOM_TYPE_ID)))
 				.setName(resultSet.getString(ConfigManager.getInstance().getString(ConfigManager.ROOM_TYPE_NAME)))
 				.setCapacity(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.ROOM_TYPE_CAPACITY)))
-				.setPrice(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.ROOM_TYPE_PRICE))/100)
+				.setPrice(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.ROOM_TYPE_PRICE)))
 				.setDescription(resultSet.getString(ConfigManager.getInstance().getString(ConfigManager.ROOM_TYPE_DESCRIPTION)))
 				.build();
 	}

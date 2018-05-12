@@ -10,7 +10,7 @@ import ua.edu.model.util.DateParser;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class CreateReservationCommand implements Command {
 
@@ -19,7 +19,7 @@ public class CreateReservationCommand implements Command {
     public String execute(HttpServletRequest request) {
     	try{
     		Reservation reservation = new Reservation.ReservationBuilder()
-                    .setReservationDate(new Date())
+                    .setReservationDate(LocalDateTime.now())
                     .setReservationStatus(ReservationStatus.NEW)
                     .setClientComment(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_COMMENT)))
                     .setClient((User) request.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER)))

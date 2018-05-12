@@ -1,12 +1,12 @@
 package ua.edu.model.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Payment {
 	
 	private int id;
 	private int total;
-	private Date date;
+	private LocalDateTime date;
 	
 	private PaymentMethod paymentMethod;
 	private Reservation reservation;
@@ -31,11 +31,11 @@ public class Payment {
 		this.total = total;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
@@ -73,7 +73,7 @@ public class Payment {
 			return this;
 		}
 
-		public PaymentBuilder setDate(Date date) {
+		public PaymentBuilder setDate(LocalDateTime date) {
 			payment.date = date;
 			return this;
 		}

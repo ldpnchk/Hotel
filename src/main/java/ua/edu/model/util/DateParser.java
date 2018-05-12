@@ -1,10 +1,8 @@
 package ua.edu.model.util;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.apache.log4j.Logger;
 
@@ -16,7 +14,7 @@ public class DateParser {
 	
 	private static volatile DateParser instance;
 	
-	DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+	 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 	
 	private DateParser(){
 		
@@ -33,13 +31,13 @@ public class DateParser {
         return instance;
     }
     
-    public Date parseDate(String date) throws DateParserException{
+    public LocalDate parseDate(String date) throws DateParserException{
     	try {
-			return format.parse(date);
-		} catch (ParseException e) {
-			logger.error("DataParser parseDate error", e);
-			throw new DateParserException();
-		}
+    		return LocalDate.parse(date, formatter);
+    	} catch (DateTimeParseException e) {
+    		logger.error("DatePaser error: " + date, e);
+    		throw new DateParserException();
+    	}
     }
 
 }

@@ -1,11 +1,11 @@
 package ua.edu.model.dao.mysql;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import org.apache.log4j.Logger;
 
@@ -30,7 +30,7 @@ public class MySQLPaymentDAO implements PaymentDao{
 				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_PAYMENT_INSERT), 
 						Statement.RETURN_GENERATED_KEYS)){
 			createStatement.setInt(1, payment.getTotal());
-			createStatement.setDate(2, new java.sql.Date(payment.getDate().getTime()));
+			createStatement.setTimestamp(2, Timestamp.valueOf(payment.getDate()));
 			createStatement.setString(3, payment.getPaymentMethod().name().toLowerCase());
 			createStatement.setInt(4, payment.getReservation().getId());
 			createStatement.executeUpdate();
@@ -49,7 +49,7 @@ public class MySQLPaymentDAO implements PaymentDao{
 		try (PreparedStatement updateStatement = connection.prepareStatement
 				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_PAYMENT_UPDATE))){
 			updateStatement.setInt(1, payment.getTotal());
-			updateStatement.setDate(2, new Date(payment.getDate().getTime()));
+			updateStatement.setTimestamp(2, Timestamp.valueOf(payment.getDate()));
 			updateStatement.setString(3, payment.getPaymentMethod().name().toLowerCase());
 			updateStatement.setInt(4, payment.getReservation().getId());
 			updateStatement.setInt(5, payment.getId());
@@ -75,7 +75,7 @@ public class MySQLPaymentDAO implements PaymentDao{
 		return new Payment.PaymentBuilder()
 				.setId(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.PAYMENT_PAYMENT_ID)))
 				.setTotal(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.PAYMENT_TOTAL)))
-				.setDate(resultSet.getDate(ConfigManager.getInstance().getString(ConfigManager.PAYMENT_DATE)))
+				.setDate(resultSet.getTimestamp(ConfigManager.getInstance().getString(ConfigManager.PAYMENT_DATE)).toLocalDateTime())
 				.setPaymentMethod(PaymentMethod.getPaymentMethod(resultSet.getString(ConfigManager.getInstance().getString(ConfigManager.PAYMENT_PAYMENT_METHOD))))
 				.build();
 	}

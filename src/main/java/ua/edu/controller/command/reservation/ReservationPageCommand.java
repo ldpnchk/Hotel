@@ -2,7 +2,7 @@ package ua.edu.controller.command.reservation;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
-import ua.edu.model.entity.RoomType;
+import ua.edu.model.dto.RoomTypeDto;
 import ua.edu.model.entity.UserRole;
 import ua.edu.model.exception.DateParserException;
 import ua.edu.model.service.RoomTypeService;
@@ -10,8 +10,9 @@ import ua.edu.model.util.ConfigManager;
 import ua.edu.model.util.DateParser;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ReservationPageCommand implements Command {
@@ -23,14 +24,14 @@ public class ReservationPageCommand implements Command {
         String dates = request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_DATEFILTER));
         String capacity = request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_CAPACITY));
         
-        List<RoomType> result = new ArrayList<RoomType>();
+        List<RoomTypeDto> result = new ArrayList<RoomTypeDto>();
         boolean dateFormatError = false;
         
         if(dates != null && capacity != null){
         	String[] datesArr = dates.split("-");
             try {
-            	Date startDate = DateParser.getInstance().parseDate(datesArr[0]);
-            	Date endDate = DateParser.getInstance().parseDate(datesArr[1]);
+            	LocalDate startDate = DateParser.getInstance().parseDate(datesArr[0]);
+            	LocalDate endDate = DateParser.getInstance().parseDate(datesArr[1]);
             	
             	result = RoomTypeService.getInstance().getFreeRoomTypesByDatesAndCapacity(startDate, endDate, Integer.parseInt(capacity));
             } catch (DateParserException e) {

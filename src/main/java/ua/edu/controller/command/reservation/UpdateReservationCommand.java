@@ -21,6 +21,7 @@ public class UpdateReservationCommand implements Command{
     			(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_RESERVATION_ID)));
     	Optional<Reservation> reservation =
                 ReservationService.getInstance().getReservationByIdWithUserAndRoomTypeAndRoomAndPayment(reservationId);
+    	
     	if (!reservation.isPresent()){
     		return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);
     	}
