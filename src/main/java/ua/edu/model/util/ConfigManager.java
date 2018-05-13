@@ -28,6 +28,8 @@ public class ConfigManager {
     public static final String MYSQL_RESERVATION_UPDATE = "mysql.reservation.update";
     public static final String MYSQL_RESERVATION_DELETE = "mysql.reservation.delete";
     public static final String MYSQL_RESERVATION_GET_BY_ID_WITH_USER_AND_ROOM_TYPE_AND_ROOM_AND_PAYMENT = "mysql.reservation.get_by_id_with_user_and_room_type_and_room_and_payment";
+    public static final String MYSQL_RESERVATION_GET_ALL = "mysql.reservation.get.all";
+    public static final String MYSQL_RESERVATION_GET_BY_USER = "mysql.reservation.get.by.user";
     public static final String MYSQL_ROOM_INSERT = "mysql.room.insert";
     public static final String MYSQL_ROOM_UPDATE = "mysql.room.update";
     public static final String MYSQL_ROOM_DELETE = "mysql.room.delete";
@@ -91,6 +93,7 @@ public class ConfigManager {
     public static final String URL_LOGIN = "url.login";
     public static final String URL_RESERVATION_DETAILS = "url.reservation.details";
     public static final String URL_RESERVATION = "url.reservation";
+    public static final String URL_PROFILE = "url.profile";
     
     public static final String PARAMETER_USERNAME = "parameter.username";
     public static final String PARAMETER_PASSWORD = "parameter.password";

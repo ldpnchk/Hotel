@@ -40,8 +40,9 @@
                                 <div class="container-fluid">
                                     <p><fmt:message key="room.type"/>: ${option.name}, <fmt:message key="capacity"/>: ${option.capacity}</p>
                                     <p><fmt:message key="description"/>: ${option.description}</p>
-                                    <p><fmt:message key="price"/>: ${option.price}</p>
-                                    <c:if test="${user.getUserRole() eq 'CLIENT'}">
+									<p><fmt:message key="price.per.night"/>: ${option.pricePerNight} <fmt:message key="currency"/></p>
+                                    <p><fmt:message key="price.total"/>: ${option.totalPrice} <fmt:message key="currency"/></p>
+								    <c:if test="${user.getUserRole() eq 'CLIENT'}">
                                         <a onclick="setReservationData(${option.id});">
                                             <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#makeOrder">
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>

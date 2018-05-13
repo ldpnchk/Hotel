@@ -2,6 +2,7 @@ package ua.edu.model.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import ua.edu.controller.util.validator.ReservationValidator;
@@ -61,6 +62,26 @@ public class ReservationService extends Service{
         try (Connection connection = dataSource.getConnection()){
         	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		return reservationDao.getReservationByIdWithUserAndRoomTypeAndRoomAndPayment(id);
+        } catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
+	
+	public List<Reservation> getAllReservations(){
+        try (Connection connection = dataSource.getConnection()){
+        	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
+    		return reservationDao.getAllReservations();
+        } catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
+	
+	public List<Reservation> getReservationsByUser(int userId){
+        try (Connection connection = dataSource.getConnection()){
+        	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
+    		return reservationDao.getReservationsByUser(userId);
         } catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();

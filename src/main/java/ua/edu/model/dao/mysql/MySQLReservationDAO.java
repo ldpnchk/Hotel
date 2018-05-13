@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
@@ -124,6 +126,46 @@ public class MySQLReservationDAO implements ReservationDao{
 		}
 		return reservation;
 	}
+	
+	@Override
+	public List<Reservation> getAllReservations() {
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		
+		try (PreparedStatement query = connection.prepareStatement
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_GET_ALL))){
+			
+			ResultSet resultSet = query.executeQuery();
+			while (resultSet.next()) {
+				reservations.add(extractReservationFromResultSet(resultSet));
+			}
+		} catch (SQLException e){
+			logger.error("MySQLRoomTypeDAO getAllReservations error", e);
+			throw new DatabaseException();
+		}
+		
+		return reservations;
+	}
+
+	@Override
+	public List<Reservation> getReservationsByUser(int userId) {
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		
+		try (PreparedStatement query = connection.prepareStatement
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_GET_BY_USER))){
+			query.setInt(1, userId);
+			
+			ResultSet resultSet = query.executeQuery();
+			while (resultSet.next()) {
+				reservations.add(extractReservationFromResultSet(resultSet));
+			}
+		} catch (SQLException e){
+			logger.error("MySQLRoomTypeDAO getReservationsByUser error: " + userId, e);
+			throw new DatabaseException();
+		}
+		
+		return reservations;
+	}
+
 	
 	private Reservation extractReservationWithUserAndRoomTypeAndRoomAndPaymentFromResultSet(ResultSet resultSet) throws SQLException{
 		Reservation reservation = extractReservationFromResultSet(resultSet);

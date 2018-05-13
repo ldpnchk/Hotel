@@ -22,7 +22,7 @@ public class UpdateUserCommand implements Command{
         user.setLastName(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_LASTNAME)));
         user.setPatronymic(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_PATRONYMIC)));
         UserService.getInstance().updateUser(user);
-        return ConfigManager.getInstance().getString(ConfigManager.PAGE_PROFILE);
+        return ConfigManager.getInstance().getString(ConfigManager.URL_PROFILE);
     }
     
 }
