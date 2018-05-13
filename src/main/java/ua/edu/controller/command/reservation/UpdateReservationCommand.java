@@ -6,6 +6,7 @@ import ua.edu.model.entity.Reservation;
 import ua.edu.model.entity.ReservationStatus;
 import ua.edu.model.entity.User;
 import ua.edu.model.entity.UserRole;
+import ua.edu.model.exception.GeneralInvalidInputException;
 import ua.edu.model.service.ReservationService;
 import ua.edu.model.util.ConfigManager;
 
@@ -38,7 +39,12 @@ public class UpdateReservationCommand implements Command{
             		(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS)));
             reservation.get().setReservationStatus(reservationStatus);
         }
-        ReservationService.getInstance().updateReservation(reservation.get());
+        
+        try {
+        	ReservationService.getInstance().updateReservation(reservation.get());
+    	} catch (GeneralInvalidInputException e) {
+    		request.setAttribute("errors", e.getErrors());
+    	}
         
         return ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION_DETAILS) + 
         		"?reservationId=" + reservationId;

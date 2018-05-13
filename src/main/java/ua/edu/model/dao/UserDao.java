@@ -7,5 +7,6 @@ import ua.edu.model.entity.User;
 public interface UserDao extends GenericDao<User>{
 	
 	Optional<User> getUserByUsername(String username);
+	Optional<User> getUserByEmail(String email);
 
 }

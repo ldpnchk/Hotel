@@ -13,6 +13,8 @@ import ua.edu.controller.command.reservation.ReservationPageCommand;
 import ua.edu.controller.command.reservation.UpdateReservationCommand;
 import ua.edu.controller.command.user.RegistrationCommand;
 import ua.edu.controller.command.user.RegistrationPageCommand;
+import ua.edu.controller.command.user.UpdateUserCommand;
+import ua.edu.controller.command.user.UserProfilePageCommand;
 
 public class CommandManager {
 	
@@ -34,6 +36,8 @@ public class CommandManager {
         commands.put("reservationDetails", new ReservationDetailsPageCommand());
         commands.put("updateReservation", new UpdateReservationCommand());
         commands.put("deleteReservation", new DeleteReservationCommand());
+        commands.put("updateProfile", new UserProfilePageCommand());
+        commands.put("updateUser", new UpdateUserCommand());
     }
 
     public static CommandManager getInstance() {

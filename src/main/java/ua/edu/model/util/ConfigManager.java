@@ -39,6 +39,7 @@ public class ConfigManager {
     public static final String MYSQL_USER_UPDATE = "mysql.user.update";
     public static final String MYSQL_USER_DELETE = "mysql.user.delete";
     public static final String MYSQL_USER_GET_BY_USERNAME = "mysql.user.get_by_username";
+    public static final String MYSQL_USER_GET_BY_EMAIL = "mysql.user.get_by_email";
   
     public static final String PAYMENT_PAYMENT_ID = "payment.payment_id";
     public static final String PAYMENT_TOTAL = "payment.total";
@@ -84,6 +85,7 @@ public class ConfigManager {
     public static final String PAGE_404 = "page.404";
     public static final String PAGE_RESERVATION_DETAILS = "page.reservation.details";
     public static final String PAGE_RESERVATION = "page.reservation";
+    public static final String PAGE_PROFILE = "page.profile";
     
     public static final String URL_MAIN = "url.main";
     public static final String URL_LOGIN = "url.login";
@@ -98,6 +100,7 @@ public class ConfigManager {
     public static final String PARAMETER_LASTNAME = "parameter.lastname";
     public static final String PARAMETER_PATRONYMIC = "parameter.patronymic";
     public static final String PARAMETER_COMMENT = "parameter.comment";
+    public static final String PARAMETER_RESERVATION_DATE = "parameter.reservation.date";
     public static final String PARAMETER_START_DATE = "parameter.start.date";
     public static final String PARAMETER_END_DATE = "parameter.end.date";
     public static final String PARAMETER_ROOM_TYPE_ID = "parameter.room.type.id";

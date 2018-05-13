@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import ua.edu.controller.util.validator.ReservationValidator;
 import ua.edu.model.dao.ReservationDao;
 import ua.edu.model.entity.Reservation;
+import ua.edu.model.exception.GeneralInvalidInputException;
 
 public class ReservationService extends Service{
 	
@@ -26,7 +28,8 @@ public class ReservationService extends Service{
         return instance;
     }
 	
-	public void createReservation(Reservation reservation){
+	public void createReservation(Reservation reservation) throws GeneralInvalidInputException{
+		ReservationValidator.getInstance().validateReservation(reservation);
         try (Connection connection = dataSource.getConnection()){
         	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		reservationDao.create(reservation);
@@ -35,7 +38,8 @@ public class ReservationService extends Service{
 		}
 	}
 	
-	public void updateReservation(Reservation reservation){
+	public void updateReservation(Reservation reservation) throws GeneralInvalidInputException{
+		ReservationValidator.getInstance().validateReservation(reservation);
         try (Connection connection = dataSource.getConnection()){
         	ReservationDao reservationDao = daoFactory.createReservationDao(connection);
     		reservationDao.update(reservation);

@@ -105,6 +105,23 @@ public class MySQLUserDAO implements UserDao{
 		return user;
 	}
 	
+	@Override
+	public Optional<User> getUserByEmail(String email) {
+		Optional<User> user = Optional.empty();
+		try (PreparedStatement query = connection.prepareStatement
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_USER_GET_BY_EMAIL))) {
+			query.setString(1, email);
+			ResultSet resultSet = query.executeQuery();
+			if (resultSet.next()) {
+				user = Optional.of(extractUserFromResultSet(resultSet));
+			}
+		} catch (SQLException e){
+			logger.error("MySQLUserDAO getUserByUsername error: " + email, e);
+			throw new DatabaseException();
+		}
+		return user;
+	}
+	
 	static User extractUserFromResultSet(ResultSet resultSet) throws SQLException {
 		return new User.UserBuilder()
 				.setId(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.USERS_USERS_ID)))

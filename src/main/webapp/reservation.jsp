@@ -94,6 +94,30 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(function() {
+        if('${language}' == 'uk_UA'){
+            moment.locale('uk');
+        }else{
+            moment.locale('en');
+        }
+        $('input[name="datefilter"]').daterangepicker({
+            minDate: today,
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: "<fmt:message key='cancel'/>",
+                applyLabel: "<fmt:message key='apply'/>",
+            }
+        });
+        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
+        });
+        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val();
+        });
+    });
+</script>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scripts/reservation.js"></script>
 
 <%@include file="footer.jsp"%>

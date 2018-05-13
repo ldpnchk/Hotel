@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 		<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment-with-locales.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/daterangepicker.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/daterangepicker.css" />
 		<!-- root path -->
@@ -64,6 +64,7 @@
 							<li><a href="${pageContext.request.contextPath}/hotel/login"><fmt:message key="login"/></a></li>
 						</c:when>
 						<c:otherwise>
+							<li><a href="${pageContext.request.contextPath}/hotel/updateProfile"><fmt:message key="profile"/></a></li>
 							<li><a href="${pageContext.request.contextPath}/hotel/logout"><fmt:message key="logout"/></a></li>
 						</c:otherwise>
 					</c:choose>
