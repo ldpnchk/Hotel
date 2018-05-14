@@ -23,6 +23,9 @@
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/moment-with-locales.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/daterangepicker.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/daterangepicker.css" />
+		<script src="<c:url value="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"/>"></script>
+		<script src="<c:url value="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap.min.js"/>"></script>
+		<link rel="stylesheet" href="<c:url value="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css"/>">
 		<!-- root path -->
 		<script type="text/javascript"> var domainURL = window.location.protocol + "//"  + window.location.host + /* "" + window.location.pathname; */ "/"; </script>
 		<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/favicon.png">
@@ -41,7 +44,8 @@
 						<li><a href="${pageContext.request.contextPath}/hotel/reservation"><fmt:message key="make.reservation"/></a></li>
 					</c:if>
 					<c:if test="${user.getUserRole() eq 'CLIENT'}">
-						<li><a href="${pageContext.request.contextPath}/hotel/client"><fmt:message key="client.page"/></a></li>
+						<!-- <li><a href="${pageContext.request.contextPath}/hotel/client"><fmt:message key="client.page"/></a></li> -->
+						<li><a href="${pageContext.request.contextPath}/hotel/clientReservations"><fmt:message key="client.page"/></a></li>
 						<li><a href="${pageContext.request.contextPath}/hotel/reservation"><fmt:message key="make.reservation"/></a></li>
 					</c:if>
 					<c:if test="${user.getUserRole() eq 'ADMINISTRATOR'}">

@@ -2,12 +2,10 @@ package ua.edu.controller.command.reservation;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
-import ua.edu.model.entity.Reservation;
-import ua.edu.model.entity.ReservationStatus;
-import ua.edu.model.entity.User;
-import ua.edu.model.entity.UserRole;
+import ua.edu.model.entity.*;
 import ua.edu.model.exception.GeneralInvalidInputException;
 import ua.edu.model.service.ReservationService;
+import ua.edu.model.service.RoomService;
 import ua.edu.model.util.ConfigManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +35,11 @@ public class UpdateReservationCommand implements Command{
             
             ReservationStatus reservationStatus = ReservationStatus.getReservationStatus
             		(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS)));
+            if(reservationStatus.equals(ReservationStatus.APPROVED)){
+                int roomId = Integer.parseInt
+                        (request.getParameter(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_ROOM)));
+                reservation.get().setRoom(new Room.RoomBuilder().setId(roomId).build());
+            }
             reservation.get().setReservationStatus(reservationStatus);
         }
         

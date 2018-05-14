@@ -9,13 +9,16 @@ import ua.edu.model.service.ReservationService;
 import ua.edu.model.util.ConfigManager;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AdminCommand implements Command{
 	
 	@Override
 	@RolesAllowed(roles = {UserRole.ADMINISTRATOR})
 	public String execute(HttpServletRequest request) {
-		//List<Reservation> reservations = ReservationService.getInstance().GET ALL!!!
+		List<Reservation> reservations = ReservationService.getInstance().getReservationsWithRoomAndRoomTypeByDatesAndRoomAndStatus
+				(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+		request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATIONS), reservations);
 		return ConfigManager.getInstance().getString(ConfigManager.PAGE_ADMIN);
 	}
 

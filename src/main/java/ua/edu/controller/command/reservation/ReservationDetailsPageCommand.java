@@ -2,11 +2,9 @@ package ua.edu.controller.command.reservation;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
-import ua.edu.model.entity.Reservation;
-import ua.edu.model.entity.ReservationStatus;
-import ua.edu.model.entity.User;
-import ua.edu.model.entity.UserRole;
+import ua.edu.model.entity.*;
 import ua.edu.model.service.ReservationService;
+import ua.edu.model.service.RoomService;
 import ua.edu.model.util.ConfigManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +30,8 @@ public class ReservationDetailsPageCommand implements Command {
                 reservation.get().getClient().getId() == user.getId()){
             request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_STATUSES), ReservationStatus.values());
             request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATION), reservation.get());
+            request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_PAYMENT_TYPES), PaymentMethod.values());
+            request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_ROOMS), RoomService.getInstance().getFreeRoomsByDatesAndRoomType(reservation.get().getStartDate(), reservation.get().getEndDate(), reservation.get().getRoomType().getId()));
             return ConfigManager.getInstance().getString(ConfigManager.PAGE_RESERVATION_DETAILS);
         } else {
             return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);

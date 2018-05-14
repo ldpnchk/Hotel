@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,18 +22,18 @@ import ua.edu.model.exception.DatabaseException;
 import ua.edu.model.util.ConfigManager;
 
 public class MySQLReservationDAO implements ReservationDao{
-	
+
 	final static Logger logger = Logger.getLogger(MySQLReservationDAO.class);
-	
+
 	private Connection connection;
-	
+
 	public MySQLReservationDAO(Connection connection){
 		this.connection = connection;
 	}
 
 	public void create(Reservation reservation){
 		try (PreparedStatement createStatement = connection.prepareStatement
-				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_INSERT), 
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_INSERT),
 						Statement.RETURN_GENERATED_KEYS)){
 			createStatement.setTimestamp(1, Timestamp.valueOf(reservation.getReservationDate()));
 			createStatement.setDate(2, Date.valueOf(reservation.getStartDate()));
@@ -56,7 +57,7 @@ public class MySQLReservationDAO implements ReservationDao{
 				createStatement.setNull(9, Types.INTEGER);
 			}
 			createStatement.executeUpdate();
-			
+
 			ResultSet rs = createStatement.getGeneratedKeys();
 			if (rs.next()) {
 				reservation.setId(rs.getInt(1));
@@ -111,6 +112,37 @@ public class MySQLReservationDAO implements ReservationDao{
 	}
 
 	@Override
+	public List<Reservation> getReservationsWithRoomAndRoomTypeByDatesAndRoomAndStatus
+			(Optional<LocalDate> startDate, Optional<LocalDate> endDate, 
+					Optional<Integer> roomId, Optional<ReservationStatus> reservationStatus) {
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		
+		StringBuilder stringQuery = new StringBuilder(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_WITH_ROOM_TYPE_AND_ROOM));
+		stringQuery.deleteCharAt(stringQuery.length() - 1);
+		stringQuery.append(startDate.isPresent() && endDate.isPresent() 		
+				? " WHERE ((reservation.start_date >= " + Date.valueOf(startDate.get()) + " AND reservation.start_date < " + Date.valueOf(endDate.get()) + ") "
+				+ " OR (reservation.end_date > " + Date.valueOf(startDate.get()) + " AND reservation.end_date <= " + Date.valueOf(endDate.get()) + ")) " 		
+						: " WHERE ((reservation.start_date >= reservation.start_date AND reservation.start_date < reservation.end_date) OR (reservation.end_date > reservation.start_date AND reservation.end_date <= reservation.end_date))");
+		stringQuery.append(roomId.isPresent() ? " AND (reservation.room_id = " + roomId.get() + " OR reservation.room_id IS NULL) " : " AND (reservation.room_id = reservation.room_id OR reservation.room_id IS NULL) ");
+		stringQuery.append(reservationStatus.isPresent() ? " AND (reservation.status = " + reservationStatus.get().name().toLowerCase() + ") " : " AND (reservation.status = reservation.status) ");
+
+		try (PreparedStatement query = connection.prepareStatement(stringQuery.toString())){
+			
+			System.out.println(query.toString());
+			
+			ResultSet resultSet = query.executeQuery();
+			while (resultSet.next()) {
+				reservations.add(extractReservationAndRoomTypeAndRoomFromResultSet(resultSet));
+			}
+		} catch (SQLException e){
+			logger.error("MySQLRoomTypeDAO getReservationsWithRoomAndRoomTypeByDatesAndRoomAndStatus error", e);
+			throw new DatabaseException();
+		}
+		System.out.println(reservations.size());
+		return reservations;
+	}
+
+	@Override
 	public Optional<Reservation> getReservationByIdWithUserAndRoomTypeAndRoomAndPayment(int id) {
 		Optional<Reservation> reservation = Optional.empty();
 		try (PreparedStatement query = connection.prepareStatement
@@ -126,34 +158,15 @@ public class MySQLReservationDAO implements ReservationDao{
 		}
 		return reservation;
 	}
-	
-	@Override
-	public List<Reservation> getAllReservations() {
-		List<Reservation> reservations = new ArrayList<Reservation>();
-		
-		try (PreparedStatement query = connection.prepareStatement
-				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_GET_ALL))){
-			
-			ResultSet resultSet = query.executeQuery();
-			while (resultSet.next()) {
-				reservations.add(extractReservationFromResultSet(resultSet));
-			}
-		} catch (SQLException e){
-			logger.error("MySQLRoomTypeDAO getAllReservations error", e);
-			throw new DatabaseException();
-		}
-		
-		return reservations;
-	}
 
 	@Override
 	public List<Reservation> getReservationsByUser(int userId) {
 		List<Reservation> reservations = new ArrayList<Reservation>();
-		
+
 		try (PreparedStatement query = connection.prepareStatement
 				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_GET_BY_USER))){
 			query.setInt(1, userId);
-			
+
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
 				reservations.add(extractReservationFromResultSet(resultSet));
@@ -162,26 +175,38 @@ public class MySQLReservationDAO implements ReservationDao{
 			logger.error("MySQLRoomTypeDAO getReservationsByUser error: " + userId, e);
 			throw new DatabaseException();
 		}
-		
+
 		return reservations;
 	}
-
 	
-	private Reservation extractReservationWithUserAndRoomTypeAndRoomAndPaymentFromResultSet(ResultSet resultSet) throws SQLException{
+	private Reservation extractReservationAndRoomTypeAndRoomFromResultSet(ResultSet resultSet) throws SQLException{
 		Reservation reservation = extractReservationFromResultSet(resultSet);
-		reservation.setClient(MySQLUserDAO.extractUserFromResultSet(resultSet));
 		reservation.setRoomType(MySQLRoomTypeDAO.extractRoomTypeFromResultSet(resultSet));
-		
-		resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.PAYMENT_PAYMENT_ID));
-		if (!resultSet.wasNull()){
-			reservation.setPayment(MySQLPaymentDAO.extractPaymentFromResultSet(resultSet));
-		}
-		
+
 		resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.ROOM_ROOM_ID));
 		if (!resultSet.wasNull()){
 			reservation.setRoom(MySQLRoomDAO.extractRoomFromResultSet(resultSet));
 		}
-		
+
+		return reservation;
+	}
+
+
+	private Reservation extractReservationWithUserAndRoomTypeAndRoomAndPaymentFromResultSet(ResultSet resultSet) throws SQLException{
+		Reservation reservation = extractReservationFromResultSet(resultSet);
+		reservation.setClient(MySQLUserDAO.extractUserFromResultSet(resultSet));
+		reservation.setRoomType(MySQLRoomTypeDAO.extractRoomTypeFromResultSet(resultSet));
+
+		resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.PAYMENT_PAYMENT_ID));
+		if (!resultSet.wasNull()){
+			reservation.setPayment(MySQLPaymentDAO.extractPaymentFromResultSet(resultSet));
+		}
+
+		resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.ROOM_ROOM_ID));
+		if (!resultSet.wasNull()){
+			reservation.setRoom(MySQLRoomDAO.extractRoomFromResultSet(resultSet));
+		}
+
 		return reservation;
 	}
 

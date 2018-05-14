@@ -19,18 +19,18 @@ import ua.edu.model.exception.DatabaseException;
 import ua.edu.model.util.ConfigManager;
 
 public class MySQLRoomTypeDAO implements RoomTypeDao{
-	
+
 	final static Logger logger = Logger.getLogger(MySQLRoomTypeDAO.class);
-	
+
 	private Connection connection;
-	
+
 	public MySQLRoomTypeDAO(Connection connection){
 		this.connection = connection;
 	}
 
 	public void create(RoomType roomType){
 		try (PreparedStatement createStatement = connection.prepareStatement
-				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_ROOM_TYPE_INSERT), 
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_ROOM_TYPE_INSERT),
 						Statement.RETURN_GENERATED_KEYS)){
 			createStatement.setString(1, roomType.getName());
 			createStatement.setInt(2, roomType.getCapacity());
@@ -41,7 +41,7 @@ public class MySQLRoomTypeDAO implements RoomTypeDao{
 				createStatement.setNull(4, Types.VARCHAR);
 			}
 			createStatement.executeUpdate();
-			
+
 			ResultSet rs = createStatement.getGeneratedKeys();
 			if (rs.next()) {
 				roomType.setId(rs.getInt(1));
@@ -89,8 +89,14 @@ public class MySQLRoomTypeDAO implements RoomTypeDao{
 				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_ROOM_TYPE_GET_FREE_ROOM_TYPES_BY_DATES_AND_CAPACITY))){
 			query.setInt(1, capacity);
 			query.setDate(2, Date.valueOf(startDate));
-			query.setDate(3, Date.valueOf(endDate));
-			
+			query.setDate(3, Date.valueOf(startDate));
+			query.setDate(4, Date.valueOf(endDate));
+			query.setDate(5, Date.valueOf(endDate));
+			query.setDate(6, Date.valueOf(startDate));
+			query.setDate(7, Date.valueOf(endDate));
+			query.setDate(8, Date.valueOf(startDate));
+			query.setDate(9, Date.valueOf(endDate));
+
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
 				roomTypes.add(extractRoomTypeFromResultSet(resultSet));
@@ -99,9 +105,9 @@ public class MySQLRoomTypeDAO implements RoomTypeDao{
 			logger.error("MySQLRoomTypeDAO getFreeRoomTypesByDatesAndCapacity error: " + startDate + " " + endDate + " " + capacity, e);
 			throw new DatabaseException();
 		}
-		return roomTypes;	
+		return roomTypes;
 	}
-	
+
 	static RoomType extractRoomTypeFromResultSet(ResultSet resultSet) throws SQLException {
 		return new RoomType.RoomTypeBuilder()
 				.setId(resultSet.getInt(ConfigManager.getInstance().getString(ConfigManager.ROOM_TYPE_ROOM_TYPE_ID)))

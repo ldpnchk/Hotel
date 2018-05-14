@@ -6,11 +6,7 @@ import java.util.Map;
 import ua.edu.controller.command.authorization.LoginPageCommand;
 import ua.edu.controller.command.authorization.LoginCommand;
 import ua.edu.controller.command.authorization.LogoutCommand;
-import ua.edu.controller.command.reservation.CreateReservationCommand;
-import ua.edu.controller.command.reservation.DeleteReservationCommand;
-import ua.edu.controller.command.reservation.ReservationDetailsPageCommand;
-import ua.edu.controller.command.reservation.ReservationPageCommand;
-import ua.edu.controller.command.reservation.UpdateReservationCommand;
+import ua.edu.controller.command.reservation.*;
 import ua.edu.controller.command.user.RegistrationCommand;
 import ua.edu.controller.command.user.RegistrationPageCommand;
 import ua.edu.controller.command.user.UpdateUserCommand;
@@ -38,6 +34,9 @@ public class CommandManager {
         commands.put("deleteReservation", new DeleteReservationCommand());
         commands.put("updateProfile", new UserProfilePageCommand());
         commands.put("updateUser", new UpdateUserCommand());
+        commands.put("clientReservations", new ClientReservationsPageCommand());
+        commands.put("addReservationPayment", new AddReservationPaymentCommand());
+        commands.put("deleteReservationPayment", new DeleteReservationPaymentCommand());
     }
 
     public static CommandManager getInstance() {
