@@ -5,7 +5,6 @@ import ua.edu.controller.filter.RolesAllowed;
 import ua.edu.model.entity.*;
 import ua.edu.model.exception.GeneralInvalidInputException;
 import ua.edu.model.service.ReservationService;
-import ua.edu.model.service.RoomService;
 import ua.edu.model.util.ConfigManager;
 
 import javax.servlet.http.HttpServletRequest;

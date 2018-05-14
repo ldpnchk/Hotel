@@ -33,6 +33,7 @@ public class ConfigManager {
     public static final String MYSQL_ROOM_INSERT = "mysql.room.insert";
     public static final String MYSQL_ROOM_UPDATE = "mysql.room.update";
     public static final String MYSQL_ROOM_DELETE = "mysql.room.delete";
+    public static final String MYSQL_ROOM_GET_ALL_ROOMS = "mysql.room.get.all.rooms";
     public static final String MYSQL_ROOM_GET_FREE_ROOMS_BY_DATES_AND_ROOM_TYPE = "mysql.room.get_free_rooms_by_dates_and_room_type";
     public static final String MYSQL_ROOM_TYPE_GET_FREE_ROOM_TYPES_BY_DATES_AND_CAPACITY = "mysql.room_type.get_free_room_types_by_dates_and_capacity";
     public static final String MYSQL_ROOM_TYPE_INSERT = "mysql.room_type.insert";

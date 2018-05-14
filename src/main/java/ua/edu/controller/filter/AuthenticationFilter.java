@@ -30,7 +30,7 @@ public class AuthenticationFilter implements Filter {
 		//HttpServletResponse httpResponse = (HttpServletResponse) response;
 
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
-
+		System.out.println(httpRequest.getRequestURI());
 		User user = (User) session.getAttribute("user");
         if (AccessManager.getInstance().checkAccess(httpRequest.getRequestURI().replaceAll(".*/hotel/" , ""), 
         		user == null ? UserRole.GUEST : user.getUserRole())) {

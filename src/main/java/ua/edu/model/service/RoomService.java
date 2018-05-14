@@ -65,5 +65,16 @@ public class RoomService extends Service{
 		}
 		return rooms;
 	}
+	
+	public List<Room> getAllRooms(){
+		List<Room> rooms = new ArrayList<Room>();
+		try (Connection connection = dataSource.getConnection()){
+			RoomDao roomDao = daoFactory.createRoomDao(connection);
+			rooms = roomDao.getAllRooms();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rooms;
+	}
 
 }

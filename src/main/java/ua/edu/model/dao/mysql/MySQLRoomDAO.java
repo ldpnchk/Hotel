@@ -94,6 +94,23 @@ public class MySQLRoomDAO implements RoomDao{
 		}
 		return rooms;
 	}
+	
+	@Override
+	public List<Room> getAllRooms() {
+		List<Room> rooms = new ArrayList<Room>();
+		try (PreparedStatement query = connection.prepareStatement
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_ROOM_GET_ALL_ROOMS))){
+
+			ResultSet resultSet = query.executeQuery();
+			while (resultSet.next()) {
+				rooms.add(extractRoomFromResultSet(resultSet));
+			}
+		} catch (SQLException e){
+			logger.error("MySQLRoomDAO getAllRooms error", e);
+			throw new DatabaseException();
+		}
+		return rooms;
+	}
 
 	static Room extractRoomFromResultSet(ResultSet resultSet) throws SQLException {
 		return new Room.RoomBuilder()
