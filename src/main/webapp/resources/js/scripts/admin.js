@@ -8,3 +8,16 @@ var default_options = {
     "order": [[0, "desc"]]
 };
 $('#reservationsTable').DataTable(default_options);
+
+var dates, room, status;
+
+$( document ).ready(function() {
+    var url = window.location.href;
+    var captured1 = /datefilter=([^&]+)/.exec(url)[1];
+    dates = captured1 ? captured1 : null;
+    if(dates != null){
+        $("#datefilter").val(dates);
+    }
+});
+
+var today = new Date();

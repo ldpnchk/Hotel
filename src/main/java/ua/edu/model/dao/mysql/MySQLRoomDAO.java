@@ -99,7 +99,7 @@ public class MySQLRoomDAO implements RoomDao{
 	public List<Room> getAllRooms() {
 		List<Room> rooms = new ArrayList<Room>();
 		try (PreparedStatement query = connection.prepareStatement
-				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_ROOM_GET_ALL_ROOMS))){
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_ROOM_GET_ALL))){
 
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {

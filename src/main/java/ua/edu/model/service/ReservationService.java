@@ -6,11 +6,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import ua.edu.controller.util.validator.ReservationValidator;
 import ua.edu.model.dao.ReservationDao;
 import ua.edu.model.entity.Reservation;
 import ua.edu.model.entity.ReservationStatus;
 import ua.edu.model.exception.GeneralInvalidInputException;
+import ua.edu.model.util.validator.ReservationValidator;
 
 public class ReservationService extends Service{
 
@@ -32,20 +32,34 @@ public class ReservationService extends Service{
 	}
 
 	public void createReservation(Reservation reservation) throws GeneralInvalidInputException{
-		ReservationValidator.getInstance().validateReservation(reservation);
 		try (Connection connection = dataSource.getConnection()){
+			connection.setAutoCommit(false);
+			
+			ReservationValidator reservationValidator = new ReservationValidator(connection);
+			reservationValidator.validateReservation(reservation);
+	
 			ReservationDao reservationDao = daoFactory.createReservationDao(connection);
 			reservationDao.create(reservation);
+			
+			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void updateReservation(Reservation reservation) throws GeneralInvalidInputException{
-		ReservationValidator.getInstance().validateReservation(reservation);
 		try (Connection connection = dataSource.getConnection()){
+			System.out.println("1");
+			connection.setAutoCommit(false);
+			System.out.println("2");
+			ReservationValidator reservationValidator = new ReservationValidator(connection);
+			reservationValidator.validateReservation(reservation);
+			System.out.println("3");
 			ReservationDao reservationDao = daoFactory.createReservationDao(connection);
 			reservationDao.update(reservation);
+			System.out.println("4");
+			connection.commit();
+			System.out.println("5");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

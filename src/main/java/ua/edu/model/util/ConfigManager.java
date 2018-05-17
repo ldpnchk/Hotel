@@ -27,23 +27,24 @@ public class ConfigManager {
     public static final String MYSQL_RESERVATION_INSERT = "mysql.reservation.insert";
     public static final String MYSQL_RESERVATION_UPDATE = "mysql.reservation.update";
     public static final String MYSQL_RESERVATION_DELETE = "mysql.reservation.delete";
-    public static final String MYSQL_RESERVATION_GET_BY_ID_WITH_USER_AND_ROOM_TYPE_AND_ROOM_AND_PAYMENT = "mysql.reservation.get_by_id_with_user_and_room_type_and_room_and_payment";
-    public static final String MYSQL_RESERVATION_WITH_ROOM_TYPE_AND_ROOM = "mysql.reservation.get.with.room.type.and.room";
     public static final String MYSQL_RESERVATION_GET_BY_USER = "mysql.reservation.get.by.user";
+    public static final String MYSQL_RESERVATION_GET_BY_DATES_AND_ROOM_AND_STATUS_WITH_ROOM_TYPE_AND_ROOM = "mysql.reservation.get.by.dates.and.room.and.status.with.room.type.and.room";
+    public static final String MYSQL_RESERVATION_GET_BY_ID_WITH_USER_AND_ROOM_TYPE_AND_ROOM_AND_PAYMENT = "mysql.reservation.get.by.id.with.user.and.room.type.and.room.and.payment";
+    public static final String MYSQL_RESERVATION_GET_BY_ID = "mysql.reservation.get.by.id";
     public static final String MYSQL_ROOM_INSERT = "mysql.room.insert";
     public static final String MYSQL_ROOM_UPDATE = "mysql.room.update";
     public static final String MYSQL_ROOM_DELETE = "mysql.room.delete";
-    public static final String MYSQL_ROOM_GET_ALL_ROOMS = "mysql.room.get.all.rooms";
-    public static final String MYSQL_ROOM_GET_FREE_ROOMS_BY_DATES_AND_ROOM_TYPE = "mysql.room.get_free_rooms_by_dates_and_room_type";
-    public static final String MYSQL_ROOM_TYPE_GET_FREE_ROOM_TYPES_BY_DATES_AND_CAPACITY = "mysql.room_type.get_free_room_types_by_dates_and_capacity";
-    public static final String MYSQL_ROOM_TYPE_INSERT = "mysql.room_type.insert";
-    public static final String MYSQL_ROOM_TYPE_UPDATE = "mysql.room_type.update";
-    public static final String MYSQL_ROOM_TYPE_DELETE = "mysql.room_type.delete";
+    public static final String MYSQL_ROOM_GET_ALL = "mysql.room.get.all";
+    public static final String MYSQL_ROOM_GET_FREE_ROOMS_BY_DATES_AND_ROOM_TYPE = "mysql.room.get.free.rooms.by.dates.and.room.type";
+    public static final String MYSQL_ROOM_TYPE_GET_FREE_ROOM_TYPES_BY_DATES_AND_CAPACITY = "mysql.room.type.get.free.room.types.by.dates.and.capacity";
+    public static final String MYSQL_ROOM_TYPE_INSERT = "mysql.room.type.insert";
+    public static final String MYSQL_ROOM_TYPE_UPDATE = "mysql.room.type.update";
+    public static final String MYSQL_ROOM_TYPE_DELETE = "mysql.room.type.delete";
     public static final String MYSQL_USER_INSERT = "mysql.user.insert";
     public static final String MYSQL_USER_UPDATE = "mysql.user.update";
     public static final String MYSQL_USER_DELETE = "mysql.user.delete";
-    public static final String MYSQL_USER_GET_BY_USERNAME = "mysql.user.get_by_username";
-    public static final String MYSQL_USER_GET_BY_EMAIL = "mysql.user.get_by_email";
+    public static final String MYSQL_USER_GET_BY_USERNAME = "mysql.user.get.by.username";
+    public static final String MYSQL_USER_GET_BY_EMAIL = "mysql.user.get.by.email";
 
     public static final String PAYMENT_PAYMENT_ID = "payment.payment_id";
     public static final String PAYMENT_TOTAL = "payment.total";
@@ -117,6 +118,7 @@ public class ConfigManager {
     public static final String PARAMETER_STATUS = "parameter.status";
     public static final String PARAMETER_AMOUNT = "parameter.amount";
     public static final String PARAMETER_PAYMENT_METHOD = "parameter.payment.method";
+    public static final String PARAMETER_ROOM_ID = "parameter.room.id";
 
     public static final String ATTRIBUTE_USER = "attribute.user";
     public static final String ATTRIBUTE_LOGGED_USERS = "attribute.logged.users";
@@ -128,6 +130,27 @@ public class ConfigManager {
     public static final String ATTRIBUTE_PAYMENT_TYPES = "attribute.payment.types";
     public static final String ATTRIBUTE_ROOMS = "attribute.rooms";
     public static final String ATTRIBUTE_ROOM = "attribute.room";
+    
+    public static final String REGEX_EMAIL = "regex.email";
+    
+    public static final String INVALID_INPUT_USERNAME_EMPTY = "invalid.input.username.empty";
+    public static final String INVALID_INPUT_USERNAME_SHORT = "invalid.input.username.short";
+    public static final String INVALID_INPUT_USERNAME_LONG = "invalid.input.username.long";
+    public static final String INVALID_INPUT_USERNAME_TAKEN = "invalid.input.username.taken";
+    public static final String INVALID_INPUT_PASSWORD_EMPTY = "invalid.input.password.empty";
+    public static final String INVALID_INPUT_PASSWORD_SHORT = "invalid.input.password.short";
+    public static final String INVALID_INPUT_PASSWORD_LONG = "invalid.input.password.long";
+    public static final String INVALID_INPUT_EMAIL_EMPTY = "invalid.input.email.empty";
+    public static final String INVALID_INPUT_EMAIL_FORMAT = "invalid.input.email.format";
+    public static final String INVALID_INPUT_EMAIL_TAKEN = "invalid.input.email.taken";
+    public static final String INVALID_INPUT_PHONE_NUMBER_EMPTY = "invalid.input.phone.number.empty";
+    public static final String INVALID_INPUT_FIRST_NAME_EMPTY = "invalid.input.first.name.empty";
+    public static final String INVALID_INPUT_LAST_NAME_EMPTY = "invalid.input.last.name.empty";
+    public static final String INVALID_INPUT_RESERVATION_RESERVATION_DATE = "invalid.input.reservation.reservation.date";
+    public static final String INVALID_INPUT_RESERVATION_START_DATE = "invalid.input.reservation.start.date";
+    public static final String INVALID_INPUT_RESERVATION_NEW_ROOM = "invalid.input.reservation.new.room";
+    public static final String INVALID_INPUT_RESERVATION_DENIED_ROOM = "invalid.input.reservation.denied.room";
+    public static final String INVALID_INPUT_RESERVATION_APPROVED_ROOM = "invalid.input.reservation.approved.room";
 
     private ConfigManager() {
         resourceBundle = ResourceBundle.getBundle(RESOURCE_NAME);

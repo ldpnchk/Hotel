@@ -117,18 +117,9 @@ public class MySQLReservationDAO implements ReservationDao{
 					Optional<Integer> roomId, Optional<ReservationStatus> reservationStatus) {
 		List<Reservation> reservations = new ArrayList<Reservation>();
 		
-		StringBuilder stringQuery = new StringBuilder(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_WITH_ROOM_TYPE_AND_ROOM));
-		stringQuery.deleteCharAt(stringQuery.length() - 1);
-		stringQuery.append(startDate.isPresent() && endDate.isPresent() 		
-				? " WHERE ((reservation.start_date >= " + Date.valueOf(startDate.get()) + " AND reservation.start_date < " + Date.valueOf(endDate.get()) + ") "
-				+ " OR (reservation.end_date > " + Date.valueOf(startDate.get()) + " AND reservation.end_date <= " + Date.valueOf(endDate.get()) + ")) " 		
-						: " WHERE ((reservation.start_date >= reservation.start_date AND reservation.start_date < reservation.end_date) OR (reservation.end_date > reservation.start_date AND reservation.end_date <= reservation.end_date))");
-		stringQuery.append(roomId.isPresent() ? " AND (reservation.room_id = " + roomId.get() + " OR reservation.room_id IS NULL) " : " AND (reservation.room_id = reservation.room_id OR reservation.room_id IS NULL) ");
-		stringQuery.append(reservationStatus.isPresent() ? " AND (reservation.status = " + reservationStatus.get().name().toLowerCase() + ") " : " AND (reservation.status = reservation.status) ");
-
-		try (PreparedStatement query = connection.prepareStatement(stringQuery.toString())){
-			
-			System.out.println(query.toString());
+		try (PreparedStatement query = connection.prepareStatement
+				(buildQueryForGetReservationsWithRoomAndRoomTypeByDatesAndRoomAndStatus
+						(startDate, endDate, roomId, reservationStatus))){
 			
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
@@ -138,7 +129,6 @@ public class MySQLReservationDAO implements ReservationDao{
 			logger.error("MySQLRoomTypeDAO getReservationsWithRoomAndRoomTypeByDatesAndRoomAndStatus error", e);
 			throw new DatabaseException();
 		}
-		System.out.println(reservations.size());
 		return reservations;
 	}
 
@@ -177,6 +167,23 @@ public class MySQLReservationDAO implements ReservationDao{
 		}
 
 		return reservations;
+	}
+	
+	@Override
+	public Optional<Reservation> getReservationById(int id) {
+		Optional<Reservation> reservation = Optional.empty();
+		try (PreparedStatement query = connection.prepareStatement
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_GET_BY_ID))) {
+			query.setInt(1, id);
+			ResultSet resultSet = query.executeQuery();
+			if (resultSet.next()) {
+				reservation = Optional.of(extractReservationFromResultSet(resultSet));
+			}
+		} catch (SQLException e){
+			logger.error("MySQLReservationDAO getReservationById error: " + id, e);
+			throw new DatabaseException();
+		}
+		return reservation;
 	}
 	
 	private Reservation extractReservationAndRoomTypeAndRoomFromResultSet(ResultSet resultSet) throws SQLException{
@@ -220,6 +227,30 @@ public class MySQLReservationDAO implements ReservationDao{
 				.setClientComment(resultSet.getString(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_CLIENT_COMMENT)))
 				.setAdministratorComment(resultSet.getString(ConfigManager.getInstance().getString(ConfigManager.RESERVATION_ADMINISTRATOR_COMMENT)))
 				.build();
+	}
+	
+	private String buildQueryForGetReservationsWithRoomAndRoomTypeByDatesAndRoomAndStatus
+			(Optional<LocalDate> startDate, Optional<LocalDate> endDate, 
+						Optional<Integer> roomId, Optional<ReservationStatus> reservationStatus) {
+		StringBuilder query = new StringBuilder(ConfigManager.getInstance().getString
+				(ConfigManager.MYSQL_RESERVATION_GET_BY_DATES_AND_ROOM_AND_STATUS_WITH_ROOM_TYPE_AND_ROOM));
+
+		query.replace(query.indexOf("?"), query.indexOf("?") + 1, 
+				startDate.isPresent() && endDate.isPresent() ? "'" + Date.valueOf(startDate.get()).toString() + "'" : "reservation.start_date");
+		query.replace(query.indexOf("?"), query.indexOf("?") + 1, 
+				startDate.isPresent() && endDate.isPresent() ? "'" + Date.valueOf(endDate.get()).toString() + "'" : "reservation.end_date");
+		query.replace(query.indexOf("?"), query.indexOf("?") + 1, 
+				startDate.isPresent() && endDate.isPresent() ? "'" + Date.valueOf(startDate.get()).toString() + "'" : "reservation.start_date");
+		query.replace(query.indexOf("?"), query.indexOf("?") + 1, 
+				startDate.isPresent() && endDate.isPresent() ? "'" + Date.valueOf(endDate.get()).toString() + "'" : "reservation.end_date");
+
+		query.replace(query.indexOf("?"), query.indexOf("?") + 1, 
+				roomId.isPresent() ? roomId.get().toString() : "reservation.room_id OR reservation.room_id IS NULL");
+
+		query.replace(query.indexOf("?"), query.indexOf("?") + 1, reservationStatus.isPresent() ? "'" + reservationStatus.get() + "'" : "reservation.status");
+
+		return query.toString();
+		
 	}
 
 }

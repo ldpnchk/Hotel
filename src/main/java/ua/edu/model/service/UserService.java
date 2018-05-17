@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import ua.edu.controller.util.validator.UserValidator;
 import ua.edu.model.dao.UserDao;
 import ua.edu.model.entity.User;
 import ua.edu.model.exception.GeneralInvalidInputException;
+import ua.edu.model.util.validator.UserValidator;
 
 public class UserService extends Service{
 	
@@ -29,19 +29,32 @@ public class UserService extends Service{
     }
 	
 	public void createUser(User user) throws GeneralInvalidInputException{
-		UserValidator.getInstance().validateUser(user);
         try (Connection connection = dataSource.getConnection()){
+        	connection.setAutoCommit(false);
+        	
+        	UserValidator userValidator = new UserValidator(connection);
+        	userValidator.validateUser(user);
+        	
         	UserDao userDao = daoFactory.createUserDao(connection);
     		userDao.create(user);
+    		
+    		connection.commit();
         } catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void updateUser(User user){
+	public void updateUser(User user) throws GeneralInvalidInputException{
         try (Connection connection = dataSource.getConnection()){
+        	connection.setAutoCommit(false);
+        	
+        	UserValidator userValidator = new UserValidator(connection);
+        	userValidator.validateUser(user);
+        	
         	UserDao userDao = daoFactory.createUserDao(connection);
     		userDao.update(user);
+    		
+    		connection.commit();
         } catch (SQLException e) {
 			e.printStackTrace();
 		}

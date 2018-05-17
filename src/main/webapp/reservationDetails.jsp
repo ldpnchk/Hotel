@@ -101,7 +101,14 @@
 
 
                 <c:if test="${user.getUserRole() eq 'ADMINISTRATOR'}">
-                    <c:if test="${reservation.reservationStatus eq 'APPROVED'}">
+                    <div style="padding: 10px !important;">
+                        <hr/>
+                        <label><fmt:message key="client.information"/>: </label>
+                        <p>${reservation.client.firstName} ${reservation.client.patronymic} ${reservation.client.lastName}</p>
+                        <p>${reservation.client.email}, ${reservation.client.phoneNumber}</p>
+                    </div>
+
+                    <c:if test="${reservation.reservationStatus eq 'APPROVED' || reservation.reservationStatus eq 'PAYED'}">
 
                         <!-- ADD PAYMENT INFO -->
                         <form name='checkForm' action="<c:url value="${pageContext.request.contextPath}/hotel/addReservationPayment" />" method='POST'>
@@ -126,7 +133,7 @@
                         </form>
 
                     </c:if>
-                    <c:if test="${reservation.reservationStatus eq 'PAYED'}">
+                    <c:if test="${reservation.reservationStatus eq 'PAYED' && reservation.payment.total>0}">
 
                         <!-- SHOW PAYMENT INFO AND DELETE BUTTON -->
                         <div class="row" style="padding: 25px !important;">

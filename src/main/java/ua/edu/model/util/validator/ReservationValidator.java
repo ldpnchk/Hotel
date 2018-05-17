@@ -1,11 +1,14 @@
-package ua.edu.controller.util.validator;
+package ua.edu.model.util.validator;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
+import ua.edu.model.dao.AbstractDaoFactory;
 import ua.edu.model.entity.Reservation;
 import ua.edu.model.entity.ReservationStatus;
 import ua.edu.model.exception.GeneralInvalidInputException;
@@ -14,33 +17,38 @@ import ua.edu.model.util.ConfigManager;
 
 public class ReservationValidator {
 	
-	private static volatile ReservationValidator instance;
+	private Connection connection;
 	
-    private ReservationValidator() {
-    	
+    public ReservationValidator(Connection connection) {
+    	this.connection = connection;
     }
     
     private void validateReservationDate(LocalDateTime reservationDate, LocalDate startDate) throws InvalidInputException{
     	if (ChronoUnit.DAYS.between(reservationDate.toLocalDate(), startDate) < 0){
-    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_RESERVATION_DATE), "Reservation date must be before the start date!");
+    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_RESERVATION_DATE), 
+    				ConfigManager.getInstance().getString(ConfigManager.INVALID_INPUT_RESERVATION_RESERVATION_DATE));
     	}
     }
     
     private void validateResidenceDate(LocalDate startDate, LocalDate endDate) throws InvalidInputException{
     	if (ChronoUnit.DAYS.between(startDate, endDate) < 1){
-    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_START_DATE), "There must be more than 0 days!");
+    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_START_DATE), 
+    				ConfigManager.getInstance().getString(ConfigManager.INVALID_INPUT_RESERVATION_START_DATE));
     	}
     }
     
     private void validateStatus(Reservation reservation) throws InvalidInputException{
     	if (reservation.getReservationStatus().equals(ReservationStatus.NEW) && reservation.getRoom() != null){
-    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS), "There сannot be a room in the new reservation!");
+    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS), 
+    				ConfigManager.getInstance().getString(ConfigManager.INVALID_INPUT_RESERVATION_NEW_ROOM));
     	}
     	if (reservation.getReservationStatus().equals(ReservationStatus.DENIED) && reservation.getRoom() != null){
-    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS), "There сannot be a room in the denied reservation!");
+    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS), 
+    				ConfigManager.getInstance().getString(ConfigManager.INVALID_INPUT_RESERVATION_DENIED_ROOM));
     	}
     	if (reservation.getReservationStatus().equals(ReservationStatus.APPROVED) && reservation.getRoom() == null){
-    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS), "There must be a room in the approved reservation!");
+    		throw new InvalidInputException(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS), 
+    				ConfigManager.getInstance().getString(ConfigManager.INVALID_INPUT_RESERVATION_APPROVED_ROOM));
     	}
     }
 
@@ -48,21 +56,19 @@ public class ReservationValidator {
 		Map<String, String> errors = new HashMap<String, String>();
 		
 		try{
-			ReservationValidator.getInstance().validateReservationDate
-					(reservation.getReservationDate(), reservation.getStartDate());
+			validateReservationDate(reservation.getReservationDate(), reservation.getStartDate());
 		} catch (InvalidInputException e) {
 			errors.put(e.getField(), e.getMessage());
 		}
 		
 		try{
-			ReservationValidator.getInstance().validateResidenceDate
-					(reservation.getStartDate(), reservation.getEndDate());
+			validateResidenceDate(reservation.getStartDate(), reservation.getEndDate());
 		} catch (InvalidInputException e) {
 			errors.put(e.getField(), e.getMessage());
 		}
 		
 		try{
-			ReservationValidator.getInstance().validateStatus(reservation);
+			validateStatus(reservation);
 		} catch (InvalidInputException e) {
 			errors.put(e.getField(), e.getMessage());
 		}
@@ -71,17 +77,5 @@ public class ReservationValidator {
 			throw new GeneralInvalidInputException(errors);
 		}
 	}
-
-    public static ReservationValidator getInstance() {
-    	if (instance == null) {
-            synchronized (ReservationValidator.class) {
-                if (instance == null) {
-                    instance = new ReservationValidator();
-                }
-            }
-        }
-        return instance;
-    }
-
 
 }

@@ -26,6 +26,10 @@ public class AddReservationPaymentCommand implements Command {
 
         Reservation reservation = ReservationService.getInstance().getReservationByIdWithUserAndRoomTypeAndRoomAndPayment(reservationId).get();
 
+        if(reservation.getPayment() != null){
+            PaymentService.getInstance().deletePayment(reservation.getPayment().getId());
+        }
+
         Payment payment = new Payment();
         payment.setDate(LocalDateTime.now());
         payment.setPaymentMethod(paymentMethod);
