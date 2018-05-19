@@ -5,19 +5,35 @@
 Инструкция по запуску использованию системы
 
 1.	Программные требования.
-  a.	Система управления реляционной БД MySQL 
-  b.	Платформа JDK версии 1.8 и выше. 
-  c.	Сборщик проектов Apache Maven.
-  d.	Веб-сервер Apache Tomcat. 
+
+    a.	Система управления реляционной БД MySQL 
+
+    b.	Платформа JDK версии 1.8 и выше. 
+
+    c.	Сборщик проектов Apache Maven.
+
+    d.	Веб-сервер Apache Tomcat. 
+
 2.	Предварительные настройки.
-  a.	В файле \src\main\resources\config.properties нужно указать следующие настройки подключения к базе данных (локальной или удаленной): 
-    i.	db.url=jdbc:mysql://server:port/db_name?useUnicode=true&characterEncoding=UTF-8&useSSL=true
-    ii.	db.user=username
-    iii.	db.password= password
-  b.	В интерфейсе СУРБД выполнить SQL скрипт создания базы данных, скрипт находится в файле hotel_db_creation.sql. 
+
+    a.	В файле \src\main\resources\config.properties нужно указать следующие настройки подключения к базе данных (локальной или удаленной): 
+
+        i.	db.url=jdbc:mysql://server:port/db_name?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+
+        ii.	db.user=username
+
+        iii.	db.password= password
+
+    b.	В интерфейсе СУРБД выполнить SQL скрипт создания базы данных, скрипт находится в файле hotel_db_creation.sql. 
+
 3.	Запуск. 
-  a.	Перейти в базовою директорию проекта
-  b.	Открыть консоль и выполнить следующие команды: 
-    i.	mvn clean install
-    ii.	mvn tomcat7:run 
-  c.	В браузере перейти по адресу http://localhost:9090/hotel
+
+    a.	Перейти в базовою директорию проекта
+
+    b.	Открыть консоль и выполнить следующие команды: 
+
+        i.	mvn clean install
+
+        ii.	mvn tomcat7:run 
+
+    c.	В браузере перейти по адресу http://localhost:9090/hotel  
