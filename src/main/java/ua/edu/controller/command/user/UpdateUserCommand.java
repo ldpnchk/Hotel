@@ -8,7 +8,6 @@ import ua.edu.model.entity.UserRole;
 import ua.edu.model.exception.GeneralInvalidInputException;
 import ua.edu.model.service.UserService;
 import ua.edu.model.util.ConfigManager;
-import ua.edu.model.util.PasswordGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 

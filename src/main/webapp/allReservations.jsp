@@ -1,11 +1,11 @@
 <%@include file="header.jsp"%>
 
-<div class="col-md-10 col-md-offset-1">
+<div class="col-md-10 col-md-offset-1 col-sm-12 ">
     <div class="panel panel-default" style="padding: 10px !important; margin-bottom: 0px !important;">
         <div class="row">
-            <div class="col-md-12" align="center">
-                <form action="<c:url value="${pageContext.request.contextPath}/hotel/admin" />" method='GET'>
-                    <div class="col-md-3">
+            <div class="col-sm-12" align="center">
+                <form action="<c:url value="${pageContext.request.contextPath}/hotel/allReservations" />" method='GET'>
+                    <div class="col-sm-6 col-md-4">
                         <div class="input-group">
                             <div class="form-group has-feedback has-feedback-left">
                                 <label class="control-label"><fmt:message key="select.days"/></label>
@@ -14,7 +14,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-sm-6 col-md-3">
                         <div class="input-group">
                             <label class="control-label"><fmt:message key="room"/></label>
                             <select class="form-control" id="roomId" name="roomId">
@@ -25,7 +25,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-sm-6 col-md-3">
                         <div class="input-group">
                             <label class="control-label"><fmt:message key="status"/></label>
                             <select class="form-control" id="status" name="status">
@@ -36,9 +36,9 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-sm-6 col-md-2">
                         <div class="input-group">
-                            <button type="submit" class="btn btn-lg btn-success"><fmt:message key="search"/></button>
+                            <button type="submit" class="btn btn-lg btn-success" style="margin: 5px !important;"><fmt:message key="search"/></button>
                         </div>
                     </div>
                 </form>
@@ -99,7 +99,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scripts/admin.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scripts/allReservations.js"></script>
 
 <script type="text/javascript">
     $(function() {

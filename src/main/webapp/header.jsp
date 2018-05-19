@@ -44,12 +44,11 @@
 						<li><a href="${pageContext.request.contextPath}/hotel/reservation"><fmt:message key="make.reservation"/></a></li>
 					</c:if>
 					<c:if test="${user.getUserRole() eq 'CLIENT'}">
-						<!-- <li><a href="${pageContext.request.contextPath}/hotel/client"><fmt:message key="client.page"/></a></li> -->
-						<li><a href="${pageContext.request.contextPath}/hotel/clientReservations"><fmt:message key="client.page"/></a></li>
+						<li><a href="${pageContext.request.contextPath}/hotel/clientReservations?page=1"><fmt:message key="client.page"/></a></li>
 						<li><a href="${pageContext.request.contextPath}/hotel/reservation"><fmt:message key="make.reservation"/></a></li>
 					</c:if>
 					<c:if test="${user.getUserRole() eq 'ADMINISTRATOR'}">
-						<li><a href="${pageContext.request.contextPath}/hotel/admin"><fmt:message key="admin.page"/></a></li>
+						<li><a href="${pageContext.request.contextPath}/hotel/allReservations"><fmt:message key="all.reservations"/></a></li>
 
 					</c:if>
 				</ul>

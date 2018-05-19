@@ -2,6 +2,7 @@ package ua.edu.controller.command.reservation;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
+import ua.edu.controller.util.ParameterizedUrlComposer;
 import ua.edu.model.entity.Reservation;
 import ua.edu.model.entity.ReservationStatus;
 import ua.edu.model.entity.RoomType;
@@ -16,6 +17,7 @@ import ua.edu.model.util.DateParser;
 import javax.servlet.http.HttpServletRequest;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public class CreateReservationCommand implements Command {
 
@@ -37,8 +39,11 @@ public class CreateReservationCommand implements Command {
     		return ConfigManager.getInstance().getString(ConfigManager.PAGE_RESERVATION);
     	}
     	
-        return ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION_DETAILS) + 
-            		"?reservationId=" + reservation.getId();
+    	HashMap<String, String> urlParameters = new HashMap<String, String>();
+    	urlParameters.put("reservationId", String.valueOf(reservation.getId()));
+    	return ParameterizedUrlComposer.getInstance().composeUrl
+    			(ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION_DETAILS), 
+    					urlParameters);
     }
     
 	private Reservation getReservationFromInput(HttpServletRequest request) throws DateParserException{

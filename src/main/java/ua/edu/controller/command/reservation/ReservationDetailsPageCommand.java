@@ -26,15 +26,15 @@ public class ReservationDetailsPageCommand implements Command {
         }
             
         User user = (User) request.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
-        if(user.getUserRole().getValue().equalsIgnoreCase(UserRole.ADMINISTRATOR.toString()) ||
-                reservation.get().getClient().getId() == user.getId()){
-            request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_STATUSES), ReservationStatus.values());
-            request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATION), reservation.get());
-            request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_PAYMENT_TYPES), PaymentMethod.values());
-            request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_ROOMS), RoomService.getInstance().getFreeRoomsByDatesAndRoomType(reservation.get().getStartDate(), reservation.get().getEndDate(), reservation.get().getRoomType().getId()));
-            return ConfigManager.getInstance().getString(ConfigManager.PAGE_RESERVATION_DETAILS);
-        } else {
-            return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);
+        
+        if(reservation.get().getClient().getId() != user.getId()){
+        	return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);
         }
+        
+        request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_STATUSES), ReservationStatus.values());
+        request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATION), reservation.get());
+        request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_PAYMENT_TYPES), PaymentMethod.values());
+        request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_ROOMS), RoomService.getInstance().getFreeRoomsByDatesAndRoomType(reservation.get().getStartDate(), reservation.get().getEndDate(), reservation.get().getRoomType().getId()));
+        return ConfigManager.getInstance().getString(ConfigManager.PAGE_RESERVATION_DETAILS);
     }
 }

@@ -10,6 +10,8 @@ public class ConfigManager {
     private static final String RESOURCE_NAME = "config";
 
     public static final String DAO_FACTORY = "dao.factory";
+    
+    public static final String PAGINATION_SIZE = "pagination.size";
 
     public static final String DAO_FACTORY_MYSQL_KEY = "dao.factory.mysql.key";
 
@@ -28,6 +30,7 @@ public class ConfigManager {
     public static final String MYSQL_RESERVATION_UPDATE = "mysql.reservation.update";
     public static final String MYSQL_RESERVATION_DELETE = "mysql.reservation.delete";
     public static final String MYSQL_RESERVATION_GET_BY_USER = "mysql.reservation.get.by.user";
+    public static final String MYSQL_RESERVATION_COUNT_BY_USER = "mysql.reservation.count.by.user";
     public static final String MYSQL_RESERVATION_GET_BY_DATES_AND_ROOM_AND_STATUS_WITH_ROOM_TYPE_AND_ROOM = "mysql.reservation.get.by.dates.and.room.and.status.with.room.type.and.room";
     public static final String MYSQL_RESERVATION_GET_BY_ID_WITH_USER_AND_ROOM_TYPE_AND_ROOM_AND_PAYMENT = "mysql.reservation.get.by.id.with.user.and.room.type.and.room.and.payment";
     public static final String MYSQL_RESERVATION_GET_BY_ID = "mysql.reservation.get.by.id";
@@ -82,7 +85,7 @@ public class ConfigManager {
 
     public static final String REDIRECT = "redirect";
     public static final String MAIN_DEFAULT = "main.default";
-    public static final String PAGE_ADMIN = "page.admin";
+    public static final String PAGE_ALL_RESERVATIONS = "page.allReservations";
     public static final String PAGE_CLIENT = "page.client";
     public static final String PAGE_MAIN = "page.main";
     public static final String PAGE_LOGIN = "page.login";
@@ -98,6 +101,7 @@ public class ConfigManager {
     public static final String URL_RESERVATION_DETAILS = "url.reservation.details";
     public static final String URL_RESERVATION = "url.reservation";
     public static final String URL_PROFILE = "url.profile";
+    public static final String URL_CLIENT_RESERVATIONS = "url.clientReservations";
 
     public static final String PARAMETER_USERNAME = "parameter.username";
     public static final String PARAMETER_PASSWORD = "parameter.password";

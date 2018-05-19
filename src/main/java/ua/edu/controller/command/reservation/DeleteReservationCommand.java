@@ -15,8 +15,9 @@ public class DeleteReservationCommand implements Command {
     public String execute(HttpServletRequest request) {
         int reservationId = Integer.parseInt
         		(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_RESERVATION_ID)));
-        //check client id and reservation client id
         ReservationService.getInstance().deleteReservation(reservationId);
-        return ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION);
+        
+        return ConfigManager.getInstance().getString(ConfigManager.URL_CLIENT_RESERVATIONS);
+        
     }
 }

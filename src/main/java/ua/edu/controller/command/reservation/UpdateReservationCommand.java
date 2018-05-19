@@ -2,6 +2,7 @@ package ua.edu.controller.command.reservation;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
+import ua.edu.controller.util.ParameterizedUrlComposer;
 import ua.edu.model.entity.*;
 import ua.edu.model.exception.GeneralInvalidInputException;
 import ua.edu.model.service.PaymentService;
@@ -9,6 +10,8 @@ import ua.edu.model.service.ReservationService;
 import ua.edu.model.util.ConfigManager;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.HashMap;
 import java.util.Optional;
 
 public class UpdateReservationCommand implements Command{
@@ -36,17 +39,21 @@ public class UpdateReservationCommand implements Command{
             
             ReservationStatus reservationStatus = ReservationStatus.getReservationStatus
             		(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS)));
+            
             if(reservationStatus.equals(ReservationStatus.APPROVED)){
                 int roomId = Integer.parseInt
                         (request.getParameter(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_ROOM)));
                 reservation.get().setRoom(new Room.RoomBuilder().setId(roomId).build());
             }
+            
             if(reservationStatus.equals(ReservationStatus.NEW) || reservationStatus.equals(ReservationStatus.DENIED)){
                 reservation.get().setRoom(null);
             }
+            
             if(!reservationStatus.equals(ReservationStatus.PAYED) && reservation.get().getPayment() != null){
                 PaymentService.getInstance().deletePayment(reservation.get().getPayment().getId());
             }
+            
             reservation.get().setReservationStatus(reservationStatus);
         }
 
@@ -56,7 +63,10 @@ public class UpdateReservationCommand implements Command{
     		request.setAttribute("errors", e.getErrors());
     	}
         
-        return ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION_DETAILS) + 
-        		"?reservationId=" + reservationId;
+        HashMap<String, String> urlParameters = new HashMap<String, String>();
+    	urlParameters.put("reservationId", String.valueOf(reservation.get().getId()));
+    	return ParameterizedUrlComposer.getInstance().composeUrl
+    			(ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION_DETAILS), 
+    					urlParameters);
     }
 }

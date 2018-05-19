@@ -36,7 +36,7 @@ public class AuthenticationFilter implements Filter {
         		user == null ? UserRole.GUEST : user.getUserRole())) {
         	filterChain.doFilter(request, response);
         } else {
-            ((HttpServletResponse) response).sendRedirect("/hotel/hotel/main");
+            ((HttpServletResponse) response).sendRedirect("/hotel/main");
         }
 
     }

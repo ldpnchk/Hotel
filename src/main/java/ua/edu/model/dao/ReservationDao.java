@@ -15,6 +15,7 @@ public interface ReservationDao extends GenericDao<Reservation>{
 	List<Reservation> getReservationsWithRoomAndRoomTypeByDatesAndRoomAndStatus
 			(Optional<LocalDate> startDate, Optional<LocalDate> endDate, 
 					Optional<Integer> roomId, Optional<ReservationStatus> reservationStatus);
-	List<Reservation> getReservationsByUser(int userId);
+	List<Reservation> getReservationsByUser(int userId, int limit, int offset);
+	int countReservationsByUser(int userId);
 
 }

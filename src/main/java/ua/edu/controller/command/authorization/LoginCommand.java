@@ -22,6 +22,10 @@ public class LoginCommand implements Command{
 		String password = PasswordGenerator.getInstance().generatePassword
 				(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_PASSWORD)));
 		
+		if (username == null || password == null){
+			return ConfigManager.getInstance().getString(ConfigManager.URL_LOGIN);
+		}
+		
 		Optional<User> user = UserService.getInstance().getUserByUsername(username);
 		if (user.isPresent() && user.get().getPassword().equals(password)){
 			ContextManager.getInstance().addUser(request, username);

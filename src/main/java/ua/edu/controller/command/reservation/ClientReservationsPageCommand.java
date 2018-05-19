@@ -14,10 +14,16 @@ import java.util.List;
 public class ClientReservationsPageCommand implements Command{
 
     @Override
-    @RolesAllowed(roles = {UserRole.CLIENT, UserRole.ADMINISTRATOR})
+    @RolesAllowed(roles = {UserRole.CLIENT})
     public String execute(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
-        List<Reservation> reservations = ReservationService.getInstance().getReservationsByUser(user.getId());
+        
+        int number = Integer.parseInt(ConfigManager.getInstance().getString(ConfigManager.PAGINATION_SIZE));
+        int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        List<Reservation> reservations = ReservationService.getInstance().getReservationsByUser(user.getId(), number, page - 1);
+        
+        request.setAttribute("page", page);
+        request.setAttribute("total", ReservationService.getInstance().countReservationsByUser(user.getId()) / number);
         request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATIONS), reservations);
         return ConfigManager.getInstance().getString(ConfigManager.PAGE_CLIENT_RESERVATIONS);
     }

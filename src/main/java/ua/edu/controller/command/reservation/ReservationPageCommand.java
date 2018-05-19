@@ -25,7 +25,6 @@ public class ReservationPageCommand implements Command {
         String capacity = request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_CAPACITY));
         
         List<RoomTypeDto> result = new ArrayList<RoomTypeDto>();
-        boolean dateFormatError = false;
         
         if(dates != null && capacity != null){
         	String[] datesArr = dates.split("-");
@@ -35,12 +34,11 @@ public class ReservationPageCommand implements Command {
             	
             	result = RoomTypeService.getInstance().getFreeRoomTypesByDatesAndCapacity(startDate, endDate, Integer.parseInt(capacity));
             } catch (DateParserException e) {
-                dateFormatError = true;
+            	 request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_DATE_FORMAT_ERROR), true);
             }
         }
 
         request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_OPTIONS), result);
-        request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_DATE_FORMAT_ERROR), dateFormatError);
         return ConfigManager.getInstance().getString(ConfigManager.PAGE_RESERVATION);
     }
 }

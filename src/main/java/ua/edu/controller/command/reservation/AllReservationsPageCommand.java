@@ -1,7 +1,8 @@
-package ua.edu.controller.command;
+package ua.edu.controller.command.reservation;
 
 import javax.servlet.http.HttpServletRequest;
 
+import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
 import ua.edu.model.entity.Reservation;
 import ua.edu.model.entity.ReservationStatus;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class AdminCommand implements Command{
+public class AllReservationsPageCommand implements Command{
 	
 	@Override
 	@RolesAllowed(roles = {UserRole.ADMINISTRATOR})
@@ -26,20 +27,22 @@ public class AdminCommand implements Command{
 		Optional<LocalDate> startDate = Optional.empty();
 		Optional<LocalDate> endDate = Optional.empty();
 		String dates = request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_DATEFILTER));
-		if(dates != null){
+		if(dates != null && !dates.equals("")){
 			String[] datesArr = dates.split("-");
 			try {
 				startDate = Optional.of(DateParser.getInstance().parseDate(datesArr[0]));
 				endDate = Optional.of(DateParser.getInstance().parseDate(datesArr[1]));
 			} catch (DateParserException e) {
-				System.out.println("Date Parser Exception");
+				request.setAttribute("dataErrors", true);
 			}
 		}
+		
 		Optional<Integer> roomId = Optional.empty();
 		if(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_ROOM_ID)) != null
 				&& !request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_ROOM_ID)).equals(""))
 			roomId = Optional.of(Integer.parseInt
 					(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_ROOM_ID))));
+		
 		Optional<ReservationStatus> reservationStatus = Optional.empty();
 		if((request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS))) != null
 				&& !request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_STATUS)).equals(""))
@@ -52,7 +55,7 @@ public class AdminCommand implements Command{
 		request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATIONS), reservations);
 		request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_ROOMS), rooms);
 		request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_STATUSES), ReservationStatus.values());
-		return ConfigManager.getInstance().getString(ConfigManager.PAGE_ADMIN);
+		return ConfigManager.getInstance().getString(ConfigManager.PAGE_ALL_RESERVATIONS);
 	}
 
 }

@@ -12,6 +12,10 @@
     	<servlet-name>default</servlet-name>
     	<url-pattern>/resources/*</url-pattern>
   	</servlet-mapping>
+  	
+  	<error-page>
+        <location>/404.jsp</location>
+    </error-page>
 	
 	<jsp-config>
 		<jsp-property-group>

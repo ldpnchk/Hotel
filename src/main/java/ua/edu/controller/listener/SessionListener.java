@@ -25,7 +25,9 @@ public class SessionListener implements HttpSessionListener {
 		Map<String, HttpSession> loggedUsers = (HashMap<String, HttpSession>) httpSessionEvent.getSession()
 				.getServletContext().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_LOGGED_USERS));
         User user = (User) httpSessionEvent.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
-        loggedUsers.remove(user.getUsername());
+        if (user != null){
+        	loggedUsers.remove(user.getUsername());
+        }
         httpSessionEvent.getSession().getServletContext().setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_LOGGED_USERS), loggedUsers);
 	}
 }

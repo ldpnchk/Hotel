@@ -150,12 +150,14 @@ public class MySQLReservationDAO implements ReservationDao{
 	}
 
 	@Override
-	public List<Reservation> getReservationsByUser(int userId) {
+	public List<Reservation> getReservationsByUser(int userId, int limit, int offset) {
 		List<Reservation> reservations = new ArrayList<Reservation>();
 
 		try (PreparedStatement query = connection.prepareStatement
 				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_GET_BY_USER))){
 			query.setInt(1, userId);
+			query.setInt(2, limit);
+			query.setInt(3, offset);
 
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next()) {
@@ -184,6 +186,26 @@ public class MySQLReservationDAO implements ReservationDao{
 			throw new DatabaseException();
 		}
 		return reservation;
+	}
+	
+	@Override
+	public int countReservationsByUser(int userId) {
+		int count = 0;
+
+		try (PreparedStatement query = connection.prepareStatement
+				(ConfigManager.getInstance().getString(ConfigManager.MYSQL_RESERVATION_COUNT_BY_USER))){
+			query.setInt(1, userId);
+
+			ResultSet resultSet = query.executeQuery();
+			if (resultSet.next()) {
+				count = resultSet.getInt(1);
+			}
+		} catch (SQLException e){
+			logger.error("MySQLRoomTypeDAO getReservationsByUser error: " + userId, e);
+			throw new DatabaseException();
+		}
+
+		return count;
 	}
 	
 	private Reservation extractReservationAndRoomTypeAndRoomFromResultSet(ResultSet resultSet) throws SQLException{

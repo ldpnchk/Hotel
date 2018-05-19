@@ -1,7 +1,8 @@
-package ua.edu.controller.command.reservation;
+package ua.edu.controller.command.payment;
 
 import ua.edu.controller.command.Command;
 import ua.edu.controller.filter.RolesAllowed;
+import ua.edu.controller.util.ParameterizedUrlComposer;
 import ua.edu.model.entity.Reservation;
 import ua.edu.model.entity.UserRole;
 import ua.edu.model.service.PaymentService;
@@ -9,9 +10,11 @@ import ua.edu.model.service.ReservationService;
 import ua.edu.model.util.ConfigManager;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.HashMap;
 import java.util.Optional;
 
-public class DeleteReservationPaymentCommand implements Command {
+public class DeletePaymentCommand implements Command {
 
     @Override
     @RolesAllowed(roles = {UserRole.ADMINISTRATOR})
@@ -25,8 +28,11 @@ public class DeleteReservationPaymentCommand implements Command {
             return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);
         } else {
             PaymentService.getInstance().deletePayment(reservation.get().getPayment().getId());
-            return ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION_DETAILS) +
-                    "?reservationId=" + reservationId;
+            HashMap<String, String> urlParameters = new HashMap<String, String>();
+        	urlParameters.put("reservationId", String.valueOf(reservation.get().getId()));
+        	return ParameterizedUrlComposer.getInstance().composeUrl
+        			(ConfigManager.getInstance().getString(ConfigManager.URL_RESERVATION_DETAILS), 
+        					urlParameters);
         }
     }
 }

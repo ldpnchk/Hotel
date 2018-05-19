@@ -111,7 +111,7 @@
                     <c:if test="${reservation.reservationStatus eq 'APPROVED' || reservation.reservationStatus eq 'PAYED'}">
 
                         <!-- ADD PAYMENT INFO -->
-                        <form name='checkForm' action="<c:url value="${pageContext.request.contextPath}/hotel/addReservationPayment" />" method='POST'>
+                        <form name='checkForm' action="<c:url value="${pageContext.request.contextPath}/hotel/createPayment" />" method='POST'>
                             <div class="container-fluid">
                                 <div class="input-group">
                                     <label class="control-label" for="amount"><fmt:message key="payment"/> </label>

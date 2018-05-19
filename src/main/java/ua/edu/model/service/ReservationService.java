@@ -97,10 +97,20 @@ public class ReservationService extends Service{
 		}
 	}
 
-	public List<Reservation> getReservationsByUser(int userId){
+	public List<Reservation> getReservationsByUser(int userId, int limit, int offset){
 		try (Connection connection = dataSource.getConnection()){
 			ReservationDao reservationDao = daoFactory.createReservationDao(connection);
-			return reservationDao.getReservationsByUser(userId);
+			return reservationDao.getReservationsByUser(userId, limit, offset);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
+	
+	public int countReservationsByUser(int userId){
+		try (Connection connection = dataSource.getConnection()){
+			ReservationDao reservationDao = daoFactory.createReservationDao(connection);
+			return reservationDao.countReservationsByUser(userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
