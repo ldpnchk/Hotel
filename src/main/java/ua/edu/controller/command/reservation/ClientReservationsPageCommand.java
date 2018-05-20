@@ -20,10 +20,10 @@ public class ClientReservationsPageCommand implements Command{
         
         int number = Integer.parseInt(ConfigManager.getInstance().getString(ConfigManager.PAGINATION_SIZE));
         int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
-        List<Reservation> reservations = ReservationService.getInstance().getReservationsByUser(user.getId(), number, page - 1);
+        List<Reservation> reservations = ReservationService.getInstance().getReservationsByUser(user.getId(), number, (page - 1) * number);
         
         request.setAttribute("page", page);
-        request.setAttribute("total", ReservationService.getInstance().countReservationsByUser(user.getId()) / number);
+        request.setAttribute("total", (int) Math.ceil((double) ReservationService.getInstance().countReservationsByUser(user.getId()) / number));
         request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATIONS), reservations);
         return ConfigManager.getInstance().getString(ConfigManager.PAGE_CLIENT_RESERVATIONS);
     }

@@ -29,7 +29,7 @@
 					</div>
 					
 					<div class="form-group">
-						<input type="text" name="patronymic" id="patronymic" class="form-control input-sm" placeholder="<fmt:message key="patronymic"/>" required>
+						<input type="text" name="patronymic" id="patronymic" class="form-control input-sm" placeholder="<fmt:message key="patronymic"/>" >
 					</div>
 		
 					<div class="form-group">
@@ -39,6 +39,15 @@
 					<input type="submit" value="<fmt:message key="register"/>" class="btn btn-info btn-block">
 
 				</form>
+
+				<c:if test="${!empty errors}">
+					<center><font color="red">
+						<c:forEach var="entry" items="${errors}">
+							<p><fmt:message key="${entry.value}"/></p>
+						</c:forEach>
+					</font></center>
+				</c:if>
+
 			</div>
 		</div>
 	</div>

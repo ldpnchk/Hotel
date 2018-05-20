@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="col-md-4">
 			<div class="panel panel-default">
-				<div class="panel-heading">
+				<div class="panel-heading" style="background-color: lightcyan !important;">
 					<h1 class="panel-title"><strong><fmt:message key="sign.in"/></strong></h1>
 				</div>
 				<div class="panel-body">
@@ -18,10 +18,10 @@
 							<input type="password" name="password" class="form-control" id="pwd" placeholder="<fmt:message key="password"/>" required="required"/>
 						</div>
 						<div style="text-align: center">
-							<button type="submit" class="btn btn-sm btn-default"><fmt:message key="sign.in"/></button>
+							<button type="submit" class="btn btn-md btn-success"><fmt:message key="sign.in"/></button>
 						</div>
 						<div style="text-align: center; margin-top: 10px">
-							<p><fmt:message key="not.registered.yet"/><a href='${pageContext.request.contextPath}/hotel/registration'><fmt:message key="register.here"/></a></p>
+							<p><fmt:message key="not.registered.yet"/> <a href='${pageContext.request.contextPath}/hotel/registration'><fmt:message key="register.here"/></a></p>
 						</div>
 					</form>
 				</div>

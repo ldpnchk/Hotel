@@ -154,4 +154,4 @@ INSERT INTO `hotel`.room (room_number, room_type_id) VALUES ("13", 8);
 INSERT INTO `hotel`.room (room_number, room_type_id) VALUES ("14", 9);
 INSERT INTO `hotel`.room (room_number, room_type_id) VALUES ("15", 9);
 
-INSERT INTO `hotel`.users (username, password, email, phone_number, first_name, last_name, patronymic, role) VALUES ("admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", "admin@hotel.ua", "+380987654321", "Мирослава", "Кот", "Дмитрівна", "administrator");
+INSERT INTO `hotel`.users (username, password, email, phone_number, first_name, last_name, patronymic, role) VALUES ("admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", "admin@hotel.ua", "380987654321", "Мирослава", "Кот", "Дмитрівна", "administrator");

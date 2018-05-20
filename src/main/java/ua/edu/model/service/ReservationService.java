@@ -49,17 +49,12 @@ public class ReservationService extends Service{
 
 	public void updateReservation(Reservation reservation) throws GeneralInvalidInputException{
 		try (Connection connection = dataSource.getConnection()){
-			System.out.println("1");
 			connection.setAutoCommit(false);
-			System.out.println("2");
 			ReservationValidator reservationValidator = new ReservationValidator(connection);
 			reservationValidator.validateReservation(reservation);
-			System.out.println("3");
 			ReservationDao reservationDao = daoFactory.createReservationDao(connection);
 			reservationDao.update(reservation);
-			System.out.println("4");
 			connection.commit();
-			System.out.println("5");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

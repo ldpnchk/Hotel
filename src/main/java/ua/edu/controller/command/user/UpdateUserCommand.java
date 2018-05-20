@@ -17,6 +17,8 @@ public class UpdateUserCommand implements Command{
     @RolesAllowed(roles = {UserRole.CLIENT, UserRole.ADMINISTRATOR})
     public String execute(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
+        String oldUsername = user.getUsername();
+
         user.setUsername(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_USERNAME)));
         user.setEmail(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_EMAIL)));
         user.setPhoneNumber(request.getParameter(ConfigManager.getInstance().getString(ConfigManager.PARAMETER_PHONENUMBER)));
@@ -26,13 +28,16 @@ public class UpdateUserCommand implements Command{
         
         try {
         	UserService.getInstance().updateUser(user);
+
+        	if (!oldUsername.equals(user.getUsername())){
+                ContextManager.getInstance().updateUser(request, oldUsername, user.getUsername());
+            }
 		} catch (GeneralInvalidInputException e) {
 			request.setAttribute("errors", e.getErrors());
-			return ConfigManager.getInstance().getString(ConfigManager.PAGE_PROFILE);
+            return ConfigManager.getInstance().getString(ConfigManager.URL_PROFILE);
 		}
         
-        ContextManager.getInstance().removeUser(request, user.getUsername());
-        ContextManager.getInstance().addUser(request, user.getUsername());
+
         
         return ConfigManager.getInstance().getString(ConfigManager.URL_PROFILE);
     }

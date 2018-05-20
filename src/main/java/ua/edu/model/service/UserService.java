@@ -43,19 +43,13 @@ public class UserService extends Service{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void updateUser(User user) throws GeneralInvalidInputException{
-        try (Connection connection = dataSource.getConnection()){
-        	connection.setAutoCommit(false);
-        	
-        	UserValidator userValidator = new UserValidator(connection);
-        	userValidator.validateUser(user);
-        	
-        	UserDao userDao = daoFactory.createUserDao(connection);
-    		userDao.update(user);
-    		
-    		connection.commit();
-        } catch (SQLException e) {
+		try (Connection connection = dataSource.getConnection()){
+
+			UserDao userDao = daoFactory.createUserDao(connection);
+			userDao.update(user);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

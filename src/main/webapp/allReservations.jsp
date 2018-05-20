@@ -102,6 +102,31 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scripts/allReservations.js"></script>
 
 <script type="text/javascript">
+    var default_options = {
+        "sScrollY": 375,
+        "sScrollX": "100%",
+        "sScrollXInner": "100%",
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "bProcessing": true,
+        "order": [[0, "asc"]],
+        "oLanguage": {
+            "sLengthMenu": "<fmt:message key='slm1'/> _MENU_ <fmt:message key='slm2'/>",
+            "sSearch": "<fmt:message key='s.search'/>:",
+            "sZeroRecords": "<fmt:message key='s.zero.records'/>.",
+            "sInfo": "<fmt:message key='si1'/> _START_ <fmt:message key='si2'/> _END_ <fmt:message key='si3'/> _TOTAL_ <fmt:message key='si4'/>",
+            "sInfoEmpty": "<fmt:message key='sie'/>",
+            "sInfoFiltered": "(<fmt:message key='sf1'/> _MAX_ <fmt:message key='sf2'/>)",
+            "oPaginate": {
+                "sFirst": "<fmt:message key='opsf'/>",
+                "sLast":"<fmt:message key='opsl'/>",
+                "sNext":"<fmt:message key='opsn'/>",
+                "sPrevious":"<fmt:message key='opsp'/>",
+            }
+        }
+    };
+    $('#reservationsTable').DataTable(default_options);
+
     $(function() {
         if('${language}' == 'uk_UA'){
             moment.locale('uk');

@@ -4,7 +4,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6 col-md-offset-3">
+                <div class="col-md-6 col-md-offset-3" align="center">
                     <form name='checkForm' action="<c:url value="${pageContext.request.contextPath}/hotel/reservation" />" method='GET'>
                         <div class="container-fluid">
                             <div class="input-group">
@@ -22,12 +22,26 @@
                                 <input id="capacity" type="number" min="1" class="form-control" name="capacity" required>
                             </div><br/>
                             <div class="top5">
-                                <button type="submit" class="btn btn-success col-md-6 col-md-offset-3"><fmt:message key="search"/></button>
+                                <button type="submit" class="btn btn-success col-md-4 col-md-offset-4"><fmt:message key="search"/></button>
                             </div>
                         </div>
                     </form>
+
+                    <c:if test="${!empty errors}">
+                        <center><font color="red">
+                            <c:forEach var="entry" items="${errors}">
+                                <p><fmt:message key="${entry.value}"/></p>
+                            </c:forEach>
+                        </font></center>
+                    </c:if>
+                    <c:if test="${dataErrors}">
+                        <p><center><font color="red">
+                            <fmt:message key="incorrect.date.format"/>
+                        </font></center></p>
+                    </c:if>
+
                     <c:if test="${empty user && !empty options}">
-                        <p><font color="blue"><fmt:message key="please.login.to.make.order"/></font></p>
+                        <p><center><font color="blue"><fmt:message key="please.login.to.make.order"/></font></center></p>
                     </c:if>
                     <hr/>
                 </div>
@@ -114,7 +128,7 @@
             $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
         });
         $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val();
+            $(this).val("");
         });
     });
 </script>

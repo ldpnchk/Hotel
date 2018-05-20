@@ -108,6 +108,10 @@
                         <p>${reservation.client.email}, ${reservation.client.phoneNumber}</p>
                     </div>
 
+                    <div style="padding: 10px !important;">
+                        <fmt:message key="price.total"/>: ${price}
+                    </div>
+
                     <c:if test="${reservation.reservationStatus eq 'APPROVED' || reservation.reservationStatus eq 'PAYED'}">
 
                         <!-- ADD PAYMENT INFO -->

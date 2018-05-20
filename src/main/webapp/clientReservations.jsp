@@ -7,29 +7,36 @@
                 <div class="panel-heading">
                     <h1 class="panel-title"><strong><fmt:message key="reservations"/></strong></h1>
                     <nav aria-label="pavigation"><ul class="pagination">
-                    	<c:choose>
-                    		<c:when test="${page == 1}">
-                    			<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=1"><<</a></li>
-                    		</c:when>
-							<c:otherwise>
-								<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=1"><<</a></li>
-							</c:otherwise>
-                    	</c:choose>
-                    	<c:if test="${page != 1}">
-                    		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${page - 1}">${page - 1}</a></li>
-                    	</c:if>
-                    		<li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${page}">${page}</a></li>
-                    	<c:if test="${page != total}">
-                    		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${page + 1}">${page + 1}</a></li>
-                    	</c:if>
-                    	<c:choose>
-                    		<c:when test="${page == total}">
-                    			<li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${total}">>></a></li>
-                    		</c:when>
-							<c:otherwise>
-								<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${total}">>></a></li>
-							</c:otherwise>
-                    	</c:choose>
+                        <c:choose>
+                            <c:when test="${total == 0}">
+                                <fmt:message key="no.reservations"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:choose>
+                                    <c:when test="${page == 1}">
+                                        <li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=1"><<</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=1"><<</a></li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:if test="${page != 1}">
+                                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${page - 1}">${page - 1}</a></li>
+                                </c:if>
+                                <li class="page-item active"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${page}">${page}</a></li>
+                                <c:if test="${page != total}">
+                                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${page + 1}">${page + 1}</a></li>
+                                </c:if>
+                                <c:choose>
+                                    <c:when test="${page == total}">
+                                        <li class="page-item disabled"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${total}">>></a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/hotel/clientReservations?page=${total}">>></a></li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:otherwise>
+                        </c:choose>
                     </ul></nav>
                 </div>
                 <div class="panel-body">

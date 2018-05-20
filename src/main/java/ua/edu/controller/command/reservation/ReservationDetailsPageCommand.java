@@ -8,6 +8,7 @@ import ua.edu.model.service.RoomService;
 import ua.edu.model.util.ConfigManager;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 public class ReservationDetailsPageCommand implements Command {
@@ -27,7 +28,7 @@ public class ReservationDetailsPageCommand implements Command {
             
         User user = (User) request.getSession().getAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_USER));
         
-        if(reservation.get().getClient().getId() != user.getId()){
+        if(reservation.get().getClient().getId() != user.getId() && !user.getUserRole().equals(UserRole.ADMINISTRATOR)){
         	return ConfigManager.getInstance().getString(ConfigManager.PAGE_404);
         }
         
@@ -35,6 +36,8 @@ public class ReservationDetailsPageCommand implements Command {
         request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_RESERVATION), reservation.get());
         request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_PAYMENT_TYPES), PaymentMethod.values());
         request.setAttribute(ConfigManager.getInstance().getString(ConfigManager.ATTRIBUTE_ROOMS), RoomService.getInstance().getFreeRoomsByDatesAndRoomType(reservation.get().getStartDate(), reservation.get().getEndDate(), reservation.get().getRoomType().getId()));
+        request.setAttribute("price", ((int) ChronoUnit.DAYS.between(reservation.get().getStartDate(),
+                reservation.get().getEndDate())) * (reservation.get().getRoomType().getPrice() / 100));
         return ConfigManager.getInstance().getString(ConfigManager.PAGE_RESERVATION_DETAILS);
     }
 }

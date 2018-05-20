@@ -97,11 +97,11 @@ public class UserValidator {
 			errors.put(e.getField(), e.getMessage());
 		}
 		
-		try{
-			validatePassword(user.getPassword());
-		} catch (InvalidInputException e) {
-			errors.put(e.getField(), e.getMessage());
-		}
+//		try{
+//			validatePassword(user.getPassword());
+//		} catch (InvalidInputException e) {
+//			errors.put(e.getField(), e.getMessage());
+//		}
 		
 		try{
 			validateEmail(user.getEmail());

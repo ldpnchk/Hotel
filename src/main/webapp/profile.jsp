@@ -36,6 +36,15 @@
                 <button type="submit" class="btn btn-success"><fmt:message key="update"/></button>
             </div>
         </form>
+
+        <c:if test="${!empty errors}">
+            <center><font color="red">
+                <c:forEach var="entry" items="${errors}">
+                    <p><fmt:message key="${entry.value}"/></p>
+                </c:forEach>
+            </font></center>
+        </c:if>
+
     </div>
 </div>
 
